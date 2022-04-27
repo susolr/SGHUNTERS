@@ -51,7 +51,7 @@ class Conejo extends THREE.Object3D {
       barriga.position.z = 1.25;
       barriga.rotateX(-Math.PI/8);
       barriga.position.z = 0;
-      barriga.position.y += 0.5;
+      barriga.position.y += 0.75;
 
       var csg = new CSG();
       csg.union([pieI, pieD, musloI, musloD, barriga]);
