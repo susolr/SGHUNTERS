@@ -11,19 +11,25 @@ class Tablero extends THREE.Object3D {
     // Un Mesh se compone de geometría y material
     var boxGeom = new THREE.BoxBufferGeometry (5, 1, 5);
     // Como material se crea uno a partir de un color
-    var boxMat = new THREE.MeshNormalMaterial();
+    var cilMat = new THREE.MeshPhongMaterial({color: 0x6fb53a});
+
+    var boxMat = new THREE.MeshPhongMaterial({color: 0x6d36a3});
+
+    var caminoMat = new THREE.MeshPhongMaterial({color: 0x5e5e5e});
     
     // Ya podemos construir el Mesh
 
     var cilGeom = new THREE.CylinderGeometry( 3, 3, 1, 8);
+
+    var caminoGeom = new THREE.BoxBufferGeometry (10, 0.5, 1);
     // Y añadirlo como hijo del Object3D (el this)
 
-    var model = new THREE.Mesh(cilGeom, boxMat);
+    var model = new THREE.Mesh(cilGeom, cilMat);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     model.position.x = -20;
     this.add(model);
 
-    model = new THREE.Mesh(cilGeom, boxMat);
+    model = new THREE.Mesh(cilGeom, cilMat);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     model.position.x = -10;
     model.position.z = -10;
@@ -33,7 +39,7 @@ class Tablero extends THREE.Object3D {
     model.position.x = -10;
     this.add(model);
 
-    model = new THREE.Mesh(cilGeom, boxMat);
+    model = new THREE.Mesh(cilGeom, cilMat);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     model.position.x = -10;
     model.position.z = 10;
@@ -43,7 +49,7 @@ class Tablero extends THREE.Object3D {
     model.position.z = -10;
     this.add(model);
 
-    model = new THREE.Mesh(cilGeom, boxMat);
+    model = new THREE.Mesh(cilGeom, cilMat);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     this.add(model);
 
@@ -51,7 +57,7 @@ class Tablero extends THREE.Object3D {
     model.position.z = 10;
     this.add(model);
 
-    model = new THREE.Mesh(cilGeom, boxMat);
+    model = new THREE.Mesh(cilGeom, cilMat);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     model.position.x = 10;
     model.position.z = -10;
@@ -61,16 +67,135 @@ class Tablero extends THREE.Object3D {
     model.position.x = 10;
     this.add(model);
 
-    model = new THREE.Mesh(cilGeom, boxMat);
+    model = new THREE.Mesh(cilGeom, cilMat);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     model.position.x = 10;
     model.position.z = 10;
     this.add(model);
 
-    model = new THREE.Mesh(cilGeom, boxMat);
+    model = new THREE.Mesh(cilGeom, cilMat);
     model.position.x = 20;
     this.add(model);
 
+
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.position.x = -15;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.position.x = -5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.position.x = 5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.position.x = 15;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.position.z = -10;
+    model.position.x = -5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.position.z = -10;
+    model.position.x = 5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.position.z = 10;
+    model.position.x = -5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.position.z = 10;
+    model.position.x = 5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.rotateY(Math.PI/2);
+    model.position.x = -10;
+    model.position.z = 5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.rotateY(Math.PI/2);
+    model.position.x = -10;
+    model.position.z = -5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.rotateY(Math.PI/2);
+    model.position.z = 5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.rotateY(Math.PI/2);
+    model.position.z = -5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.rotateY(Math.PI/2);
+    model.position.x = 10;
+    model.position.z = 5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.rotateY(Math.PI/2);
+    model.position.x = 10;
+    model.position.z = -5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.rotateY(Math.PI/4);
+    model.position.x = -15;
+    model.position.z = -5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.rotateY(Math.PI/4);
+    model.position.x = 5;
+    model.position.z = -5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.rotateY(Math.PI/4);
+    model.position.x = -5;
+    model.position.z = 5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.rotateY(Math.PI/4);
+    model.position.x = 15;
+    model.position.z = 5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.rotateY(-Math.PI/4);
+    model.position.x = -15;
+    model.position.z = 5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.rotateY(-Math.PI/4);
+    model.position.x = -5;
+    model.position.z = -5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.rotateY(-Math.PI/4);
+    model.position.x = 5;
+    model.position.z = 5;
+    this.add(model);
+
+    model = new THREE.Mesh(caminoGeom, caminoMat);
+    model.rotateY(-Math.PI/4);
+    model.position.x = 15;
+    model.position.z = -5;
+    this.add(model);
     
     // Las geometrías se crean centradas en el origen.
     // Como queremos que el sistema de referencia esté en la base,
