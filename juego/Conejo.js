@@ -16,7 +16,7 @@ class Conejo extends THREE.Object3D {
   }
 
   createConejo(){
-      var mat = new THREE.MeshPhongMaterial({color: 0xe8e8e8})
+      var mat = new THREE.MeshPhongMaterial({color: 0xe8e8e8});
       var pieGeom = new THREE.BoxGeometry(0.5, 0.25, 1.75);
       var pieI = new THREE.Mesh(pieGeom, mat);
       pieI.position.x = 0.75;
@@ -100,6 +100,19 @@ class Conejo extends THREE.Object3D {
       var nariz = new THREE.Mesh(narizGeom, matNariz);
       nariz.position.y = 2.75;
       nariz.position.z = 2.125;
+
+      var matOjos = new THREE.MeshPhongMaterial({color: 0x000000});
+      var ojosGeom = new THREE.BoxGeometry(0.25, 0.5, 0.25);
+      var ojoI = new THREE.Mesh(ojosGeom, matOjos);
+      ojoI.position.y = 3;
+      ojoI.position.z = 2;
+      ojoI.position.x = 0.25;
+
+      var ojoD = new THREE.Mesh(ojosGeom, matOjos);
+      ojoD.position.y = 3;
+      ojoD.position.z = 2;
+      ojoD.position.x = -0.25;
+      
 
       var csg = new CSG();
       csg.union([pieI, pieD, musloI, musloD, barriga, cabeza, pataI, pataD, orejaI, orejaD, cola, nariz]);
