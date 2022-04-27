@@ -94,6 +94,13 @@ class Conejo extends THREE.Object3D {
       cola.position.z = -1.25;
       cola.position.y += 0.75;
 
+      var matNariz = new THREE.MeshPhongMaterial({color: 0xedb7e0});
+
+      var narizGeom = new THREE.BoxGeometry(0.25, 0.25, 0.25);
+      var nariz = new THREE.Mesh(narizGeom, matNariz);
+      nariz.position.y = 2.75;
+      nariz.position.z = 2.125;
+
       var csg = new CSG();
       csg.union([pieI, pieD, musloI, musloD, barriga, cabeza, pataI, pataD, orejaI, orejaD, cola]);
 
