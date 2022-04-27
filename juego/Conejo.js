@@ -74,17 +74,17 @@ class Conejo extends THREE.Object3D {
       var orejaGeom = new THREE.BoxGeometry(0.5, 1.25, 0.25);
       var orejaI = new THREE.Mesh(orejaGeom, mat);
       orejaI.position.y = 1.25/2;
-      orejaI.rotateY(-Math.PI/16);
-      orejaI.position.x = 0.5;
+      orejaI.rotateY(-Math.PI/12);
+      orejaI.position.x = 0.375;
       orejaI.position.y += 3.25;
-      orejaI.position.z = 1.5;
+      orejaI.position.z = 1.25;
 
       var orejaD = new THREE.Mesh(orejaGeom, mat);
       orejaD.position.y = 1.25/2;
-      orejaD.rotateY(Math.PI/16);
-      orejaD.position.x = -0.5;
+      orejaD.rotateY(Math.PI/12);
+      orejaD.position.x = -0.375;
       orejaD.position.y += 3.25;
-      orejaD.position.z = 1.5;
+      orejaD.position.z = 1.25;
 
       var csg = new CSG();
       csg.union([pieI, pieD, musloI, musloD, barriga, cabeza, pataI, pataD, orejaI, orejaD]);
