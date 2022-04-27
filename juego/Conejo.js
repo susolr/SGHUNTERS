@@ -27,13 +27,17 @@ class Conejo extends THREE.Object3D {
       var musloGeom = new THREE.BoxGeometry(0.5, 1, 1)
 
       var musloI = new THREE.Mesh(musloGeom, mat);
+      musloI.position.y = 0.5;
+      musloI.position.z = 0.5;
       musloI.rotateX(-Math.PI/8);
       musloI.position.x = 1.5;
-      musloI.position.z = -0.5;
-      musloI.position.y = 0.5;
+      musloI.position.z = -1;
+      
 
       var musloD = new THREE.Mesh(musloGeom, mat);
-      //musloD.rotateX(Math.Pi/6);
+      musloD.position.y = 0.5;
+      musloD.position.z = 0.5;
+      musloD.rotateX(-Math.PI/8);
       musloD.position.x = -1.5;
       musloD.position.z = -0.5;
       musloD.position.y = 0.5;
