@@ -9,7 +9,8 @@ class Conejo extends THREE.Object3D {
     // Se crea primero porque otros métodos usan las variables que se definen para la interfaz
     this.createGUI(gui,titleGui);
     
-    this.conejo = createConejo();
+    this.conejo = this.createConejo();
+    this.conejo.position.y=1;
     this.add(this.conejo);
     
   }
