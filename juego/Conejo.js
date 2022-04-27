@@ -55,7 +55,7 @@ class Conejo extends THREE.Object3D {
 
       var cabezaGeom = new THREE.BoxGeometry(1.25, 1, 1.25);
       var cabeza = new THREE.Mesh(cabezaGeom, mat);
-      cabeza.position.y = 2;
+      cabeza.position.y = 3;
       cabeza.position.z = 1.5;
 
       var csg = new CSG();
