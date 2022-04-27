@@ -53,8 +53,13 @@ class Conejo extends THREE.Object3D {
       barriga.position.z = 0;
       barriga.position.y += 1;
 
+      var cabezaGeom = new THREE.BoxGeometry(1.25, 1, 1.25);
+      var cabeza = new THREE.Mesh(cabezaGeom, mat);
+      cabeza.position.y = 2;
+      cabeza.position.z = 1.5;
+
       var csg = new CSG();
-      csg.union([pieI, pieD, musloI, musloD, barriga]);
+      csg.union([pieI, pieD, musloI, musloD, barriga, cabeza]);
 
       var cuerpo = csg.toMesh();
 
