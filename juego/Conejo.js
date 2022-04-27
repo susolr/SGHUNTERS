@@ -20,9 +20,11 @@ class Conejo extends THREE.Object3D {
       var pieGeom = new THREE.BoxGeometry(0.5, 0.25, 1.75);
       var pieI = new THREE.Mesh(pieGeom, mat);
       pieI.position.x = 0.75;
+      pieI.position.z = -0.125;
 
       var pieD = new THREE.Mesh(pieGeom, mat);
       pieD.position.x = -0.75;
+      pieD.position.z = -0.125;
 
       var musloGeom = new THREE.BoxGeometry(0.5, 1, 1.25)
 
