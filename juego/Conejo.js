@@ -19,10 +19,10 @@ class Conejo extends THREE.Object3D {
       var mat = new THREE.MeshPhongMaterial({color: 0xe8e8e8})
       var pieGeom = new THREE.BoxGeometry(0.5, 0.25, 2);
       var pieI = new THREE.Mesh(pieGeom, mat);
-      pieI.position.x = 1.5;
+      pieI.position.x = 0.75;
 
       var pieD = new THREE.Mesh(pieGeom, mat);
-      pieD.position.x = -1.5;
+      pieD.position.x = -0.75;
 
       var musloGeom = new THREE.BoxGeometry(0.5, 1, 1)
 
@@ -30,7 +30,7 @@ class Conejo extends THREE.Object3D {
       musloI.position.y = 0.5;
       musloI.position.z = 0.5;
       musloI.rotateX(-Math.PI/8);
-      musloI.position.x = 1.5;
+      musloI.position.x = 0.75;
       musloI.position.z = -0.75;
       musloI.position.y += 0.25;
       
@@ -39,7 +39,7 @@ class Conejo extends THREE.Object3D {
       musloD.position.y = 0.5;
       musloD.position.z = 0.5;
       musloD.rotateX(-Math.PI/8);
-      musloD.position.x = -1.5;
+      musloD.position.x = -0.75;
       musloD.position.z = -0.75;
       musloD.position.y += 0.25;
 
@@ -49,9 +49,9 @@ class Conejo extends THREE.Object3D {
 
       barriga.position.y = 0.75;
       barriga.position.z = 1.25;
-      musloD.rotateX(-Math.PI/8);
-      musloD.position.z = 0;
-      musloD.position.y += 0.5;
+      barriga.rotateX(-Math.PI/8);
+      barriga.position.z = 0;
+      barriga.position.y += 0.5;
 
       var csg = new CSG();
       csg.union([pieI, pieD, musloI, musloD, barriga]);
