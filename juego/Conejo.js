@@ -102,7 +102,7 @@ class Conejo extends THREE.Object3D {
       nariz.position.z = 2.125;
 
       var csg = new CSG();
-      csg.union([pieI, pieD, musloI, musloD, barriga, cabeza, pataI, pataD, orejaI, orejaD, cola]);
+      csg.union([pieI, pieD, musloI, musloD, barriga, cabeza, pataI, pataD, orejaI, orejaD, cola, nariz]);
 
       var cuerpo = csg.toMesh();
 
