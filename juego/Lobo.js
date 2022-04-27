@@ -9,115 +9,28 @@ class Lobo extends THREE.Object3D {
     // Se crea primero porque otros métodos usan las variables que se definen para la interfaz
     this.createGUI(gui,titleGui);
     
-    this.conejo = this.createConejo();
-    this.conejo.position.y=1;
-    this.add(this.conejo);
+    this.lobo = this.createLobo();
+    this.lobo.position.y = 1;
+    this.add(this.lobo);
     
   }
 
-  createConejo(){
-      var mat = new THREE.MeshPhongMaterial({color: 0xe8e8e8});
-      var pieGeom = new THREE.BoxGeometry(0.5, 0.25, 1.75);
-      var pieI = new THREE.Mesh(pieGeom, mat);
-      pieI.position.x = 0.75;
-      pieI.position.z = -0.125;
+  createLobo(){
+      var mat = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
+      var centralGeom = new THREE.BoxGeometry(1.5, 1.5, 4.5);
+      var central = new THREE.Mesh(centralGeom, mat);
+      var centralGordaGeom = new THREE.BoxGeometry(2, 1.75, 1.5);
+      var centralGorda = new THREE.Mesh(centralGordaGeom, mat);
+      centralGorda.position.z = 0.75;
 
-      var pieD = new THREE.Mesh(pieGeom, mat);
-      pieD.position.x = -0.75;
-      pieD.position.z = -0.125;
-
-      var musloGeom = new THREE.BoxGeometry(0.5, 1, 1.25)
-
-      var musloI = new THREE.Mesh(musloGeom, mat);
-      musloI.position.y = 0.5;
-      musloI.position.z = 1.25/2;
-      musloI.rotateX(-Math.PI/8);
-      musloI.position.x = 0.75;
-      musloI.position.z = -0.625;
-      musloI.position.y += 0.25;
-      
-
-      var musloD = new THREE.Mesh(musloGeom, mat);
-      musloD.position.y = 0.5;
-      musloD.position.z = 1.25/2;
-      musloD.rotateX(-Math.PI/8);
-      musloD.position.x = -0.75;
-      musloD.position.z = -0.625;
-      musloD.position.y += 0.25;
-
-      var barrigaGeom = new THREE.BoxGeometry(1.5, 1.5, 2.5);
-
-      var barriga = new THREE.Mesh(barrigaGeom, mat);
-
-      barriga.position.y = 0.75;
-      barriga.position.z = 1.25;
-      barriga.rotateX(-Math.PI/8);
-      barriga.position.z = 0;
-      barriga.position.y += 1;
-
-      var cabezaGeom = new THREE.BoxGeometry(1.25, 1, 1.25);
-      var cabeza = new THREE.Mesh(cabezaGeom, mat);
-      cabeza.position.y = 2.75;
-      cabeza.position.z = 1.5;
-
-      var pataGeom = new THREE.BoxGeometry(0.5, 2, 0.5);
-      var pataI = new THREE.Mesh(pataGeom, mat);
-      pataI.position.z = 1.25;
-      pataI.position.y = 0.875;
-      pataI.position.x = 0.75;
-
-      var pataD = new THREE.Mesh(pataGeom, mat);
-      pataD.position.z = 1.25;
-      pataD.position.y = 0.875;
-      pataD.position.x = -0.75;
-
-      var orejaGeom = new THREE.BoxGeometry(0.5, 1.25, 0.25);
-      var orejaI = new THREE.Mesh(orejaGeom, mat);
-      orejaI.position.y = 1.25/2;
-      orejaI.rotateY(-Math.PI/12);
-      orejaI.position.x = 0.375;
-      orejaI.position.y += 3.25;
-      orejaI.position.z = 1.25;
-
-      var orejaD = new THREE.Mesh(orejaGeom, mat);
-      orejaD.position.y = 1.25/2;
-      orejaD.rotateY(Math.PI/12);
-      orejaD.position.x = -0.375;
-      orejaD.position.y += 3.25;
-      orejaD.position.z = 1.25;
-
-      var colaGeom = new THREE.BoxGeometry(0.75, 0.75, 0.5);
+      var colaGeom = new THREE.BoxGeometry(0.5, 0.5, 1.75);
       var cola = new THREE.Mesh(colaGeom, mat);
-      cola.position.y = 0.75/2;
-      cola.position.z = 0.25;
-      cola.rotateX(-Math.PI/8);
-      cola.position.z = -1.25;
-      cola.position.y += 0.75;
-
-      var matNariz = new THREE.MeshPhongMaterial({color: 0xedb7e0});
-
-      var narizGeom = new THREE.BoxGeometry(0.25, 0.25, 0.25);
-      var nariz = new THREE.Mesh(narizGeom, matNariz);
-      nariz.position.y = 2.75;
-      nariz.position.z = 2.125;
-
-      var matOjos = new THREE.MeshPhongMaterial({color: 0x000000});
-      var ojosGeom = new THREE.BoxGeometry(0.25, 0.5, 0.25);
-      var ojoI = new THREE.Mesh(ojosGeom, matOjos);
-      ojoI.position.y = 3;
-      ojoI.position.z = 2.05;
-      ojoI.position.x = 0.25;
-
-      var ojoD = new THREE.Mesh(ojosGeom, matOjos);
-      ojoD.position.y = 3;
-      ojoD.position.z = 2.05;
-      ojoD.position.x = -0.25;
-      
-
-      var csg = new CSG();
-      csg.union([pieI, pieD, musloI, musloD, barriga, cabeza, pataI, pataD, orejaI, orejaD, cola, nariz, ojoI, ojoD]);
-
-      var cuerpo = csg.toMesh();
+      cola.position.z = -2.5;
+      cola.position.y = 0.5;
+      var cuerpo = new THREE.Object3D();
+      cuerpo.add(central);
+      cuerpo.add(centralGorda);
+      cuerpo.add(cola);
 
       return cuerpo;
 

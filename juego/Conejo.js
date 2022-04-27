@@ -16,7 +16,7 @@ class Conejo extends THREE.Object3D {
   }
 
   createConejo(){
-      var mat = new THREE.MeshPhongMaterial({color: 0xe8e8e8});
+      var mat = new THREE.MeshPhongMaterial({color: 0xb5a062});
       var pieGeom = new THREE.BoxGeometry(0.5, 0.25, 1.75);
       var pieI = new THREE.Mesh(pieGeom, mat);
       pieI.position.x = 0.75;

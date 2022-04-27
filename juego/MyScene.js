@@ -9,6 +9,7 @@ import { Stats } from '../libs/stats.module.js'
 // Clases de mi proyecto
 import { Tablero } from './Tablero.js'
 import { Conejo } from './conejo.js'
+import { Lobo } from './Lobo.js'
 
  
 /// La clase fachada del modelo
@@ -47,7 +48,10 @@ class MyScene extends THREE.Scene {
     this.add(this.tablero);
 
     this.conejo = new Conejo(this.gui, "Controladores del conejo");
+    this.conejo.position.x = -10;
     this.add(this.conejo);
+    this.lobo = new Lobo(this.gui, "Controladores del lobo");
+    this.add(this.lobo);
   }
   
   initStats() {
