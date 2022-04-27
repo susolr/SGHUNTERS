@@ -24,9 +24,20 @@ class Conejo extends THREE.Object3D {
       var pieD = new THREE.Mesh(pieGeom, mat);
       pieD.position.x = -1.5;
 
+      var musloGeom = new THREE.BoxGeometry(0.5, 1, 1)
+
+      var musloI = new THREE.Mesh(musloGeom, mat);
+      musloI.position.x = 1.5;
+      musloI.position.z = -0.5;
+
+      var musloD = new THREE.Mesh(musloGeom, mat);
+      musloD.position.x = -1.5;
+      musloD.position.z = -0.5;
+
+
 
       var csg = new CSG();
-      csg.union([pieI, pieD]);
+      csg.union([pieI, pieD, musloI, musloD]);
 
       var cuerpo = csg.toMesh();
 
