@@ -29,10 +29,12 @@ class Conejo extends THREE.Object3D {
       var musloI = new THREE.Mesh(musloGeom, mat);
       musloI.position.x = 1.5;
       musloI.position.z = -0.5;
+      musloI.position.y = 0.5;
 
       var musloD = new THREE.Mesh(musloGeom, mat);
       musloD.position.x = -1.5;
       musloD.position.z = -0.5;
+      musloD.position.y = 0.5;
 
 
 
