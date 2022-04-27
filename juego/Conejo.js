@@ -45,7 +45,7 @@ class Conejo extends THREE.Object3D {
 
       var barrigaGeom = new THREE.BoxGeometry(1.5, 1.5, 2.5);
 
-      var barriga = THREE.Mesh(barrigaGeom, mat);
+      var barriga = new THREE.Mesh(barrigaGeom, mat);
 
       barriga.position.y = 0.75;
       barriga.position.z = 1.25;
