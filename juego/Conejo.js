@@ -31,7 +31,7 @@ class Conejo extends THREE.Object3D {
       musloI.position.z = 1.25/2;
       musloI.rotateX(-Math.PI/8);
       musloI.position.x = 0.75;
-      musloI.position.z = -0.75;
+      musloI.position.z = -0.625;
       musloI.position.y += 0.25;
       
 
@@ -40,7 +40,7 @@ class Conejo extends THREE.Object3D {
       musloD.position.z = 1.25/2;
       musloD.rotateX(-Math.PI/8);
       musloD.position.x = -0.75;
-      musloD.position.z = -0.75;
+      musloD.position.z = -0.625;
       musloD.position.y += 0.25;
 
       var barrigaGeom = new THREE.BoxGeometry(1.5, 1.5, 2.5);
