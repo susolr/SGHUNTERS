@@ -32,7 +32,7 @@ class Conejo extends THREE.Object3D {
       musloI.rotateX(-Math.PI/8);
       musloI.position.x = 1.5;
       musloI.position.z = -0.75;
-      musloI.position.y += 0.5;
+      musloI.position.y += 0.25;
       
 
       var musloD = new THREE.Mesh(musloGeom, mat);
@@ -41,12 +41,20 @@ class Conejo extends THREE.Object3D {
       musloD.rotateX(-Math.PI/8);
       musloD.position.x = -1.5;
       musloD.position.z = -0.75;
+      musloD.position.y += 0.25;
+
+      var barrigaGeom = new THREE.BoxGeometry(1.5, 1.5, 2.5);
+
+      var barriga = THREE.Mesh(barrigaGeom, mat);
+
+      barriga.position.y = 0.75;
+      barriga.position.z = 1.25;
+      musloD.rotateX(-Math.PI/8);
+      musloD.position.z = 0;
       musloD.position.y += 0.5;
 
-
-
       var csg = new CSG();
-      csg.union([pieI, pieD, musloI, musloD]);
+      csg.union([pieI, pieD, musloI, musloD, barriga]);
 
       var cuerpo = csg.toMesh();
 
