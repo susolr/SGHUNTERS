@@ -8,6 +8,7 @@ import { Stats } from '../libs/stats.module.js'
 
 // Clases de mi proyecto
 import { Tablero } from './Tablero.js'
+import { Conejo } from './conejo.js'
 
  
 /// La clase fachada del modelo
@@ -44,6 +45,9 @@ class MyScene extends THREE.Scene {
     
     this.tablero = new Tablero(this.gui, "Controladores del tablero");
     this.add(this.tablero);
+
+    this.conejo = new Conejo(this.gui, "Controladores del conejo");
+    this.add(this.conejo);
   }
   
   initStats() {
