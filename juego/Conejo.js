@@ -91,8 +91,8 @@ class Conejo extends THREE.Object3D {
       cola.position.y = 0.75/2;
       cola.position.z = 0.25;
       cola.rotateX(-Math.PI/8);
-      cola.position.z = -1.5;
-      cola.position.y += 0.5;
+      cola.position.z = -1.25;
+      cola.position.y += 0.25;
 
       var csg = new CSG();
       csg.union([pieI, pieD, musloI, musloD, barriga, cabeza, pataI, pataD, orejaI, orejaD, cola]);
