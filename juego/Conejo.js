@@ -105,12 +105,12 @@ class Conejo extends THREE.Object3D {
       var ojosGeom = new THREE.BoxGeometry(0.25, 0.5, 0.25);
       var ojoI = new THREE.Mesh(ojosGeom, matOjos);
       ojoI.position.y = 3;
-      ojoI.position.z = 2.075;
+      ojoI.position.z = 2.05;
       ojoI.position.x = 0.25;
 
       var ojoD = new THREE.Mesh(ojosGeom, matOjos);
       ojoD.position.y = 3;
-      ojoD.position.z = 2.075;
+      ojoD.position.z = 2.05;
       ojoD.position.x = -0.25;
       
 
