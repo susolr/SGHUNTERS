@@ -12,6 +12,9 @@ class Lobo extends THREE.Object3D {
     this.lobo = this.createLobo();
     this.lobo.position.y = 1.35;
     this.add(this.lobo);
+
+    this.mov_d = 0;
+    this.mov_i = 0;
     
   }
 
@@ -119,32 +122,49 @@ class Lobo extends THREE.Object3D {
 
       // Pata delantera izquierda
       var pataGeom = new THREE.BoxGeometry(0.5, 1.75, 0.5);
-      var pataDI = new THREE.Mesh(pataGeom, mat);
-      pataDI.position.x = 0.5;
-      pataDI.position.z = 0.75;
+      var auxpataDI = new THREE.Mesh(pataGeom, mat);
+      auxpataDI.position.x = 0.5;
+      auxpataDI.position.y = -0.625;
+      this.pataDI = new THREE.Object3D();
+      this.pataDI.add(auxpataDI);
+      this.pataDI.position.z = 0.75;
+      this.pataDI.position.y = 0.625;
+      
 
       // Pata delantera derecha
-      var pataDD = new THREE.Mesh(pataGeom, mat);
-      pataDD.position.x = -0.5;
-      pataDD.position.z = 0.75;
+      var auxpataDD = new THREE.Mesh(pataGeom, mat);
+      auxpataDD.position.x = -0.5;
+      auxpataDD.position.y = -0.625;
+      this.pataDD = new THREE.Object3D();
+      this.pataDD.add(auxpataDD);
+      this.pataDD.position.z = 0.75;
+      this.pataDD.position.y = 0.625;
 
       // Pata trasera izquierda
-      var pataTI = new THREE.Mesh(pataGeom, mat);
-      pataTI.position.x = 0.5;
-      pataTI.position.z = -1.5;
+      var auxpataTI = new THREE.Mesh(pataGeom, mat);
+      auxpataTI.position.x = 0.5;
+      auxpataTI.position.y = -0.625;
+      this.pataTI = new THREE.Object3D();
+      this.pataTI.add(auxpataTI);
+      this.pataTI.position.z = -1.5;
+      this.pataTI.position.y = 0.625;
 
       // Pata trasera derecha
-      var pataTD = new THREE.Mesh(pataGeom, mat);
-      pataTD.position.x = -0.5;
-      pataTD.position.z = -1.5;
+      var auxpataTD = new THREE.Mesh(pataGeom, mat);
+      auxpataTD.position.x = -0.5;
+      auxpataTD.position.y = -0.625;
+      this.pataTD = new THREE.Object3D();
+      this.pataTD.add(auxpataTD);
+      this.pataTD.position.y = 0.625;
+      this.pataTD.position.z = -1.5;
 
       // Cuerpo completo
       var completo = new THREE.Object3D();
       completo.add(cuerpo);
-      completo.add(pataDI);
-      completo.add(pataDD);
-      completo.add(pataTI);
-      completo.add(pataTD);
+      completo.add(this.pataDI);
+      completo.add(this.pataDD);
+      completo.add(this.pataTI);
+      completo.add(this.pataTD);
 
       // Subimos el lobo la mitad de la altura de las patas para que esté en la base
       completo.position.y = 0.875;
@@ -216,6 +236,44 @@ class Lobo extends THREE.Object3D {
     this.rotation.set (this.guiControls.rotX,this.guiControls.rotY,this.guiControls.rotZ);
     this.scale.set (this.guiControls.sizeX,this.guiControls.sizeY,this.guiControls.sizeZ);
     */
+
+    if(this.mov_d == 0){
+      if(this.pataDD.rotation.x < Math.PI/6 ){
+        this.pataDD.rotation.x += 0.01;
+        this.pataTD.rotation.x += 0.01;
+      }
+      else {
+        this.mov_d = 1;
+      }
+    }
+    else{
+      if(this.pataDD.rotation.x > -Math.PI/6 ){
+        this.pataDD.rotation.x += -0.01;
+        this.pataTD.rotation.x += -0.01;
+      }
+      else {
+        this.mov_d = 0;
+      }
+    }
+
+    if(this.mov_i == 1){
+      if(this.pataDI.rotation.x < Math.PI/6 ){
+        this.pataDI.rotation.x += 0.01;
+        this.pataTI.rotation.x += 0.01;
+      }
+      else {
+        this.mov_i = 0;
+      }
+    }
+    else{
+      if(this.pataDI.rotation.x > -Math.PI/6 ){
+        this.pataDI.rotation.x += -0.01;
+        this.pataTI.rotation.x += -0.01;
+      }
+      else {
+        this.mov_i = 1;
+      }
+    }
   }
 }
 
