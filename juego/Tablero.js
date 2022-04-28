@@ -22,60 +22,73 @@ class Tablero extends THREE.Object3D {
     var cilGeom = new THREE.CylinderGeometry( 3, 3, 1, 8);
 
     var caminoGeom = new THREE.BoxBufferGeometry (10, 0.5, 1);
+
+    this.casillasIndexadas = new Array(11);
     // Y añadirlo como hijo del Object3D (el this)
 
     var model = new THREE.Mesh(cilGeom, cilMat);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     model.position.x = -20;
     this.add(model);
+    this.casillasIndexadas[0] = model;
 
     model = new THREE.Mesh(cilGeom, cilMat);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     model.position.x = -10;
     model.position.z = -10;
     this.add(model);
+    this.casillasIndexadas[1] = model;
 
     model = new THREE.Mesh(boxGeom, boxMat);
     model.position.x = -10;
     this.add(model);
+    this.casillasIndexadas[2] = model;
 
     model = new THREE.Mesh(cilGeom, cilMat);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     model.position.x = -10;
     model.position.z = 10;
     this.add(model);
+    this.casillasIndexadas[3] = model;
 
     model = new THREE.Mesh(boxGeom, boxMat);
     model.position.z = -10;
     this.add(model);
+    this.casillasIndexadas[4] = model;
 
     model = new THREE.Mesh(cilGeom, cilMat);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     this.add(model);
+    this.casillasIndexadas[5] = model;
 
     model = new THREE.Mesh(boxGeom, boxMat);
     model.position.z = 10;
     this.add(model);
+    this.casillasIndexadas[6] = model;
 
     model = new THREE.Mesh(cilGeom, cilMat);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     model.position.x = 10;
     model.position.z = -10;
     this.add(model);
+    this.casillasIndexadas[7] = model;
 
     model = new THREE.Mesh(boxGeom, boxMat);
     model.position.x = 10;
     this.add(model);
+    this.casillasIndexadas[8] = model;
 
     model = new THREE.Mesh(cilGeom, cilMat);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     model.position.x = 10;
     model.position.z = 10;
     this.add(model);
+    this.casillasIndexadas[9] = model;
 
     model = new THREE.Mesh(cilGeom, cilMat);
     model.position.x = 20;
     this.add(model);
+    this.casillasIndexadas[10] = model;
 
 
 

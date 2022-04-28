@@ -47,11 +47,32 @@ class MyScene extends THREE.Scene {
     this.tablero = new Tablero(this.gui, "Controladores del tablero");
     this.add(this.tablero);
 
+    //Creacion del conejo de esme
     this.conejo = new Conejo(this.gui, "Controladores del conejo");
-    //this.conejo.position.x = -10;
-    //this.add(this.conejo);
-    this.lobo = new Lobo(this.gui, "Controladores del lobo");
-    this.add(this.lobo);
+    this.add(this.conejo);
+    this.conejo.rotateY(-Math.PI/2);
+    this.conejo.position.x = 20;
+
+    //Creacion de los lobos
+    //Lobo 1
+    this.lobo1 = new Lobo(this.gui, "Controladores del lobo 1");
+    this.add(this.lobo1);
+    this.lobo1.rotateY(Math.PI/2);
+    this.lobo1.position.x = -10;
+    this.lobo1.position.z = -10;
+
+    //Lobo 2
+    this.lobo2 = new Lobo(this.gui, "Controladores del lobo 2");
+    this.add(this.lobo2);
+    this.lobo2.rotateY(Math.PI/2);
+    this.lobo2.position.x = -20;
+
+    //Lobo 3
+    this.lobo3 = new Lobo(this.gui, "Controladores del lobo 3");
+    this.add(this.lobo3);
+    this.lobo3.rotateY(Math.PI/2);
+    this.lobo3.position.x = -10;
+    this.lobo3.position.z = 10;
   }
   
   initStats() {
@@ -224,8 +245,10 @@ class MyScene extends THREE.Scene {
     this.cameraControl.update();
     
     // Se actualiza el resto del modelo
-    //this.conejo.update();
-    this.lobo.update();
+    this.conejo.update();
+    this.lobo1.update();
+    this.lobo2.update();
+    this.lobo3.update();
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
 
