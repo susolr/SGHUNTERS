@@ -48,8 +48,8 @@ class MyScene extends THREE.Scene {
     this.add(this.tablero);
 
     this.conejo = new Conejo(this.gui, "Controladores del conejo");
-    this.conejo.position.x = -10;
-    this.add(this.conejo);
+    //this.conejo.position.x = -10;
+    //this.add(this.conejo);
     this.lobo = new Lobo(this.gui, "Controladores del lobo");
     this.add(this.lobo);
   }
@@ -224,7 +224,7 @@ class MyScene extends THREE.Scene {
     this.cameraControl.update();
     
     // Se actualiza el resto del modelo
-    
+    this.conejo.update();
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
 

@@ -12,6 +12,9 @@ class Conejo extends THREE.Object3D {
     this.conejo = this.createConejo();
     this.conejo.position.y = 1.5;
     this.add(this.conejo);
+
+    this.mov_d = 0;
+    this.mov_t = 0;
     
   }
 
@@ -95,16 +98,19 @@ class Conejo extends THREE.Object3D {
       var pataGeom = new THREE.BoxGeometry(0.5, 2, 0.5);
       var pataI = new THREE.Mesh(pataGeom, mat);
       pataI.position.x = 0.75;
+      pataI.position.y = -0.75;
 
       // Pata delanteraderecha
       var pataD = new THREE.Mesh(pataGeom, mat);
       pataD.position.x = -0.75;
+      pataD.position.y = -0.75;
 
       // Patas delanteras completas (izquierda y derecha)
-      var patasD = new THREE.Object3D();
-      patasD.add(pataI);
-      patasD.add(pataD);
-      patasD.position.z = 1.25;
+      this.patasD = new THREE.Object3D();
+      this.patasD.add(pataI);
+      this.patasD.add(pataD);
+      this.patasD.position.y = 0.75;
+      this.patasD.position.z = 1.25;
 
       // Pie trasero izquierdo
       var pieGeom = new THREE.BoxGeometry(0.5, 0.25, 1.75);
@@ -143,15 +149,15 @@ class Conejo extends THREE.Object3D {
       patasTD.position.y = -0.875;
 
       // Patas traseras completas (izquierda y derecha)
-      var patasT = new THREE.Object3D();
-      patasT.add(patasTI);
-      patasT.add(patasTD);
+      this.patasT = new THREE.Object3D();
+      this.patasT.add(patasTI);
+      this.patasT.add(patasTD);
 
       // Cuerpo completo (cuerpo, patas delanteras y patas traseras)
       var cuerpoCompleto = new THREE.Object3D();
       cuerpoCompleto.add(cuerpo);
-      cuerpoCompleto.add(patasD);
-      cuerpoCompleto.add(patasT);
+      cuerpoCompleto.add(this.patasD);
+      cuerpoCompleto.add(this.patasT);
 
       // Subimos el conejo la mitad de la altura de las patas delanteras para que esté en la base
       cuerpoCompleto.position.y = 1;
@@ -224,6 +230,40 @@ class Conejo extends THREE.Object3D {
     this.rotation.set (this.guiControls.rotX,this.guiControls.rotY,this.guiControls.rotZ);
     this.scale.set (this.guiControls.sizeX,this.guiControls.sizeY,this.guiControls.sizeZ);
     */
+    if(this.mov_d == 0){
+      if(this.patasD.rotation.x < Math.PI/6 ){
+        this.patasD.rotation.x += 0.01;
+      }
+      else {
+        this.mov_d = 1;
+      }
+    }
+    else{
+      if(this.patasD.rotation.x > -Math.PI/6 ){
+        this.patasD.rotation.x -= 0.01;
+      }
+      else {
+        this.mov_d = 0;
+      }
+    }
+
+    if(this.mov_t == 1){
+      if(this.patasT.rotation.x < Math.PI/6 ){
+        this.patasT.rotation.x += 0.01;
+      }
+      else {
+        this.mov_t = 0;
+      }
+    }
+    else{
+      if(this.patasT.rotation.x > -Math.PI/6 ){
+        this.patasT.rotation.x -= 0.01;
+      }
+      else {
+        this.mov_t = 1;
+      }
+    }
+
   }
 }
 
