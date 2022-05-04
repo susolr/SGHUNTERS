@@ -239,13 +239,18 @@ class Tablero extends THREE.Object3D {
   }
   
   marcarCasillas(casillas){
+    var lista = [];
     for (let cs in casillas){
-      this.casillasIndexadas[casillas[cs]].marcarCasilla();
+      if (!this.casillasIndexadas[casillas[cs]].ocupada){
+        this.casillasIndexadas[casillas[cs]].marcarCasilla();
+        lista.push(this.casillasIndexadas[casillas[cs]]);
+      }
     }
+    return lista;
   }
 
-  desmarcarCasillas (casillas){
-    for (let cs in casillas){
+  desmarcarCasillas (){
+    for (let cs in this.casillasIndexadas){
       this.casillasIndexadas[cs].desmarcarCasilla();
     }
   }

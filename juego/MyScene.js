@@ -29,7 +29,9 @@ class MyScene extends THREE.Scene {
     
     this.initStats();
     
-    
+    this.aplicationMode = MyScene.TURNO_CAZADORES;
+    this.action = MyScene.ELEGIR_PIEZA;
+    this.piezaSeleccionada = null;
 
     this.raycaster = new THREE.Raycaster ();
     this.createLights ();
@@ -78,22 +80,168 @@ class MyScene extends THREE.Scene {
     this.lobo3.position.z = 10;
     this.lobo3.casillaActual = 3;
     this.tablero.casillasIndexadas[3].ocuparCasilla();
+
+    this.pickeableCazadores = [this.lobo1, this.lobo2, this.lobo3];
+    this.pickeablePresa = [this.conejo];
+
+    this.pickeableCasillas = [];
   }
 
   setMessage (str) {
     document.getElementById ("Messages").innerHTML = "<h2>"+str+"</h2>";
   }
-  
-  onMouseDown(event){
-    var vector = this.getPointOnGround(event);
-    this.setMessage(event);
-    if (vector === null){
-      this.setMessage("Vector nulo");
-    }
-    else {
-      this.setMessage(vector.x + "\t" + vector.y);
+
+  seleccionarPiezaCazadores(event){
+    var mouse = this.getMouse (event);
+    this.raycaster.setFromCamera (mouse, this.getCamera());
+    var pickedObjects = this.raycaster.intersectObjects (this.pickeableCazadores, true);
+    if (pickedObjects.length > 0) {
+      this.piezaSeleccionada = pickedObjects[0].object.userData;
+      var casilla = this.piezaSeleccionada.casillaActual;
+      console.log(casilla);
+      var casillas = this.tablero.casillasIndexadas[casilla].getCasillasAccesiblesCazadores();
+      this.pickeableCasillas = this.tablero.marcarCasillas(casillas);
+      this.action = MyScene.ELEGIR_CASILLA;
+    } 
+
+  }
+
+  seleccionarCasillaCazadores(event){
+    var mouse = this.getMouse (event);
+    this.raycaster.setFromCamera (mouse, this.getCamera());
+    var pickedObjects = this.raycaster.intersectObjects (this.pickeableCasillas, true);
+    if (pickedObjects.length > 0) {
+      var casillaSeleccionada = pickedObjects[0].object.userData;
+      console.log(casillaSeleccionada.indice);
+      this.pickeableCasillas = [];
+      this.tablero.desmarcarCasillas();
+      //movimiento
+      //this.aplicationMode = MyScene.TURNO_PRESA;
+      this.action = MyScene.ELEGIR_PIEZA;
+    } else {
+      pickedObjects = this.raycaster.intersectObjects (this.pickeableCazadores, true);
+      if (pickedObjects.length > 0){
+        this.tablero.desmarcarCasillas();
+        var pieza = pickedObjects[0].object.userData;
+        if (pieza !== this.piezaSeleccionada){
+          this.piezaSeleccionada = pieza;
+          var casilla = this.piezaSeleccionada.casillaActual;
+          console.log(casilla);
+          var casillas = this.tablero.casillasIndexadas[casilla].getCasillasAccesiblesCazadores();
+          this.pickeableCasillas = this.tablero.marcarCasillas(casillas);
+        } else {
+          this.action = MyScene.ELEGIR_PIEZA;
+        }
+      }
     }
   }
+
+  seleccionarPiezaPresa(event){
+    var mouse = this.getMouse (event);
+    this.raycaster.setFromCamera (mouse, this.getCamera());
+    var pickedObjects = this.raycaster.intersectObjects (this.pickeablePresa, true);
+    if (pickedObjects.length > 0) {
+      this.piezaSeleccionada = pickedObjects[0].object.userData;
+      var casilla = this.piezaSeleccionada.casillaActual;
+      console.log(casilla);
+      var casillas = this.tablero.casillasIndexadas[casilla].getCasillasAccesiblesPresa();
+      this.pickeableCasillas = this.tablero.marcarCasillas(casillas);
+      this.action = MyScene.ELEGIR_CASILLA;
+    } 
+
+  }
+
+  seleccionarCasillaPresa(event){
+    var mouse = this.getMouse (event);
+    this.raycaster.setFromCamera (mouse, this.getCamera());
+    var pickedObjects = this.raycaster.intersectObjects (this.pickeableCasillas, true);
+    if (pickedObjects.length > 0) {
+      var casillaSeleccionada = pickedObjects[0].object.userData;
+      console.log(casillaSeleccionada.indice);
+      this.pickeableCasillas = [];
+      this.tablero.desmarcarCasillas();
+      //movimiento
+      //this.aplicationMode = MyScene.TURNO_CAZADORES;
+      this.action = MyScene.ELEGIR_PIEZA;
+    } else {
+      pickedObjects = this.raycaster.intersectObjects (this.pickeablePresa, true);
+      if (pickedObjects.length > 0){
+        this.tablero.desmarcarCasillas();
+        var pieza = pickedObjects[0].object.userData;
+        if (pieza !== this.piezaSeleccionada){
+          this.piezaSeleccionada = pieza;
+          var casilla = this.piezaSeleccionada.casillaActual;
+          console.log(casilla);
+          var casillas = this.tablero.casillasIndexadas[casilla].getCasillasAccesiblesPresa();
+          this.pickeableCasillas = this.tablero.marcarCasillas(casillas);
+        } else {
+          this.action = MyScene.ELEGIR_PIEZA;
+        }
+      }
+    }
+  }
+
+  seleccionarCazador(event){
+    if (!event.ctrlKey) {
+      switch(this.action){
+        case MyScene.ELEGIR_PIEZA:
+          this.seleccionarPiezaCazadores(event);
+          break;
+
+        case MyScene.ELEGIR_CASILLA:
+          this.seleccionarCasillaCazadores(event);
+          break;
+
+        default:
+          this.setMessage("Cagaste");
+      }
+    }
+  }
+
+  seleccionarPresa(event){
+    if (!event.ctrlKey) {
+      switch(this.action){
+        case MyScene.ELEGIR_PIEZA:
+          this.seleccionarPiezaPresa(event);
+          break;
+
+        case MyScene.ELEGIR_CASILLA:
+          this.seleccionarCasilla();
+          break;
+
+        default:
+          this.setMessage("Cagaste");
+      }
+    }
+  }
+  
+  onMouseDown(event){
+    if (!event.ctrlKey) {
+      switch(this.aplicationMode){
+        case MyScene.TURNO_CAZADORES:
+          this.seleccionarCazador(event);
+          break;
+
+        case MyScene.TURNO_PRESA:
+          this.seleccionarPresa(event);
+          break;
+
+        default:
+          this.setMessage("Cagaste");
+      }
+    }
+  }
+
+/* Trozo de codigo porque si 
+var vector = this.getPointOnGround(event);
+this.setMessage(event);
+if (vector === null){
+  this.setMessage("Vector nulo");
+}
+else {
+  this.setMessage(vector.x + "\t" + vector.y);
+} 
+*/
 
   /// It returns the position of the mouse in normalized coordinates ([-1,1],[-1,1])
   /**

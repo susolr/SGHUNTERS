@@ -34,6 +34,8 @@ class Casilla extends THREE.Object3D {
         casilla = new THREE.Mesh(boxGeom, boxMat); 
     }
 
+    casilla.userData = this;
+
     return casilla;
   }
 
