@@ -67,6 +67,8 @@ class MyScene extends THREE.Scene {
     this.add(this.lobo2);
     this.lobo2.rotateY(Math.PI/2);
     this.lobo2.position.x = -20;
+    this.lobo2.casillaActual = 0;
+    this.tablero.casillasIndexadas[0].ocuparCasilla();
 
     //Lobo 3
     this.lobo3 = new Lobo(this.gui, "Controladores del lobo 3");
@@ -74,6 +76,8 @@ class MyScene extends THREE.Scene {
     this.lobo3.rotateY(Math.PI/2);
     this.lobo3.position.x = -10;
     this.lobo3.position.z = 10;
+    this.lobo3.casillaActual = 3;
+    this.tablero.casillasIndexadas[3].ocuparCasilla();
   }
 
   setMessage (str) {
@@ -114,7 +118,11 @@ class MyScene extends THREE.Scene {
     var surfaces = [this.lobo1, this.lobo2, this.lobo3];
     var pickedObjects = this.raycaster.intersectObjects (surfaces, true);
     if (pickedObjects.length > 0) {
-      pickedObjects[0].object.userData.controlAnimacion();
+      //pickedObjects[0].object.userData.controlAnimacion();
+      var casilla = pickedObjects[0].object.userData.casillaActual;
+      console.log(casilla);
+      var casillas = this.tablero.casillasIndexadas[casilla].getCasillasAccesiblesCazadores();
+      this.tablero.marcarCasillas(casillas);
       //this.lobo1.controlAnimacion();
       return new THREE.Vector2 (pickedObjects[0].point.x, pickedObjects[0].point.z);
     } else

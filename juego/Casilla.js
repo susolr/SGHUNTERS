@@ -37,19 +37,23 @@ class Casilla extends THREE.Object3D {
   }
 
   setCasillasAccesiblesCazadores(casillas){
-    for (let cs in casillas){
-        this.casillasAccesiblesCazadores.push(cs);
+    for (var cs in casillas){
+        this.casillasAccesiblesCazadores.push(casillas[cs]);
     }
   }
 
   setCasillasAccesiblesPresa(casillas){
     for (let cs in casillas){
-        this.casillasAccesiblesPresa.push(cs);
+        this.casillasAccesiblesPresa.push(casillas[cs]);
     }
   }
 
   marcarCasilla(){
-      this.model.wireframe = true;
+      this.model.material.wireframe = true;
+  }
+
+  desmarcarCasilla(){
+      this.model.material.wireframe = false;
   }
 
   ocuparCasilla(){
@@ -58,6 +62,10 @@ class Casilla extends THREE.Object3D {
 
   liberarCasilla(){
     this.ocupada = false;
+  }
+
+  getCasillasAccesiblesCazadores(){
+      return this.casillasAccesiblesCazadores;
   }
   
   update () {
