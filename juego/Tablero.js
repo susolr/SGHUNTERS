@@ -27,7 +27,7 @@ class Tablero extends THREE.Object3D {
     this.casillasIndexadas = new Array(11);
     // Y añadirlo como hijo del Object3D (el this)
 
-    var model = new Casilla(0);
+    var model = new Casilla(0, 0);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     model.position.x = -20;
     this.add(model);
@@ -35,7 +35,7 @@ class Tablero extends THREE.Object3D {
     model.setCasillasAccesiblesCazadores([1,2,3]);
     model.setCasillasAccesiblesPresa([1,2,3]);
 
-    model = new Casilla(0);
+    model = new Casilla(0, 1);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     model.position.x = -10;
     model.position.z = -10;
@@ -44,14 +44,14 @@ class Tablero extends THREE.Object3D {
     model.setCasillasAccesiblesCazadores([2,4,5]);
     model.setCasillasAccesiblesPresa([0,2,4,5]);
 
-    model = new Casilla(1);
+    model = new Casilla(1, 2);
     model.position.x = -10;
     this.add(model);
     this.casillasIndexadas[2] = model;
     model.setCasillasAccesiblesCazadores([1,3,5]);
     model.setCasillasAccesiblesPresa([0,1,3,5]);
 
-    model = new Casilla(0);
+    model = new Casilla(0, 3);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     model.position.x = -10;
     model.position.z = 10;
@@ -60,28 +60,28 @@ class Tablero extends THREE.Object3D {
     model.setCasillasAccesiblesCazadores([2,5,6]);
     model.setCasillasAccesiblesPresa([0,2,5,6]);
 
-    model = new Casilla(1);
+    model = new Casilla(1, 4);
     model.position.z = -10;
     this.add(model);
     this.casillasIndexadas[4] = model;
     model.setCasillasAccesiblesCazadores([5,7]);
     model.setCasillasAccesiblesPresa([1,5,7]);
 
-    model = new Casilla(0);
+    model = new Casilla(0, 5);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     this.add(model);
     this.casillasIndexadas[5] = model;
     model.setCasillasAccesiblesCazadores([4,6,7,8,9]);
     model.setCasillasAccesiblesPresa([1,2,3,4,6,7,8,9]);
 
-    model = new Casilla(1);
+    model = new Casilla(1, 6);
     model.position.z = 10;
     this.add(model);
     this.casillasIndexadas[6] = model;
     model.setCasillasAccesiblesCazadores([5,9]);
     model.setCasillasAccesiblesPresa([3,5,9]);
 
-    model = new Casilla(0);
+    model = new Casilla(0, 7);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     model.position.x = 10;
     model.position.z = -10;
@@ -90,14 +90,14 @@ class Tablero extends THREE.Object3D {
     model.setCasillasAccesiblesCazadores([8,10]);
     model.setCasillasAccesiblesPresa([4,5,8,10]);
 
-    model = new Casilla(1);
+    model = new Casilla(1, 8);
     model.position.x = 10;
     this.add(model);
     this.casillasIndexadas[8] = model;
     model.setCasillasAccesiblesCazadores([7,9,10]);
     model.setCasillasAccesiblesPresa([5,7,9,10]);
 
-    model = new Casilla(0);
+    model = new Casilla(0, 9);
     model.rotateY(THREE.MathUtils.degToRad(22.5));
     model.position.x = 10;
     model.position.z = 10;
@@ -106,7 +106,7 @@ class Tablero extends THREE.Object3D {
     model.setCasillasAccesiblesCazadores([8,10]);
     model.setCasillasAccesiblesPresa([5,6,8,10]);
 
-    model = new Casilla(0);
+    model = new Casilla(0, 10);
     model.position.x = 20;
     this.add(model);
     this.casillasIndexadas[10] = model;

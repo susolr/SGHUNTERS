@@ -313,6 +313,16 @@ class MyScene extends THREE.Scene {
   }
 }
 
+  //Variables de clase
+  //Aplication modes
+  MyScene.TURNO_CAZADORES = 0;
+  MyScene.TURNO_PRESA = 1;
+
+  //Actions
+  MyScene.ELEGIR_PIEZA = 0;
+  MyScene.ELEGIR_CASILLA = 1;
+  
+
 /// La función   main
 $(function () {
   

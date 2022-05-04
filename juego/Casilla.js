@@ -2,7 +2,7 @@ import * as THREE from '../libs/three.module.js'
 import { CSG } from '../libs/CSG-v2.js'
  
 class Casilla extends THREE.Object3D {
-  constructor(tipo) {
+  constructor(tipo, indice) {
     super();
     
     // Se crea la parte de la interfaz que corresponde a la caja
@@ -14,6 +14,7 @@ class Casilla extends THREE.Object3D {
 
     this.casillasAccesiblesCazadores = [];
     this.casillasAccesiblesPresa = [];
+    this.indice = indice;
 
     this.ocupada = false;
     
