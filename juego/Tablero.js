@@ -1,12 +1,12 @@
 import * as THREE from '../libs/three.module.js'
  
 class Tablero extends THREE.Object3D {
-  constructor(gui,titleGui) {
+  constructor() {
     super();
     
     // Se crea la parte de la interfaz que corresponde a la caja
     // Se crea primero porque otros métodos usan las variables que se definen para la interfaz
-    this.createGUI(gui,titleGui);
+    //this.createGUI(gui,titleGui);
     
     // Un Mesh se compone de geometría y material
     var boxGeom = new THREE.BoxBufferGeometry (5, 1, 5);

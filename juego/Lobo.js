@@ -2,16 +2,16 @@ import * as THREE from '../libs/three.module.js'
 import { CSG } from '../libs/CSG-v2.js'
  
 class Lobo extends THREE.Object3D {
-  constructor(gui,titleGui) {
+  constructor() {
     super();
     
     // Se crea la parte de la interfaz que corresponde a la caja
     // Se crea primero porque otros métodos usan las variables que se definen para la interfaz
-    this.createGUI(gui,titleGui);
+    //this.createGUI(gui,titleGui);
     
-    this.lobo = this.createLobo();
-    this.lobo.position.y = 1.35;
-    this.add(this.lobo);
+    this.model = this.createLobo();
+    this.model.position.y = 1.35;
+    this.add(this.model);
 
     this.mov_d = 0;
     this.mov_i = 0;

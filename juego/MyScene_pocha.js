@@ -27,56 +27,96 @@ class MyScene extends THREE.Scene {
     // Se añade a la gui los controles para manipular los elementos de esta clase
     this.gui = this.createGUI ();
     
-    this.initStats();
+    this.initStats();    
+
+    this.applicationMode = MyScene.GAME_MODE;    
+    this.renderer = this.createRenderer(myCanvas);
+    this.mouseDown = false;
     
-    // Construimos los distinos elementos que tendremos en la escena
-    
-    // Todo elemento que se desee sea tenido en cuenta en el renderizado de la escena debe pertenecer a esta. Bien como hijo de la escena (this en esta clase) o como hijo de un elemento que ya esté en la escena.
-    // Tras crear cada elemento se añadirá a la escena con   this.add(variable)
-    this.createLights ();
-    
-    // Tendremos una cámara con un control de movimiento con el ratón
-    this.createCamera ();
-    
-    // Un suelo 
+    this.ambientLight = null;
+    this.spotLight = null;
+    this.camera = null;
+    this.trackballControls = null;
+
+    this.raycaster = new THREE.Raycaster ();
+
     this.createGround ();
+    this.createLights ();
+    this.createCamera ();
 
     this.axis = new THREE.AxesHelper(5);
     this.add(this.axis);
     
-    this.tablero = new Tablero(this.gui, "Controladores del tablero");
+    this.tablero = new Tablero();
     this.add(this.tablero);
 
     //Creacion del conejo de esme
-    this.conejo = new Conejo(this.gui, "Controladores del conejo");
+    this.conejo = new Conejo();
     this.add(this.conejo);
     this.conejo.rotateY(-Math.PI/2);
     this.conejo.position.x = 20;
 
     //Creacion de los lobos
     //Lobo 1
-    this.lobo1 = new Lobo(this.gui, "Controladores del lobo 1");
+    this.lobo1 = new Lobo();
     this.add(this.lobo1);
     this.lobo1.rotateY(Math.PI/2);
     this.lobo1.position.x = -10;
     this.lobo1.position.z = -10;
 
     //Lobo 2
-    this.lobo2 = new Lobo(this.gui, "Controladores del lobo 2");
+    this.lobo2 = new Lobo();
     this.add(this.lobo2);
     this.lobo2.rotateY(Math.PI/2);
     this.lobo2.position.x = -20;
 
     //Lobo 3
-    this.lobo3 = new Lobo(this.gui, "Controladores del lobo 3");
+    this.lobo3 = new Lobo();
     this.add(this.lobo3);
     this.lobo3.rotateY(Math.PI/2);
     this.lobo3.position.x = -10;
     this.lobo3.position.z = 10;
   }
 
-  setMessage (str) {
-    document.getElementById ("Messages").innerHTML = "<h2>"+str+"</h2>";
+  onMouseDown(event){
+    if (!event.ctrlKey) {
+      if (event.button === 0) {   // Left button
+        this.mouseDown = true;
+        this.getPointOnGround(event);
+      } else {
+        this.setMessage ("");
+        //this.applicationMode = TheScene.NO_ACTION;
+      }
+    }
+  }
+
+  /// It returns the position of the mouse in normalized coordinates ([-1,1],[-1,1])
+  /**
+   * @param event - Mouse information
+   * @return A Vector2 with the normalized mouse position
+   */
+   getMouse (event) {
+    var mouse = new THREE.Vector2 ();
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = 1 - 2 * (event.clientY / window.innerHeight);
+    return mouse;
+  }
+  
+  /// It returns the point on the ground where the mouse has clicked
+  /**
+   * @param event - The mouse information
+   * @return The Vector2 with the ground point clicked, or null
+   */
+  getPointOnGround (event) {
+    var mouse = this.getMouse (event);
+    this.raycaster.setFromCamera (mouse, this.getCamera());
+    var surfaces = [this.lobo1, this.lobo2, this.lobo3];
+    var pickedObjects = this.raycaster.intersectObjects (surfaces);
+    if (pickedObjects.length > 0) {
+      pickedObjects[0].model.position.y = 10;
+      return new THREE.Vector2 (pickedObjects[0].point.x, pickedObjects[0].point.z);
+    } else
+      return null;
   }
   
   initStats() {
@@ -191,11 +231,8 @@ class MyScene extends THREE.Scene {
   }
   
   setAxisVisible (valor) {
-    //this.axis.visible = valor;
-    for (let i = 0; i < this.axisVector.length; i++){
-      this.axisVector[i].visible = valor;
-    }
-    
+    this.axis.visible = valor;
+
   }
   
   createRenderer (myCanvas) {
@@ -261,7 +298,15 @@ class MyScene extends THREE.Scene {
     // Si no existiera esta línea,  update()  se ejecutaría solo la primera vez.
     requestAnimationFrame(() => this.update())
   }
+
 }
+
+  //Variables de clase
+  //Aplication modes
+  MyScene.GAME_MODE = 0;
+
+  //Actions
+
 
 /// La función   main
 $(function () {
@@ -271,6 +316,7 @@ $(function () {
 
   // Se añaden los listener de la aplicación. En este caso, el que va a comprobar cuándo se modifica el tamaño de la ventana de la aplicación.
   window.addEventListener ("resize", () => scene.onWindowResize());
+  window.addEventListener ("mousedown", (event) => scene.onMouseDown(event), true);
   
   // Que no se nos olvide, la primera visualización.
   scene.update();
