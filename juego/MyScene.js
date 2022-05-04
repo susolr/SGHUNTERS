@@ -29,10 +29,9 @@ class MyScene extends THREE.Scene {
     
     this.initStats();
     
-    // Construimos los distinos elementos que tendremos en la escena
     
-    // Todo elemento que se desee sea tenido en cuenta en el renderizado de la escena debe pertenecer a esta. Bien como hijo de la escena (this en esta clase) o como hijo de un elemento que ya esté en la escena.
-    // Tras crear cada elemento se añadirá a la escena con   this.add(variable)
+
+    this.raycaster = new THREE.Raycaster ();
     this.createLights ();
     
     // Tendremos una cámara con un control de movimiento con el ratón
@@ -79,6 +78,47 @@ class MyScene extends THREE.Scene {
     document.getElementById ("Messages").innerHTML = "<h2>"+str+"</h2>";
   }
   
+  onMouseDown(event){
+    var vector = this.getPointOnGround(event);
+    this.setMessage(event);
+    if (vector === null){
+      this.setMessage("Vector nulo");
+    }
+    else {
+      this.setMessage(vector.x + "\t" + vector.y);
+    }
+  }
+
+  /// It returns the position of the mouse in normalized coordinates ([-1,1],[-1,1])
+  /**
+   * @param event - Mouse information
+   * @return A Vector2 with the normalized mouse position
+   */
+  getMouse (event) {
+    var mouse = new THREE.Vector2 ();
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = 1 - 2 * (event.clientY / window.innerHeight);
+    return mouse;
+  }
+  
+  /// It returns the point on the ground where the mouse has clicked
+  /**
+   * @param event - The mouse information
+   * @return The Vector2 with the ground point clicked, or null
+   */
+  getPointOnGround (event) {
+    var mouse = this.getMouse (event);
+    this.raycaster.setFromCamera (mouse, this.getCamera());
+    var surfaces = [this.lobo1, this.lobo2, this.lobo3];
+    var pickedObjects = this.raycaster.intersectObjects (surfaces, true);
+    if (pickedObjects.length > 0) {
+      pickedObjects[0].object.userData.controlAnimacion();
+      //this.lobo1.controlAnimacion();
+      return new THREE.Vector2 (pickedObjects[0].point.x, pickedObjects[0].point.z);
+    } else
+      return null;
+  }
+
   initStats() {
   
     var stats = new Stats();
@@ -271,6 +311,7 @@ $(function () {
 
   // Se añaden los listener de la aplicación. En este caso, el que va a comprobar cuándo se modifica el tamaño de la ventana de la aplicación.
   window.addEventListener ("resize", () => scene.onWindowResize());
+  window.addEventListener ("mousedown", (event) => scene.onMouseDown(event), true);
   
   // Que no se nos olvide, la primera visualización.
   scene.update();
