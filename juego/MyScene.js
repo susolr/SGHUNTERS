@@ -59,6 +59,8 @@ class MyScene extends THREE.Scene {
     this.lobo1.rotateY(Math.PI/2);
     this.lobo1.position.x = -10;
     this.lobo1.position.z = -10;
+    this.lobo1.casillaActual = 1;
+    this.tablero.casillasIndexadas[1].ocuparCasilla();
 
     //Lobo 2
     this.lobo2 = new Lobo(this.gui, "Controladores del lobo 2");

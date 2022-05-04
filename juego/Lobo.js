@@ -16,6 +16,8 @@ class Lobo extends THREE.Object3D {
     this.mov_d = 0;
     this.mov_i = 0;
     this.animacion = false;
+
+    this.casillaActual;
     
   }
 
