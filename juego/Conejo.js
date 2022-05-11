@@ -1,5 +1,6 @@
 import * as THREE from '../libs/three.module.js'
 import { CSG } from '../libs/CSG-v2.js'
+import * as TWEEN from '../libs/tween.esm.js'
  
 class Conejo extends THREE.Object3D {
   constructor() {
@@ -12,9 +13,12 @@ class Conejo extends THREE.Object3D {
     this.model = this.createConejo();
     this.model.position.y = 1.5;
     this.add(this.model);
+    this.animacionControl = false;
 
     this.mov_d = 0;
     this.mov_t = 0;
+
+    this.casillaActual;
     
   }
 
@@ -26,6 +30,7 @@ class Conejo extends THREE.Object3D {
       // Cabeza
       var cabezaGeom = new THREE.BoxGeometry(1.25, 1, 1.25);
       var cabeza = new THREE.Mesh(cabezaGeom, mat);
+      cabeza.userData = this;
 
       // Nariz
       var narizGeom = new THREE.BoxGeometry(0.25, 0.25, 0.25);
@@ -78,6 +83,7 @@ class Conejo extends THREE.Object3D {
       // Barriga
       var barrigaGeom = new THREE.BoxGeometry(1.5, 1.5, 2.5);
       var barriga = new THREE.Mesh(barrigaGeom, mat);
+      barriga.userData = this;
       barriga.rotateX(-Math.PI/8);
       
       // Cola
@@ -165,102 +171,75 @@ class Conejo extends THREE.Object3D {
       return cuerpoCompleto;
 
   }
-  
-  createGUI (gui,titleGui) {
-    // Controles para el tamaño, la orientación y la posición de la caja
-    this.guiControls = {
-      sizeX : 1.0,
-      sizeY : 1.0,
-      sizeZ : 1.0,
-      
-      rotX : 0.0,
-      rotY : 0.0,
-      rotZ : 0.0,
-      
-      posX : 0.0,
-      posY : 0.0,
-      posZ : 0.0,
-      
-      // Un botón para dejarlo todo en su posición inicial
-      // Cuando se pulse se ejecutará esta función.
-      reset : () => {
-        this.guiControls.sizeX = 1.0;
-        this.guiControls.sizeY = 1.0;
-        this.guiControls.sizeZ = 1.0;
-        
-        this.guiControls.rotX = 0.0;
-        this.guiControls.rotY = 0.0;
-        this.guiControls.rotZ = 0.0;
-        
-        this.guiControls.posX = 0.0;
-        this.guiControls.posY = 0.0;
-        this.guiControls.posZ = 0.0;
-      }
-    } 
-    
-    // Se crea una sección para los controles de la caja
-    var folder = gui.addFolder (titleGui);
-    // Estas lineas son las que añaden los componentes de la interfaz
-    // Las tres cifras indican un valor mínimo, un máximo y el incremento
-    // El método   listen()   permite que si se cambia el valor de la variable en código, el deslizador de la interfaz se actualice
-    folder.add (this.guiControls, 'sizeX', 0.1, 5.0, 0.1).name ('Tamaño X : ').listen();
-    folder.add (this.guiControls, 'sizeY', 0.1, 5.0, 0.1).name ('Tamaño Y : ').listen();
-    folder.add (this.guiControls, 'sizeZ', 0.1, 5.0, 0.1).name ('Tamaño Z : ').listen();
-    
-    folder.add (this.guiControls, 'rotX', 0.0, Math.PI/2, 0.1).name ('Rotación X : ').listen();
-    folder.add (this.guiControls, 'rotY', 0.0, Math.PI/2, 0.1).name ('Rotación Y : ').listen();
-    folder.add (this.guiControls, 'rotZ', 0.0, Math.PI/2, 0.1).name ('Rotación Z : ').listen();
-    
-    folder.add (this.guiControls, 'posX', -20.0, 20.0, 0.1).name ('Posición X : ').listen();
-    folder.add (this.guiControls, 'posY', 0.0, 10.0, 0.1).name ('Posición Y : ').listen();
-    folder.add (this.guiControls, 'posZ', -20.0, 20.0, 0.1).name ('Posición Z : ').listen();
-    
-    folder.add (this.guiControls, 'reset').name ('[ Reset ]');
+  createAnimation(spline){
+    this.spline = spline;
+    this.animacion = new THREE.Object3D();
+    var pos = this.spline.getPointAt(0);
+    this.animacion.position.copy(pos);
+    var tangente = this.spline.getTangentAt(0);
+    pos.add(tangente);
+    this.animacion.lookAt(pos);
+    this.animacion.add(this.model);
+    this.add(this.animacion);
+
+
+    this.origin = {p : 0};
+    this.destiny = {p : 1};
+    var that = this;
+    this.animation = new TWEEN.Tween(this.origin)
+        .to(this.destiny,4000)
+        .easing(TWEEN.Easing.Linear.None)
+        .onUpdate(function() { 
+            var pos = that.spline.getPointAt(that.origin.p);
+            that.animacion.position.copy(pos);
+            var tangente = that.spline.getTangentAt(that.origin.p);
+            pos.add(tangente);
+            that.animacion.lookAt(pos);
+        });
+
+      this.animation.start();
+  }
+
+  controlAnimacion () {
+    this.animacionControl = !this.animacionControl;
   }
   
   update () {
-    // Con independencia de cómo se escriban las 3 siguientes líneas, el orden en el que se aplican las transformaciones es:
-    // Primero, el escalado
-    // Segundo, la rotación en Z
-    // Después, la rotación en Y
-    // Luego, la rotación en X
-    // Y por último la traslación
-    //this.rotation.x += 0.01;
-    /*this.position.set (this.guiControls.posX,this.guiControls.posY,this.guiControls.posZ);
-    this.rotation.set (this.guiControls.rotX,this.guiControls.rotY,this.guiControls.rotZ);
-    this.scale.set (this.guiControls.sizeX,this.guiControls.sizeY,this.guiControls.sizeZ);
-    */
-    if(this.mov_d == 0){
-      if(this.patasD.rotation.x < Math.PI/6 ){
-        this.patasD.rotation.x += 0.01;
-      }
-      else {
-        this.mov_d = 1;
-      }
-    }
-    else{
-      if(this.patasD.rotation.x > -Math.PI/6 ){
-        this.patasD.rotation.x -= 0.01;
-      }
-      else {
-        this.mov_d = 0;
-      }
-    }
 
-    if(this.mov_t == 1){
-      if(this.patasT.rotation.x < Math.PI/6 ){
-        this.patasT.rotation.x += 0.01;
+    TWEEN.update();
+    if(this.animacionControl){
+      if(this.mov_d == 0){
+        if(this.patasD.rotation.x < Math.PI/6 ){
+          this.patasD.rotation.x += 0.01;
+        }
+        else {
+          this.mov_d = 1;
+        }
       }
-      else {
-        this.mov_t = 0;
+      else{
+        if(this.patasD.rotation.x > -Math.PI/6 ){
+          this.patasD.rotation.x -= 0.01;
+        }
+        else {
+          this.mov_d = 0;
+        }
       }
-    }
-    else{
-      if(this.patasT.rotation.x > -Math.PI/6 ){
-        this.patasT.rotation.x -= 0.01;
+
+      if(this.mov_t == 1){
+        if(this.patasT.rotation.x < Math.PI/6 ){
+          this.patasT.rotation.x += 0.01;
+        }
+        else {
+          this.mov_t = 0;
+        }
       }
-      else {
-        this.mov_t = 1;
+      else{
+        if(this.patasT.rotation.x > -Math.PI/6 ){
+          this.patasT.rotation.x -= 0.01;
+        }
+        else {
+          this.mov_t = 1;
+        }
       }
     }
 

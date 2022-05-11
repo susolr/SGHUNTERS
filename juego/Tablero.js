@@ -255,6 +255,28 @@ class Tablero extends THREE.Object3D {
     }
   }
   
+  getSpline(c1, c2){
+    this.spline = new THREE.CatmullRomCurve3(
+      [
+          new THREE.Vector3(this.casillasIndexadas[c1].position.x, this.casillasIndexadas[c1].position.y + 2, this.casillasIndexadas[c1].position.z),
+          new THREE.Vector3(this.casillasIndexadas[c2].position.x, this.casillasIndexadas[c2].position.y + 2, this.casillasIndexadas[c2].position.z),
+      ],false
+    );
+    /*var points = [];
+    points.push(this.casillasIndexadas[c1].position.x, this.casillasIndexadas[c1].position.y + 10, this.casillasIndexadas[c1].position.z);
+    points.push(this.casillasIndexadas[c2].position.x, this.casillasIndexadas[c2].position.y + 10, this.casillasIndexadas[c2].position.z);
+    */
+    //var path = new THREE.CatmullRomCurve3 ( points ) ;
+    var lineGeom = new THREE.BufferGeometry();
+    lineGeom.setFromPoints(this.spline.getPoints(100));
+
+    var lineMesh = new THREE.Line(lineGeom,new THREE.LineBasicMaterial({color: 0xFF0000, linewidth : 2}));
+
+    this.add(lineMesh);
+    return this.spline;
+
+  }
+  
   update () {
     
   }

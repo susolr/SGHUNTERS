@@ -53,6 +53,8 @@ class MyScene extends THREE.Scene {
     this.add(this.conejo);
     this.conejo.rotateY(-Math.PI/2);
     this.conejo.position.x = 20;
+    this.conejo.casillaActual = 10;
+    this.tablero.casillasIndexadas[10].ocuparCasilla();
 
     //Creacion de los lobos
     //Lobo 1
@@ -115,8 +117,9 @@ class MyScene extends THREE.Scene {
       console.log(casillaSeleccionada.indice);
       this.pickeableCasillas = [];
       this.tablero.desmarcarCasillas();
-      //movimiento
-      //this.aplicationMode = MyScene.TURNO_PRESA;
+      var spline = this.tablero.getSpline(this.piezaSeleccionada.casillaActual,casillaSeleccionada.indice);
+      this.piezaSeleccionada.createAnimation(spline);
+      this.aplicationMode = MyScene.TURNO_PRESA;
       this.action = MyScene.ELEGIR_PIEZA;
     } else {
       pickedObjects = this.raycaster.intersectObjects (this.pickeableCazadores, true);
@@ -141,9 +144,10 @@ class MyScene extends THREE.Scene {
     this.raycaster.setFromCamera (mouse, this.getCamera());
     var pickedObjects = this.raycaster.intersectObjects (this.pickeablePresa, true);
     if (pickedObjects.length > 0) {
+      //this.setMessage("Pieza Seleccionada");
       this.piezaSeleccionada = pickedObjects[0].object.userData;
       var casilla = this.piezaSeleccionada.casillaActual;
-      console.log(casilla);
+      console.log(casilla.indice);
       var casillas = this.tablero.casillasIndexadas[casilla].getCasillasAccesiblesPresa();
       this.pickeableCasillas = this.tablero.marcarCasillas(casillas);
       this.action = MyScene.ELEGIR_CASILLA;
@@ -161,22 +165,15 @@ class MyScene extends THREE.Scene {
       this.pickeableCasillas = [];
       this.tablero.desmarcarCasillas();
       //movimiento
-      //this.aplicationMode = MyScene.TURNO_CAZADORES;
+      var spline = this.tablero.getSpline(this.piezaSeleccionada.casillaActual,casillaSeleccionada.indice);
+      this.piezaSeleccionada.createAnimation(spline);
+      this.aplicationMode = MyScene.TURNO_CAZADORES;
       this.action = MyScene.ELEGIR_PIEZA;
     } else {
       pickedObjects = this.raycaster.intersectObjects (this.pickeablePresa, true);
       if (pickedObjects.length > 0){
         this.tablero.desmarcarCasillas();
-        var pieza = pickedObjects[0].object.userData;
-        if (pieza !== this.piezaSeleccionada){
-          this.piezaSeleccionada = pieza;
-          var casilla = this.piezaSeleccionada.casillaActual;
-          console.log(casilla);
-          var casillas = this.tablero.casillasIndexadas[casilla].getCasillasAccesiblesPresa();
-          this.pickeableCasillas = this.tablero.marcarCasillas(casillas);
-        } else {
-          this.action = MyScene.ELEGIR_PIEZA;
-        }
+        this.action = MyScene.ELEGIR_PIEZA;
       }
     }
   }
@@ -206,7 +203,7 @@ class MyScene extends THREE.Scene {
           break;
 
         case MyScene.ELEGIR_CASILLA:
-          this.seleccionarCasilla();
+          this.seleccionarCasillaPresa(event);
           break;
 
         default:

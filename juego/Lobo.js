@@ -1,5 +1,6 @@
 import * as THREE from '../libs/three.module.js'
 import { CSG } from '../libs/CSG-v2.js'
+import * as TWEEN from '../libs/tween.esm.js'
  
 class Lobo extends THREE.Object3D {
   constructor() {
@@ -15,7 +16,7 @@ class Lobo extends THREE.Object3D {
 
     this.mov_d = 0;
     this.mov_i = 0;
-    this.animacion = false;
+    this.animacionControl = false;
 
     this.casillaActual;
     
@@ -186,12 +187,42 @@ class Lobo extends THREE.Object3D {
   }
 
   controlAnimacion () {
-    this.animacion = !this.animacion;
+    this.animacionControl = !this.animacionControl;
+  }
+
+  createAnimation(spline){
+    
+    this.spline = spline;
+    this.animacion = new THREE.Object3D();
+    var pos = this.spline.getPointAt(0);
+    this.animacion.position.copy(pos);
+    var tangente = this.spline.getTangentAt(0);
+    pos.add(tangente);
+    this.animacion.lookAt(pos);
+    this.animacion.add(this.model);
+    this.add(this.animacion);
+
+
+    this.origin = {p : 0};
+    this.destiny = {p : 1};
+    var that = this;
+    this.animation = new TWEEN.Tween(this.origin)
+        .to(this.destiny,4000)
+        .easing(TWEEN.Easing.Linear.None)
+        .onUpdate(function() { 
+            var pos = that.spline.getPointAt(that.origin.p);
+            that.animacion.position.copy(pos);
+            var tangente = that.spline.getTangentAt(that.origin.p);
+            pos.add(tangente);
+            that.animacion.lookAt(pos);
+        });
+
+      this.animation.start();
   }
   
   update () {
-
-    if (this.animacion){
+    TWEEN.update();
+    if (this.animacionControl){
       if(this.mov_d == 0){
         if(this.pataDD.rotation.x < Math.PI/6 ){
           this.pataDD.rotation.x += 0.01;

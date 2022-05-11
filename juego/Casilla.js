@@ -70,6 +70,10 @@ class Casilla extends THREE.Object3D {
   getCasillasAccesiblesCazadores(){
       return this.casillasAccesiblesCazadores;
   }
+
+  getCasillasAccesiblesPresa(){
+    return this.casillasAccesiblesPresa;
+  }
   
   update () {
 
