@@ -51,8 +51,8 @@ class MyScene extends THREE.Scene {
     //Creacion del conejo de esme
     this.conejo = new Conejo(this.gui, "Controladores del conejo");
     this.add(this.conejo);
-    this.conejo.rotateY(-Math.PI/2);
-    this.conejo.position.x = 20;
+    this.conejo.model.rotateY(-Math.PI/2);
+    this.conejo.model.position.x = 20;
     this.conejo.casillaActual = 10;
     this.tablero.casillasIndexadas[10].ocuparCasilla();
 
@@ -60,26 +60,26 @@ class MyScene extends THREE.Scene {
     //Lobo 1
     this.lobo1 = new Lobo(this.gui, "Controladores del lobo 1");
     this.add(this.lobo1);
-    this.lobo1.rotateY(Math.PI/2);
-    this.lobo1.position.x = -10;
-    this.lobo1.position.z = -10;
+    this.lobo1.model.rotateY(Math.PI/2);
+    this.lobo1.model.position.x = -10;
+    this.lobo1.model.position.z = -10;
     this.lobo1.casillaActual = 1;
     this.tablero.casillasIndexadas[1].ocuparCasilla();
 
     //Lobo 2
     this.lobo2 = new Lobo(this.gui, "Controladores del lobo 2");
     this.add(this.lobo2);
-    this.lobo2.rotateY(Math.PI/2);
-    this.lobo2.position.x = -20;
+    this.lobo2.model.rotateY(Math.PI/2);
+    this.lobo2.model.position.x = -20;
     this.lobo2.casillaActual = 0;
     this.tablero.casillasIndexadas[0].ocuparCasilla();
 
     //Lobo 3
     this.lobo3 = new Lobo(this.gui, "Controladores del lobo 3");
     this.add(this.lobo3);
-    this.lobo3.rotateY(Math.PI/2);
-    this.lobo3.position.x = -10;
-    this.lobo3.position.z = 10;
+    this.lobo3.model.rotateY(Math.PI/2);
+    this.lobo3.model.position.x = -10;
+    this.lobo3.model.position.z = 10;
     this.lobo3.casillaActual = 3;
     this.tablero.casillasIndexadas[3].ocuparCasilla();
 
@@ -91,6 +91,30 @@ class MyScene extends THREE.Scene {
 
   setMessage (str) {
     document.getElementById ("Messages").innerHTML = "<h2>"+str+"</h2>";
+  }
+
+  comprobarEstado(){
+    //if (this.conejo.model.position.x <= this.lobo1.model.position.x && this.conejo.model.position.x <= this.lobo2.model.position.x && this.conejo.model.position.x <= this.lobo3.model.position.x){
+    if (this.conejo.casillaActual == 0){  
+      this.setMessage("Gana el conejo");
+    }
+
+    else {
+      var list = this.tablero.casillasIndexadas[this.conejo.casillaActual].getCasillasAccesiblesPresa();
+      var totales = list.length;
+      var ocupadas = 0;
+      //console.log(list);
+      for (let i in list){
+        if (this.tablero.casillasIndexadas[list[i]].ocupada){
+          ocupadas++;
+        }
+      }
+      if (ocupadas == totales){
+        this.setMessage("Ganan los lobos");
+      }
+
+    }
+
   }
 
   seleccionarPiezaCazadores(event){
@@ -117,8 +141,13 @@ class MyScene extends THREE.Scene {
       console.log(casillaSeleccionada.indice);
       this.pickeableCasillas = [];
       this.tablero.desmarcarCasillas();
-      var spline = this.tablero.getSpline(this.piezaSeleccionada.casillaActual,casillaSeleccionada.indice);
+      //movimiento
+      var spline = this.tablero.getSpline(this.piezaSeleccionada.casillaActual,casillaSeleccionada.indice, this.piezaSeleccionada);
       this.piezaSeleccionada.createAnimation(spline);
+      this.tablero.casillasIndexadas[this.piezaSeleccionada.casillaActual].liberarCasilla();
+      this.piezaSeleccionada.casillaActual = casillaSeleccionada.indice;
+      casillaSeleccionada.ocuparCasilla();
+      this.comprobarEstado();
       this.aplicationMode = MyScene.TURNO_PRESA;
       this.action = MyScene.ELEGIR_PIEZA;
     } else {
@@ -147,7 +176,7 @@ class MyScene extends THREE.Scene {
       //this.setMessage("Pieza Seleccionada");
       this.piezaSeleccionada = pickedObjects[0].object.userData;
       var casilla = this.piezaSeleccionada.casillaActual;
-      console.log(casilla.indice);
+      console.log(casilla);
       var casillas = this.tablero.casillasIndexadas[casilla].getCasillasAccesiblesPresa();
       this.pickeableCasillas = this.tablero.marcarCasillas(casillas);
       this.action = MyScene.ELEGIR_CASILLA;
@@ -165,8 +194,12 @@ class MyScene extends THREE.Scene {
       this.pickeableCasillas = [];
       this.tablero.desmarcarCasillas();
       //movimiento
-      var spline = this.tablero.getSpline(this.piezaSeleccionada.casillaActual,casillaSeleccionada.indice);
+      var spline = this.tablero.getSpline(this.piezaSeleccionada.casillaActual,casillaSeleccionada.indice, this.piezaSeleccionada);
       this.piezaSeleccionada.createAnimation(spline);
+      this.tablero.casillasIndexadas[this.piezaSeleccionada.casillaActual].liberarCasilla();
+      this.piezaSeleccionada.casillaActual = casillaSeleccionada.indice;
+      casillaSeleccionada.ocuparCasilla();
+      this.comprobarEstado();
       this.aplicationMode = MyScene.TURNO_CAZADORES;
       this.action = MyScene.ELEGIR_PIEZA;
     } else {

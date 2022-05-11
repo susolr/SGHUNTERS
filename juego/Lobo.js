@@ -190,15 +190,22 @@ class Lobo extends THREE.Object3D {
     this.animacionControl = !this.animacionControl;
   }
 
+  resetPatas(){
+    this.pataDD.rotation.x = 0;
+    this.pataTD.rotation.x = 0;
+    this.pataDI.rotation.x = 0;
+    this.pataTI.rotation.x = 0;
+  }
+
   createAnimation(spline){
     
     this.spline = spline;
     this.animacion = new THREE.Object3D();
     var pos = this.spline.getPointAt(0);
     this.animacion.position.copy(pos);
-    var tangente = this.spline.getTangentAt(0);
-    pos.add(tangente);
-    this.animacion.lookAt(pos);
+    //var tangente = this.spline.getTangentAt(0);
+    //pos.add(tangente);
+    //this.animacion.lookAt(pos);
     this.animacion.add(this.model);
     this.add(this.animacion);
 
@@ -207,15 +214,20 @@ class Lobo extends THREE.Object3D {
     this.destiny = {p : 1};
     var that = this;
     this.animation = new TWEEN.Tween(this.origin)
-        .to(this.destiny,4000)
+        .to(this.destiny,2000)
         .easing(TWEEN.Easing.Linear.None)
         .onUpdate(function() { 
             var pos = that.spline.getPointAt(that.origin.p);
             that.animacion.position.copy(pos);
-            var tangente = that.spline.getTangentAt(that.origin.p);
-            pos.add(tangente);
-            that.animacion.lookAt(pos);
-        });
+            //var tangente = that.spline.getTangentAt(that.origin.p);
+            //pos.add(tangente);
+            //that.animacion.lookAt(pos);
+        })
+        .onStart( that.controlAnimacion())
+        .onComplete(function(){
+            that.controlAnimacion(); 
+            that.resetPatas()
+          });
 
       this.animation.start();
   }

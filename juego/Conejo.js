@@ -103,11 +103,13 @@ class Conejo extends THREE.Object3D {
       // Pata delanteraizquierda
       var pataGeom = new THREE.BoxGeometry(0.5, 2, 0.5);
       var pataI = new THREE.Mesh(pataGeom, mat);
+      pataI.userData = this;
       pataI.position.x = 0.75;
       pataI.position.y = -0.75;
 
       // Pata delanteraderecha
       var pataD = new THREE.Mesh(pataGeom, mat);
+      pataD.userData = this;
       pataD.position.x = -0.75;
       pataD.position.y = -0.75;
 
@@ -171,14 +173,21 @@ class Conejo extends THREE.Object3D {
       return cuerpoCompleto;
 
   }
+
+  resetPatas(){
+    this.patasD.rotation.x = 0;
+    this.patasT.rotation.x = 0;
+  }
+
   createAnimation(spline){
+    
     this.spline = spline;
     this.animacion = new THREE.Object3D();
     var pos = this.spline.getPointAt(0);
     this.animacion.position.copy(pos);
-    var tangente = this.spline.getTangentAt(0);
-    pos.add(tangente);
-    this.animacion.lookAt(pos);
+    //var tangente = this.spline.getTangentAt(0);
+    //pos.add(tangente);
+    //this.animacion.lookAt(pos);
     this.animacion.add(this.model);
     this.add(this.animacion);
 
@@ -187,15 +196,20 @@ class Conejo extends THREE.Object3D {
     this.destiny = {p : 1};
     var that = this;
     this.animation = new TWEEN.Tween(this.origin)
-        .to(this.destiny,4000)
+        .to(this.destiny,2000)
         .easing(TWEEN.Easing.Linear.None)
         .onUpdate(function() { 
             var pos = that.spline.getPointAt(that.origin.p);
             that.animacion.position.copy(pos);
-            var tangente = that.spline.getTangentAt(that.origin.p);
-            pos.add(tangente);
-            that.animacion.lookAt(pos);
-        });
+            //var tangente = that.spline.getTangentAt(that.origin.p);
+            //pos.add(tangente);
+            //that.animacion.lookAt(pos);
+        })
+        .onStart( that.controlAnimacion())
+        .onComplete(function(){
+            that.controlAnimacion(); 
+            that.resetPatas()
+          });
 
       this.animation.start();
   }
