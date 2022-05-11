@@ -97,6 +97,7 @@ class MyScene extends THREE.Scene {
     //if (this.conejo.model.position.x <= this.lobo1.model.position.x && this.conejo.model.position.x <= this.lobo2.model.position.x && this.conejo.model.position.x <= this.lobo3.model.position.x){
     if (this.conejo.casillaActual == 0){  
       this.setMessage("Gana el conejo");
+      MyScene.FINAL_DEL_JUEGO = 2;
     }
 
     else {
@@ -111,6 +112,7 @@ class MyScene extends THREE.Scene {
       }
       if (ocupadas == totales){
         this.setMessage("Ganan los lobos");
+        MyScene.FINAL_DEL_JUEGO = 1;
       }
 
     }
@@ -124,7 +126,7 @@ class MyScene extends THREE.Scene {
     if (pickedObjects.length > 0) {
       this.piezaSeleccionada = pickedObjects[0].object.userData;
       var casilla = this.piezaSeleccionada.casillaActual;
-      console.log(casilla);
+      //console.log(casilla);
       var casillas = this.tablero.casillasIndexadas[casilla].getCasillasAccesiblesCazadores();
       this.pickeableCasillas = this.tablero.marcarCasillas(casillas);
       this.action = MyScene.ELEGIR_CASILLA;
@@ -138,7 +140,7 @@ class MyScene extends THREE.Scene {
     var pickedObjects = this.raycaster.intersectObjects (this.pickeableCasillas, true);
     if (pickedObjects.length > 0) {
       var casillaSeleccionada = pickedObjects[0].object.userData;
-      console.log(casillaSeleccionada.indice);
+      //console.log(casillaSeleccionada.indice);
       this.pickeableCasillas = [];
       this.tablero.desmarcarCasillas();
       //movimiento
@@ -158,7 +160,7 @@ class MyScene extends THREE.Scene {
         if (pieza !== this.piezaSeleccionada){
           this.piezaSeleccionada = pieza;
           var casilla = this.piezaSeleccionada.casillaActual;
-          console.log(casilla);
+          //console.log(casilla);
           var casillas = this.tablero.casillasIndexadas[casilla].getCasillasAccesiblesCazadores();
           this.pickeableCasillas = this.tablero.marcarCasillas(casillas);
         } else {
@@ -176,7 +178,7 @@ class MyScene extends THREE.Scene {
       //this.setMessage("Pieza Seleccionada");
       this.piezaSeleccionada = pickedObjects[0].object.userData;
       var casilla = this.piezaSeleccionada.casillaActual;
-      console.log(casilla);
+      //console.log(casilla);
       var casillas = this.tablero.casillasIndexadas[casilla].getCasillasAccesiblesPresa();
       this.pickeableCasillas = this.tablero.marcarCasillas(casillas);
       this.action = MyScene.ELEGIR_CASILLA;
@@ -190,7 +192,7 @@ class MyScene extends THREE.Scene {
     var pickedObjects = this.raycaster.intersectObjects (this.pickeableCasillas, true);
     if (pickedObjects.length > 0) {
       var casillaSeleccionada = pickedObjects[0].object.userData;
-      console.log(casillaSeleccionada.indice);
+      //console.log(casillaSeleccionada.indice);
       this.pickeableCasillas = [];
       this.tablero.desmarcarCasillas();
       //movimiento
@@ -499,6 +501,9 @@ else {
   //Actions
   MyScene.ELEGIR_PIEZA = 0;
   MyScene.ELEGIR_CASILLA = 1;
+
+  //Estados
+  MyScene.FINAL_DEL_JUEGO = 0;
   
 
 /// La función   main
