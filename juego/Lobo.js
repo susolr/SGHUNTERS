@@ -213,6 +213,10 @@ class Lobo extends THREE.Object3D {
     this.pataTI.rotation.x = 0;
   }
 
+  moveLights(){
+    this.light.position.set(this.model.position.x, 5, this.model.position.z);
+  }
+
   createAnimation(spline){
     
     this.spline = spline;
@@ -243,7 +247,7 @@ class Lobo extends THREE.Object3D {
         .onComplete(function(){
             that.controlAnimacion(); 
             that.resetPatas();
-            that.light.position.set(that.model.position.x, 5, that.model.position.z)
+            that.moveLights()
           });
 
       this.animation.start();
