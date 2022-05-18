@@ -19,7 +19,23 @@ class Lobo extends THREE.Object3D {
     this.animacionControl = false;
 
     this.casillaActual;
+    this.light = this.createLight();
     
+  }
+
+  createLight(){
+    var light = new THREE.SpotLight(0xfcfcfc, 4, 6, Math.PI/4);
+    light.position.set(0, 5, 0);
+    light.target = this.model;
+    return light;
+  }
+
+  activarLuz(){
+    this.add(this.light);
+  }
+
+  desactivarLuz(){
+    this.remove(this.light);
   }
 
   createLobo(){

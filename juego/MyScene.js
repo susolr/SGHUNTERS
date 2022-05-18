@@ -87,8 +87,28 @@ class MyScene extends THREE.Scene {
     this.pickeablePresa = [this.conejo];
 
     this.pickeableCasillas = [];
+
   }
 
+  activarLuzCazadores(){
+    this.lobo1.activarLuz();
+    this.lobo2.activarLuz();
+    this.lobo3.activarLuz();
+  }
+
+  desactivarLuzCazadores(){
+    this.lobo1.desactivarLuz();
+    this.lobo2.desactivarLuz();
+    this.lobo3.desactivarLuz();
+  }
+
+  activarLuzPresas(){
+    this.conejo.activarLuz();
+  }
+
+  desactivarLuzPresas(){
+    this.conejo.desactivarLuz();
+  }
   setMessage (str) {
     document.getElementById ("Messages").innerHTML = "<h2>"+str+"</h2>";
   }

@@ -15,10 +15,7 @@ class Casilla extends THREE.Object3D {
     this.casillasAccesiblesCazadores = [];
     this.casillasAccesiblesPresa = [];
     this.indice = indice;
-    this.light = new THREE.SpotLight(0xfcfcfc, 4, 6, Math.PI/4);
-    this.light.position.set(0, 5, 0);
-    this.light.target = this.model;
-
+    this.light = this.createLight();
     this.ocupada = false;
     
   }
@@ -40,6 +37,13 @@ class Casilla extends THREE.Object3D {
     casilla.userData = this;
 
     return casilla;
+  }
+
+  createLight(){
+    var light = new THREE.SpotLight(0xfcfcfc, 4, 6, Math.PI/4);
+    light.position.set(0, 5, 0);
+    light.target = this.model;
+    return light;
   }
 
   setCasillasAccesiblesCazadores(casillas){
