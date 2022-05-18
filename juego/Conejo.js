@@ -224,7 +224,7 @@ class Conejo extends THREE.Object3D {
         .onComplete(function(){
             that.controlAnimacion(); 
             that.resetPatas();
-            that.light.position.set(this.model.position.x, 5, this.model.position.z);
+            that.light.position.set(this.model.position.x, 5, this.model.position.z)
           });
 
       this.animation.start();
