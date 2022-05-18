@@ -15,7 +15,7 @@ class Casilla extends THREE.Object3D {
     this.casillasAccesiblesCazadores = [];
     this.casillasAccesiblesPresa = [];
     this.indice = indice;
-    this.light = new THREE.SpotLight(0xfcfcfc, 3, 6, Math.PI/4);
+    this.light = new THREE.SpotLight(0xfcfcfc, 4, 6, Math.PI/4);
     this.light.position.set(0, 5, 0);
     this.light.target = this.model;
 
@@ -57,7 +57,7 @@ class Casilla extends THREE.Object3D {
   marcarCasilla(){
       //this.model.material.wireframe = true;
       this.model.material.transparent = true;
-      this.model.material.opacity = -0.5;
+      this.model.material.opacity = 0.95;
       this.add(this.light);
   }
 
