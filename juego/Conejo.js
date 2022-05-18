@@ -194,10 +194,6 @@ class Conejo extends THREE.Object3D {
     this.patasT.rotation.x = 0;
   }
 
-  moveLights(){
-    this.light.position.set(this.model.position.x, 5, this.model.position.z);
-  }
-
   createAnimation(spline){
     
     this.spline = spline;
@@ -208,6 +204,7 @@ class Conejo extends THREE.Object3D {
     //pos.add(tangente);
     //this.animacion.lookAt(pos);
     this.animacion.add(this.model);
+    this.animacion.add(this.light);
     this.add(this.animacion);
 
 
@@ -228,7 +225,7 @@ class Conejo extends THREE.Object3D {
         .onComplete(function(){
             that.controlAnimacion(); 
             that.resetPatas();
-            that.moveLights();
+            that.light = that.animacion.getObjectByName("light");
           });
 
       this.animation.start();
