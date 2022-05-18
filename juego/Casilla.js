@@ -56,13 +56,14 @@ class Casilla extends THREE.Object3D {
 
   marcarCasilla(){
       //this.model.material.wireframe = true;
-      this.model.material.opacity = 0.5;
+      this.model.material.transparent = true;
+      this.model.material.opacity = -0.5;
       this.add(this.light);
   }
 
   desmarcarCasilla(){
       //this.model.material.wireframe = false;
-      this.model.material.opacity = 1;
+      this.model.material.transparent = false;
       this.remove(this.light);
   }
 
