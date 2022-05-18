@@ -88,6 +88,7 @@ class MyScene extends THREE.Scene {
 
     this.pickeableCasillas = [];
 
+    this.activarLuzCazadores();
   }
 
   activarLuzCazadores(){
@@ -171,6 +172,8 @@ class MyScene extends THREE.Scene {
       casillaSeleccionada.ocuparCasilla();
       this.comprobarEstado();
       this.aplicationMode = MyScene.TURNO_PRESA;
+      this.desactivarLuzCazadores();
+      this.activarLuzPresas();
       this.action = MyScene.ELEGIR_PIEZA;
     } else {
       pickedObjects = this.raycaster.intersectObjects (this.pickeableCazadores, true);
@@ -223,6 +226,8 @@ class MyScene extends THREE.Scene {
       casillaSeleccionada.ocuparCasilla();
       this.comprobarEstado();
       this.aplicationMode = MyScene.TURNO_CAZADORES;
+      this.desactivarLuzPresas();
+      this.activarLuzCazadores();
       this.action = MyScene.ELEGIR_PIEZA;
     } else {
       pickedObjects = this.raycaster.intersectObjects (this.pickeablePresa, true);
