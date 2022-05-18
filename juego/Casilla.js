@@ -16,7 +16,7 @@ class Casilla extends THREE.Object3D {
     this.casillasAccesiblesPresa = [];
     this.indice = indice;
     this.light = new THREE.SpotLight(0xfcfcfc, 0.7);
-    this.light.position.set(0, -10, 0);
+    this.light.position.set(0, 5, 0);
     this.light.target = this.model;
 
     this.ocupada = false;
