@@ -25,8 +25,8 @@ class Conejo extends THREE.Object3D {
   }
 
   createLight(){
-    var light = new THREE.SpotLight(0xfcfcfc, 4, 6, Math.PI/4);
-    light.position.set(0, 5, 0);
+    var light = new THREE.SpotLight(0xfcfcfc, 3, 6, Math.PI/4);
+    light.position.set(0, 6, 0);
     light.target = this.model;
     return light;
   }
