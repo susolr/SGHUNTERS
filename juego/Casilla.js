@@ -16,6 +16,8 @@ class Casilla extends THREE.Object3D {
     this.casillasAccesiblesPresa = [];
     this.indice = indice;
     this.light = this.createLight();
+    this.light.visible = false;
+    this.add(this.light);
     this.ocupada = false;
     
   }
@@ -62,13 +64,15 @@ class Casilla extends THREE.Object3D {
       //this.model.material.wireframe = true;
       this.model.material.transparent = true;
       this.model.material.opacity = 0.95;
-      this.add(this.light);
+      //this.add(this.light);
+      this.light.visible = true;
   }
 
   desmarcarCasilla(){
       //this.model.material.wireframe = false;
       this.model.material.transparent = false;
-      this.remove(this.light);
+      //this.remove(this.light);
+      this.light.visible = false;
   }
 
   ocuparCasilla(){
