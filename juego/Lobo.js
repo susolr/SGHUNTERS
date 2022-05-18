@@ -20,6 +20,8 @@ class Lobo extends THREE.Object3D {
 
     this.casillaActual;
     this.light = this.createLight();
+    this.light.visible=false;
+    this.model.add(this.light);
     
   }
 
@@ -31,11 +33,13 @@ class Lobo extends THREE.Object3D {
   }
 
   activarLuz(){
-    this.add(this.light);
+    //this.add(this.light);
+    this.light.visible = true;
   }
 
   desactivarLuz(){
-    this.remove(this.light);
+    //this.remove(this.light);
+    this.light.visible = false;
   }
 
   createLobo(){
@@ -223,7 +227,7 @@ class Lobo extends THREE.Object3D {
     //pos.add(tangente);
     //this.animacion.lookAt(pos);
     this.animacion.add(this.model);
-    this.animacion.add(this.light);
+    //this.animacion.add(this.light);
     this.add(this.animacion);
 
 
@@ -244,7 +248,6 @@ class Lobo extends THREE.Object3D {
         .onComplete(function(){
             that.controlAnimacion(); 
             that.resetPatas();
-            that.animacion.remove(that.light);
           });
 
       this.animation.start();

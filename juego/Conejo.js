@@ -20,6 +20,8 @@ class Conejo extends THREE.Object3D {
 
     this.casillaActual;
     this.light = this.createLight();
+    this.model.add(this.light);
+    this.light.visible = false;
   }
 
   createLight(){
@@ -30,11 +32,13 @@ class Conejo extends THREE.Object3D {
   }
 
   activarLuz(){
-    this.add(this.light);
+    //this.add(this.light);
+    this.light.visible = true;
   }
 
   desactivarLuz(){
-    this.remove(this.light);
+    //this.remove(this.light);
+    this.light.visible = false;
   }
 
   createConejo(){
@@ -204,7 +208,7 @@ class Conejo extends THREE.Object3D {
     //pos.add(tangente);
     //this.animacion.lookAt(pos);
     this.animacion.add(this.model);
-    this.animacion.add(this.light);
+    //this.animacion.add(this.light);
     this.add(this.animacion);
 
 
@@ -225,7 +229,6 @@ class Conejo extends THREE.Object3D {
         .onComplete(function(){
             that.controlAnimacion(); 
             that.resetPatas();
-            that.light = that.animacion.getObjectByName("light");
           });
 
       this.animation.start();
