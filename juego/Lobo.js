@@ -242,7 +242,8 @@ class Lobo extends THREE.Object3D {
         .onStart( that.controlAnimacion())
         .onComplete(function(){
             that.controlAnimacion(); 
-            that.resetPatas()
+            that.resetPatas();
+            that.light.position.set(this.model.position.x, 5, this.model.position.z);
           });
 
       this.animation.start();

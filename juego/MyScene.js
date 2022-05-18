@@ -54,6 +54,7 @@ class MyScene extends THREE.Scene {
     this.conejo.model.rotateY(-Math.PI/2);
     this.conejo.model.position.x = 20;
     this.conejo.casillaActual = 10;
+    this.conejo.light.position.set(20, 5, 0);
     this.tablero.casillasIndexadas[10].ocuparCasilla();
 
     //Creacion de los lobos
@@ -64,6 +65,7 @@ class MyScene extends THREE.Scene {
     this.lobo1.model.position.x = -10;
     this.lobo1.model.position.z = -10;
     this.lobo1.casillaActual = 1;
+    this.lobo1.light.position.set(-10, 5, -10);
     this.tablero.casillasIndexadas[1].ocuparCasilla();
 
     //Lobo 2
@@ -72,6 +74,7 @@ class MyScene extends THREE.Scene {
     this.lobo2.model.rotateY(Math.PI/2);
     this.lobo2.model.position.x = -20;
     this.lobo2.casillaActual = 0;
+    this.lobo2.light.position.set(-20, 5, 0);
     this.tablero.casillasIndexadas[0].ocuparCasilla();
 
     //Lobo 3
@@ -81,6 +84,7 @@ class MyScene extends THREE.Scene {
     this.lobo3.model.position.x = -10;
     this.lobo3.model.position.z = 10;
     this.lobo3.casillaActual = 3;
+    this.lobo3.light.position.set(-10, 5, 10);
     this.tablero.casillasIndexadas[3].ocuparCasilla();
 
     this.pickeableCazadores = [this.lobo1, this.lobo2, this.lobo3];
