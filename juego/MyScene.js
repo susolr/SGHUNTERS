@@ -32,12 +32,16 @@ class MyScene extends THREE.Scene {
     this.aplicationMode = MyScene.TURNO_CAZADORES;
     this.action = MyScene.ELEGIR_PIEZA;
     this.piezaSeleccionada = null;
+    this.createCamera ();
+    this.createCameraAerea();
+    this.primeraPersona = false;
+    this.camaraActual = this.camera;
 
     this.raycaster = new THREE.Raycaster ();
     this.createLights ();
     
-    // Tendremos una cámara con un control de movimiento con el ratón
-    this.createCamera ();
+    this.cAerea = false;
+    
     
     // Un suelo 
     this.createGround ();
@@ -45,11 +49,11 @@ class MyScene extends THREE.Scene {
     this.axis = new THREE.AxesHelper(5);
     this.add(this.axis);
     
-    this.tablero = new Tablero(this.gui, "Controladores del tablero");
+    this.tablero = new Tablero();
     this.add(this.tablero);
 
     //Creacion del conejo de esme
-    this.conejo = new Conejo(this.gui, "Controladores del conejo");
+    this.conejo = new Conejo(this.renderer);
     this.add(this.conejo);
     this.conejo.model.rotateY(-Math.PI/2);
     this.conejo.model.position.x = 20;
@@ -59,17 +63,18 @@ class MyScene extends THREE.Scene {
 
     //Creacion de los lobos
     //Lobo 1
-    this.lobo1 = new Lobo(this.gui, "Controladores del lobo 1");
+    this.lobo1 = new Lobo(this.renderer);
     this.add(this.lobo1);
     this.lobo1.model.rotateY(Math.PI/2);
     this.lobo1.model.position.x = -10;
     this.lobo1.model.position.z = -10;
     this.lobo1.casillaActual = 1;
+    
     //this.lobo1.light.position.set(-10, 5, -10);
     this.tablero.casillasIndexadas[1].ocuparCasilla();
 
     //Lobo 2
-    this.lobo2 = new Lobo(this.gui, "Controladores del lobo 2");
+    this.lobo2 = new Lobo(this.renderer);
     this.add(this.lobo2);
     this.lobo2.model.rotateY(Math.PI/2);
     this.lobo2.model.position.x = -20;
@@ -78,7 +83,7 @@ class MyScene extends THREE.Scene {
     this.tablero.casillasIndexadas[0].ocuparCasilla();
 
     //Lobo 3
-    this.lobo3 = new Lobo(this.gui, "Controladores del lobo 3");
+    this.lobo3 = new Lobo(this.renderer);
     this.add(this.lobo3);
     this.lobo3.model.rotateY(Math.PI/2);
     this.lobo3.model.position.x = -10;
@@ -192,6 +197,7 @@ class MyScene extends THREE.Scene {
           this.pickeableCasillas = this.tablero.marcarCasillas(casillas);
         } else {
           this.action = MyScene.ELEGIR_PIEZA;
+          this.piezaSeleccionada = null;
         }
       }
     }
@@ -238,6 +244,7 @@ class MyScene extends THREE.Scene {
       if (pickedObjects.length > 0){
         this.tablero.desmarcarCasillas();
         this.action = MyScene.ELEGIR_PIEZA;
+        this.piezaSeleccionada = null;
       }
     }
   }
@@ -289,6 +296,35 @@ class MyScene extends THREE.Scene {
 
         default:
           this.setMessage("Cagaste");
+      }
+    }
+  }
+
+  onKeyDown(event){
+    if (!event.ctrlKey) {
+      var x = event.which || event.key;
+      if (x == 67){
+        if(this.piezaSeleccionada != null){
+          if(!this.primeraPersona){
+            this.camaraActual = this.piezaSeleccionada.camera;
+            this.primeraPersona = true;
+            this.cAerea = false;
+          }
+          else {
+            this.primeraPersona = false;
+            this.camaraActual = this.camera;
+          }
+        }
+        else {
+          if(!this.cAerea){
+            this.camaraActual = this.camaraAerea;
+            this.cAerea = true;
+          }
+          else {
+            this.camaraActual = this.camera;
+            this.cAerea = false;
+          }    
+        }
       }
     }
   }
@@ -354,7 +390,7 @@ else {
     this.stats = stats;
   }
   
-  createCamera () {
+  createCamera() {
     // Para crear una cámara le indicamos
     //   El ángulo del campo de visión en grados sexagesimales
     //   La razón de aspecto ancho/alto
@@ -375,6 +411,29 @@ else {
     this.cameraControl.panSpeed = 0.5;
     // Debe orbitar con respecto al punto de mira de la cámara
     this.cameraControl.target = look;
+  }
+
+  createCameraAerea() {
+    // Para crear una cámara le indicamos
+    //   El ángulo del campo de visión en grados sexagesimales
+    //   La razón de aspecto ancho/alto
+    //   Los planos de recorte cercano y lejano
+    this.camaraAerea = new THREE.OrthographicCamera(-40, 40, 20, -20, 0.1, 1000);
+    // También se indica dónde se coloca
+    this.camaraAerea.position.set (0, 5, 0);
+    // Y hacia dónde mira
+    var look = new THREE.Vector3 (0,0,0);
+    this.camaraAerea.lookAt(look);
+    this.add (this.camaraAerea);
+    
+    // Para el control de cámara usamos una clase que ya tiene implementado los movimientos de órbita
+    this.camaraAereaControl = new TrackballControls (this.camera, this.renderer.domElement);
+    // Se configuran las velocidades de los movimientos
+    this.camaraAereaControl.rotateSpeed = 5;
+    this.camaraAereaControl.zoomSpeed = -2;
+    this.camaraAereaControl.panSpeed = 0.5;
+    // Debe orbitar con respecto al punto de mira de la cámara
+    this.camaraAereaControl.target = look;
   }
   
   createGround () {
@@ -478,7 +537,7 @@ else {
   getCamera () {
     // En principio se devuelve la única cámara que tenemos
     // Si hubiera varias cámaras, este método decidiría qué cámara devuelve cada vez que es consultado
-    return this.camera;
+    return this.camaraActual;
   }
   
   setCameraAspect (ratio) {
@@ -506,6 +565,7 @@ else {
     
     // Se actualiza la posición de la cámara según su controlador
     this.cameraControl.update();
+    this.camaraAereaControl.update();
     
     // Se actualiza el resto del modelo
     this.conejo.update();
@@ -544,6 +604,7 @@ $(function () {
   // Se añaden los listener de la aplicación. En este caso, el que va a comprobar cuándo se modifica el tamaño de la ventana de la aplicación.
   window.addEventListener ("resize", () => scene.onWindowResize());
   window.addEventListener ("mousedown", (event) => scene.onMouseDown(event), true);
+  window.addEventListener ("keydown", (event) => scene.onKeyDown(event), true);
   
   // Que no se nos olvide, la primera visualización.
   scene.update();

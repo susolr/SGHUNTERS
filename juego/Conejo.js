@@ -1,9 +1,10 @@
 import * as THREE from '../libs/three.module.js'
 import { CSG } from '../libs/CSG-v2.js'
 import * as TWEEN from '../libs/tween.esm.js'
+import { FirstPersonControls } from '../libs/FirstPersonControls.js'
  
 class Conejo extends THREE.Object3D {
-  constructor() {
+  constructor(renderer) {
     super();
     
     // Se crea la parte de la interfaz que corresponde a la caja
@@ -14,6 +15,7 @@ class Conejo extends THREE.Object3D {
     this.model.position.y = 1.5;
     this.add(this.model);
     this.animacionControl = false;
+    this.createCamera(renderer);
 
     this.mov_d = 0;
     this.mov_t = 0;
@@ -39,6 +41,18 @@ class Conejo extends THREE.Object3D {
   desactivarLuz(){
     //this.remove(this.light);
     this.light.visible = false;
+  }
+
+  createCamera(renderer){
+    this.clock = new THREE.Clock();
+    this.camera = new THREE.PerspectiveCamera ( 45 , window.innerWidth/window.innerHeight, 0.1 , 1000) ;
+    this.camera.position.set(100 ,100 ,100);
+    this.camera.lookAt( 0 , 0 , 0 ) ;
+    // Se crea e l c o n t r o l de v u e l o
+    this.fpControls = new FirstPersonControls ( this.camera , renderer.domElement ) ;
+    this.fpControls.movementSpeed = 25 ;
+    this.fpControls.rollSpeed = Math.PI/24 ;
+    this.fpControls.autoForward = false ;
   }
 
   createConejo(){
@@ -239,12 +253,14 @@ class Conejo extends THREE.Object3D {
   }
   
   update () {
-
+    var delta = this.clock.getDelta() ;
+    this.fpControls.update(delta) ;
+    var v = 2*delta;
     TWEEN.update();
     if(this.animacionControl){
       if(this.mov_d == 0){
         if(this.patasD.rotation.x < Math.PI/6 ){
-          this.patasD.rotation.x += 0.01;
+          this.patasD.rotation.x += v;
         }
         else {
           this.mov_d = 1;
@@ -252,7 +268,7 @@ class Conejo extends THREE.Object3D {
       }
       else{
         if(this.patasD.rotation.x > -Math.PI/6 ){
-          this.patasD.rotation.x -= 0.01;
+          this.patasD.rotation.x -= v;
         }
         else {
           this.mov_d = 0;
@@ -261,7 +277,7 @@ class Conejo extends THREE.Object3D {
 
       if(this.mov_t == 1){
         if(this.patasT.rotation.x < Math.PI/6 ){
-          this.patasT.rotation.x += 0.01;
+          this.patasT.rotation.x += v;
         }
         else {
           this.mov_t = 0;
@@ -269,7 +285,7 @@ class Conejo extends THREE.Object3D {
       }
       else{
         if(this.patasT.rotation.x > -Math.PI/6 ){
-          this.patasT.rotation.x -= 0.01;
+          this.patasT.rotation.x -= v;
         }
         else {
           this.mov_t = 1;
