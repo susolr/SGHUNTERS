@@ -2,6 +2,7 @@ import * as THREE from '../libs/three.module.js'
 import { CSG } from '../libs/CSG-v2.js'
 import * as TWEEN from '../libs/tween.esm.js'
 import { FirstPersonControls } from '../libs/FirstPersonControls.js'
+import { OrbitControls } from '../libs/OrbitControls.js'
  
 class Conejo extends THREE.Object3D {
   constructor(renderer) {
@@ -10,12 +11,13 @@ class Conejo extends THREE.Object3D {
     // Se crea la parte de la interfaz que corresponde a la caja
     // Se crea primero porque otros métodos usan las variables que se definen para la interfaz
     //this.createGUI(gui,titleGui);
-    
+    this.createCamera(renderer);
     this.model = this.createConejo();
     this.model.position.y = 1.5;
+    this.model.add(this.camera);
     this.add(this.model);
     this.animacionControl = false;
-    this.createCamera(renderer);
+    
 
     this.mov_d = 0;
     this.mov_t = 0;
@@ -45,13 +47,14 @@ class Conejo extends THREE.Object3D {
 
   createCamera(renderer){
     this.clock = new THREE.Clock();
-    this.camera = new THREE.PerspectiveCamera ( 45 , window.innerWidth/window.innerHeight, 0.1 , 1000) ;
-    this.camera.position.set(100 ,100 ,100);
+    this.camera = new THREE.PerspectiveCamera ( 75 , window.innerWidth/window.innerHeight, 0.1 , 1000) ;
+    this.camera.position.set(2.25,3.625,0);
     this.camera.lookAt( 0 , 0 , 0 ) ;
     // Se crea e l c o n t r o l de v u e l o
     this.fpControls = new FirstPersonControls ( this.camera , renderer.domElement ) ;
+    //this.fpControls = new OrbitControls(this.camera, renderer.domElement);
     this.fpControls.movementSpeed = 25 ;
-    this.fpControls.rollSpeed = Math.PI/24 ;
+    this.fpControls.rollSpeed = Math.PI/48 ;
     this.fpControls.autoForward = false ;
   }
 

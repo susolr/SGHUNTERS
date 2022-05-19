@@ -185,6 +185,9 @@ class MyScene extends THREE.Scene {
       this.activarLuzPresas();
       this.action = MyScene.ELEGIR_PIEZA;
       this.piezaSeleccionada = null;
+      this.camaraActual = this.camera;
+      this.cAerea = false;
+      this.primeraPersona = false;
     } else {
       pickedObjects = this.raycaster.intersectObjects (this.pickeableCazadores, true);
       if (pickedObjects.length > 0){
@@ -241,6 +244,9 @@ class MyScene extends THREE.Scene {
       this.activarLuzCazadores();
       this.action = MyScene.ELEGIR_PIEZA;
       this.piezaSeleccionada = null;
+      this.camaraActual = this.camera;
+      this.cAerea = false;
+      this.primeraPersona = false;
     } else {
       pickedObjects = this.raycaster.intersectObjects (this.pickeablePresa, true);
       if (pickedObjects.length > 0){
