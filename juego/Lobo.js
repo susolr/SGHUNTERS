@@ -61,7 +61,7 @@ class Lobo extends THREE.Object3D {
   }
 
   createLobo(){
-      var texture = new THREE.TextureLoader().load('../imgs/pelaje.jpg');
+      var texture = new THREE.TextureLoader().load('../imgs/pelaje2.jpg');
       var mat = new THREE.MeshPhongMaterial ({map: texture});
       //var mat = new THREE.MeshPhongMaterial({color: 0xe6e6e6}); // Gris
       var matn = new THREE.MeshPhongMaterial({color: 0x000000}); // Negro
