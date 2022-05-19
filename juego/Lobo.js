@@ -83,7 +83,7 @@ class Lobo extends THREE.Object3D {
       var cola = new THREE.Mesh(colaGeom, mat);
       cola.userData = this;
       cola.position.z = -2.5;
-      cola.position.y = 0.5;
+      cola.position.y = 0.48;
 
       // Hocico parte superior
       var hocicoSGeom = new THREE.BoxGeometry(0.75, 0.5, 1);
@@ -196,7 +196,7 @@ class Lobo extends THREE.Object3D {
 
       // Pata trasera izquierda
       var auxpataTI = new THREE.Mesh(pataGeom, mat);
-      auxpataTI.position.x = 0.5;
+      auxpataTI.position.x = 0.48;
       auxpataTI.position.y = -0.625;
       this.pataTI = new THREE.Object3D();
       this.pataTI.add(auxpataTI);
@@ -205,7 +205,7 @@ class Lobo extends THREE.Object3D {
 
       // Pata trasera derecha
       var auxpataTD = new THREE.Mesh(pataGeom, mat);
-      auxpataTD.position.x = -0.5;
+      auxpataTD.position.x = -0.48;
       auxpataTD.position.y = -0.625;
       this.pataTD = new THREE.Object3D();
       this.pataTD.add(auxpataTD);
