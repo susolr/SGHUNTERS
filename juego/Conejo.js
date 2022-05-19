@@ -59,9 +59,9 @@ class Conejo extends THREE.Object3D {
   }
 
   createConejo(){
-      var texture = new THREE.TextureLoader().load('../imgs/textura-ajedrezada.jpg');
-      var mat = new THREE.MeshPhongMaterial ({map: texture});
-      //var mat = new THREE.MeshPhongMaterial({color: 0xb5a062}); // Amarillo amarronado
+      var texture = new THREE.TextureLoader().load('../imgs/pelaje.jpg');
+      //var mat = new THREE.MeshPhongMaterial ({map: texture});
+      var mat = new THREE.MeshPhongMaterial({color: 0xb5a062}); // Amarillo amarronado
       var matOjos = new THREE.MeshPhongMaterial({color: 0x000000}); // Negro
       var matNariz = new THREE.MeshPhongMaterial({color: 0xedb7e0}); // Rosa
 
