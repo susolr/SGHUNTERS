@@ -25,10 +25,10 @@ class Casilla extends THREE.Object3D {
   createCasilla(tipo){
     var casilla;
     var boxGeom = new THREE.BoxBufferGeometry (5, 1, 5);
-    var boxtexture = new THREE.TextureLoader().load('../imgs/pelajeconejo.jpg');
+    var boxtexture = new THREE.TextureLoader().load('../imgs/verde.jpg');
     var boxMat = new THREE.MeshPhongMaterial ({map: boxtexture});
     //var boxMat = new THREE.MeshPhongMaterial({color: 0x6d36a3});
-    var ciltexture = new THREE.TextureLoader().load('../imgs/pelajeconejo.jpg');
+    var ciltexture = new THREE.TextureLoader().load('../imgs/morado.jpg');
     var cilMat = new THREE.MeshPhongMaterial ({map: ciltexture});
     //var cilMat = new THREE.MeshPhongMaterial({color: 0x6fb53a});
     var cilGeom = new THREE.CylinderGeometry( 3, 3, 1, 8);
