@@ -9,6 +9,7 @@ import { Stats } from '../libs/stats.module.js'
 // Clases de mi proyecto
 import { Tablero } from './Tablero.js'
 import { Conejo } from './conejo.js'
+import { Alpaca } from './alpaca.js'
 import { Lobo } from './Lobo.js'
 
  
