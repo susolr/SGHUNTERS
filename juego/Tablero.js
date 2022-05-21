@@ -16,7 +16,7 @@ class Tablero extends THREE.Object3D {
 
     var boxMat = new THREE.MeshPhongMaterial({color: 0x6d36a3});
 
-    var texture = new THREE.TextureLoader().load('../imgs/piedra.jpg');
+    var texture = new THREE.TextureLoader().load('../imgs/piedra2.jpg');
     var caminoMat = new THREE.MeshPhongMaterial ({map: texture});
 
     //var caminoMat = new THREE.MeshPhongMaterial({color: 0x5e5e5e});

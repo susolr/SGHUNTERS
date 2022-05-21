@@ -73,15 +73,18 @@ class Conejo extends THREE.Object3D {
       // Nariz
       var narizGeom = new THREE.BoxGeometry(0.25, 0.25, 0.25);
       var nariz = new THREE.Mesh(narizGeom, matNariz);
+      nariz.userData = this;
       nariz.position.z = 0.625;
 
       // Ojo izquierdo
       var ojosGeom = new THREE.BoxGeometry(0.25, 0.375, 0.25);
       var ojoI = new THREE.Mesh(ojosGeom, matOjos);
+      ojoI.userData = this;
       ojoI.position.x = 0.25;
 
       // Ojo derecho
       var ojoD = new THREE.Mesh(ojosGeom, matOjos);
+      ojoD.userData= this;
       ojoD.position.x = -0.25;
 
       // Ojos completos
@@ -94,11 +97,13 @@ class Conejo extends THREE.Object3D {
       // Oreja izquierda
       var orejaGeom = new THREE.BoxGeometry(0.5, 1.25, 0.25);
       var orejaI = new THREE.Mesh(orejaGeom, mat);
+      orejaI.userData = this;
       orejaI.rotateY(-Math.PI/12);
       orejaI.position.x = 0.375;
 
       // Oreja derecha
       var orejaD = new THREE.Mesh(orejaGeom, mat);
+      orejaD.userData = this;
       orejaD.rotateY(Math.PI/12);
       orejaD.position.x = -0.375;
 
@@ -127,6 +132,7 @@ class Conejo extends THREE.Object3D {
       // Cola
       var colaGeom = new THREE.BoxGeometry(0.75, 0.75, 0.5);
       var cola = new THREE.Mesh(colaGeom, mat);
+      cola.userData = this;
       cola.rotateX(-Math.PI/8);
       cola.position.z = -1.25;
       cola.position.y = -0.625;
@@ -161,11 +167,13 @@ class Conejo extends THREE.Object3D {
       // Pie trasero izquierdo
       var pieGeom = new THREE.BoxGeometry(0.5, 0.25, 1.75);
       var pieI = new THREE.Mesh(pieGeom, mat);
+      pieI.userData = this;
       pieI.position.z = -0.125;
 
       // Muslo trasero izquierdo
       var musloGeom = new THREE.BoxGeometry(0.5, 1, 1.25)
       var musloI = new THREE.Mesh(musloGeom, mat);
+      musloI.userData = this;
       musloI.rotateX(-Math.PI/8);
       musloI.position.y = 0.75;
       musloI.position.z = -0.625;
@@ -179,10 +187,12 @@ class Conejo extends THREE.Object3D {
 
       // Pie trasero derecho
       var pieD = new THREE.Mesh(pieGeom, mat);
+      pieD.userData = this;
       pieD.position.z = -0.125;
 
       // Muslo trasero derecho
       var musloD = new THREE.Mesh(musloGeom, mat);
+      musloD.userData = this;
       musloD.rotateX(-Math.PI/8);
       musloD.position.z = -0.625;
       musloD.position.y = 0.75;

@@ -195,6 +195,7 @@ class Alpaca extends THREE.Object3D {
       // Pata delantera izquierda
       var pataGeom = new THREE.BoxGeometry(1, 3, 1);
       var auxpataDI = new THREE.Mesh(pataGeom, mat);
+      auxpataDI.userData = this;
       auxpataDI.position.x = 0.75;
       auxpataDI.position.y = -1;
       this.pataDI = new THREE.Object3D();
@@ -204,6 +205,7 @@ class Alpaca extends THREE.Object3D {
       
       // Pata delantera derecha
       var auxpataDD = new THREE.Mesh(pataGeom, mat);
+      auxpataDD.userData = this;
       auxpataDD.position.x = -0.75;
       auxpataDD.position.y = -1;
       this.pataDD = new THREE.Object3D();
@@ -213,6 +215,7 @@ class Alpaca extends THREE.Object3D {
 
       // Pata trasera izquierda
       var auxpataTI = new THREE.Mesh(pataGeom, mat);
+      auxpataTI.userData = this;
       auxpataTI.position.x = 0.75;
       auxpataTI.position.y = -1;
       this.pataTI = new THREE.Object3D();
@@ -222,6 +225,7 @@ class Alpaca extends THREE.Object3D {
 
       // Pata trasera derecha
       var auxpataTD = new THREE.Mesh(pataGeom, mat);
+      auxpataTD.userData = this;
       auxpataTD.position.x = -0.75;
       auxpataTD.position.y = -1;
       this.pataTD = new THREE.Object3D();

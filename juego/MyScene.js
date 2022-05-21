@@ -10,9 +10,10 @@ import { Stats } from '../libs/stats.module.js'
 import { Tablero } from './Tablero.js'
 import { Conejo } from './conejo.js'
 import { Alpaca } from './alpaca.js'
+import { Pollo } from './Pollo.js'
 import { Lobo } from './Lobo.js'
 
- 
+
 /// La clase fachada del modelo
 /**
  * Usaremos una clase derivada de la clase Scene de Three.js para llevar el control de la escena y de todo lo que ocurre en ella.
@@ -53,7 +54,7 @@ class MyScene extends THREE.Scene {
     this.tablero = new Tablero();
     this.add(this.tablero);
 
-    //Creacion del conejo de esme
+    //Creacion del conejo
     this.conejo = new Conejo(this.renderer);
     this.add(this.conejo);
     this.conejo.model.rotateY(-Math.PI/2);

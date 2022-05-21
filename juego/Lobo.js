@@ -100,7 +100,7 @@ class Lobo extends THREE.Object3D {
       // Nariz
       var cuboGeom = new THREE.BoxGeometry(0.25, 0.25, 0.25);
       var nariz = new THREE.Mesh(cuboGeom, matn);
-      nariz.userData= this;
+      nariz.userData = this;
       nariz.position.z = 0.4375;
       nariz.position.y = 0.3125;
 
@@ -146,8 +146,10 @@ class Lobo extends THREE.Object3D {
 
       // Pupila ojo derecho
       var ojonD = new THREE.Mesh(cuboGeom, matn);
+      ojonD.userData= this;
       // Esclerótica ojo derecho
       var ojobD = new THREE.Mesh(cuboGeom, matb);
+      ojobD.userData = this;
       ojobD.position.x = -0.25;
 
       // Ojo derecho (pupila y esclerótica)
@@ -177,6 +179,7 @@ class Lobo extends THREE.Object3D {
       // Pata delantera izquierda
       var pataGeom = new THREE.BoxGeometry(0.5, 1.75, 0.5);
       var auxpataDI = new THREE.Mesh(pataGeom, mat);
+      auxpataDI.userData = this;
       auxpataDI.position.x = 0.5;
       auxpataDI.position.y = -0.625;
       this.pataDI = new THREE.Object3D();
@@ -187,6 +190,7 @@ class Lobo extends THREE.Object3D {
 
       // Pata delantera derecha
       var auxpataDD = new THREE.Mesh(pataGeom, mat);
+      auxpataDD.userData = this;
       auxpataDD.position.x = -0.5;
       auxpataDD.position.y = -0.625;
       this.pataDD = new THREE.Object3D();
@@ -196,6 +200,7 @@ class Lobo extends THREE.Object3D {
 
       // Pata trasera izquierda
       var auxpataTI = new THREE.Mesh(pataGeom, mat);
+      auxpataTI.userData = this;
       auxpataTI.position.x = 0.48;
       auxpataTI.position.y = -0.625;
       this.pataTI = new THREE.Object3D();
@@ -205,6 +210,7 @@ class Lobo extends THREE.Object3D {
 
       // Pata trasera derecha
       var auxpataTD = new THREE.Mesh(pataGeom, mat);
+      auxpataTD.userData = this;
       auxpataTD.position.x = -0.48;
       auxpataTD.position.y = -0.625;
       this.pataTD = new THREE.Object3D();
