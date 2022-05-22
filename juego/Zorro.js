@@ -4,7 +4,7 @@ import * as TWEEN from '../libs/tween.esm.js'
 import { FirstPersonControls } from '../libs/FirstPersonControls.js'
 import { OrbitControls } from '../libs/OrbitControls.js'
  
-class Lobo extends THREE.Object3D {
+class Zorro extends THREE.Object3D {
   constructor(renderer) {
     super();
     
@@ -61,80 +61,97 @@ class Lobo extends THREE.Object3D {
   }
 
   createLobo(){
-      var texture = new THREE.TextureLoader().load('../imgs/pelaje2.jpg');
+      var texture = new THREE.TextureLoader().load('../imgs/pelajezorro.jpg');
       var mat = new THREE.MeshPhongMaterial ({map: texture});
       //var mat = new THREE.MeshPhongMaterial({color: 0xe6e6e6}); // Gris
       var matn = new THREE.MeshPhongMaterial({color: 0x000000}); // Negro
       var matb = new THREE.MeshPhongMaterial({color: 0xFFFFFF}); // Blanco
 
       // Parte central (cabeza y lomo)
-      var centralGeom = new THREE.BoxGeometry(1.5, 1.5, 4.5);
+      var centralGeom = new THREE.BoxGeometry(1.5, 1.5, 2.75);
       var central = new THREE.Mesh(centralGeom, mat);
       central.userData = this;
 
-      // Cuello
-      var cuelloGeom = new THREE.BoxGeometry(2, 1.75, 1.5);
-      var cuello = new THREE.Mesh(cuelloGeom, mat);
-      cuello.userData = this;
-      cuello.position.z = 0.75;
+      // Cabeza
+      var cabezaGeom = new THREE.BoxGeometry(2, 1.5, 1.5);
+      var cabeza = new THREE.Mesh(cabezaGeom, mat);
+      cabeza.userData = this;
+      cabeza.position.z = 2.125;
+      cabeza.position.y = -0.25;
 
       // Cola
-      var colaGeom = new THREE.BoxGeometry(0.5, 0.5, 1.75);
-      var cola = new THREE.Mesh(colaGeom, mat);
-      cola.userData = this;
-      cola.position.z = -2.5;
-      cola.position.y = 0.48;
+      var colaGeom = new THREE.BoxGeometry(1, 1.25, 1.5);
+      var colaD = new THREE.Mesh(colaGeom, mat);
+      colaD.userData = this;
+      colaD.position.z = -2.125;
+      colaD.position.y = 0;
+
+      var colaTGeom = new THREE.BoxGeometry(1, 1.25, 0.75);
+      var colaT = new THREE.Mesh(colaTGeom, matb);
+      colaT.userData = this;
+      colaT.position.z = -3.25;
+      colaT.position.y = 0;
+
+
+
+      var cola = new THREE.Object3D();
+      cola.add(colaD);
+      cola.add(colaT);
+
+
 
       // Hocico parte superior
-      var hocicoSGeom = new THREE.BoxGeometry(0.75, 0.5, 1);
+      var hocicoSGeom = new THREE.BoxGeometry(1, 0.25, 1);
       var hocicoS = new THREE.Mesh(hocicoSGeom, mat);
       hocicoS.userData = this;
-      hocicoS.position.y = 0.125;
+      hocicoS.position.y = -0.375;
 
       // Hocico parte inferior
-      var hocicoIGeom = new THREE.BoxGeometry(0.75, 0.25, 1);
-      var hocicoI = new THREE.Mesh(hocicoIGeom, matn);
+      var hocicoIGeom = new THREE.BoxGeometry(1, 0.25, 1);
+      var hocicoI = new THREE.Mesh(hocicoIGeom, matb);
       hocicoI.userData = this;
-      hocicoI.position.y = -0.25;
+      hocicoI.position.y = -0.625;
 
       // Nariz
       var cuboGeom = new THREE.BoxGeometry(0.25, 0.25, 0.25);
-      var nariz = new THREE.Mesh(cuboGeom, matn);
+      var narizGeom = new THREE.BoxGeometry(0.5, 0.25, 0.25);
+      var nariz = new THREE.Mesh(narizGeom, matn);
       nariz.userData= this;
       nariz.position.z = 0.4375;
-      nariz.position.y = 0.3125;
+      nariz.position.y = -0.38;
 
       // Hocico completo (parte superior e inferior y nariz)
       var hocico = new THREE.Object3D();
       hocico.add(hocicoS);
       hocico.add(hocicoI);
       hocico.add(nariz);
-      hocico.position.z = 2.625;
-      hocico.position.y = -0.25;
+      hocico.position.z = 3.125;
+      hocico.position.y = -0.23;
 
       // Oreja izquierda
       var orejaGeom = new THREE.BoxGeometry(0.5, 0.5, 0.25);
       var orejaI = new THREE.Mesh(orejaGeom, mat);
       orejaI.userData = this;
-      orejaI.position.x = 0.5;
+      orejaI.position.x = 0.75;
 
       // Oreja derecha
       var orejaD = new THREE.Mesh(orejaGeom, mat);
       orejaD.userData = this;
-      orejaD.position.x = -0.5;
+      orejaD.position.x = -0.75;
 
       // Orejas (izquierda y derecha)
       var orejas = new THREE.Object3D();
       orejas.add(orejaI);
       orejas.add(orejaD);
-      orejas.position.z = 1.75;
-      orejas.position.y = 1;
+      orejas.position.z = 2.5;
+      orejas.position.y = 0.75;
 
       // Pupila ojo izquierdo
-      var ojonI = new THREE.Mesh(cuboGeom, matn);
+      var ojonI = new THREE.Mesh(cuboGeom, matb);
       ojonI.userData = this;
+      
       // Esclerótica ojo izquierdo
-      var ojobI = new THREE.Mesh(cuboGeom, matb);
+      var ojobI = new THREE.Mesh(cuboGeom, matn);
       ojobI.userData = this;
       ojobI.position.x = 0.25;
 
@@ -142,75 +159,75 @@ class Lobo extends THREE.Object3D {
       var ojoI = new THREE.Object3D();
       ojoI.add(ojonI);
       ojoI.add(ojobI);
-      ojoI.position.x = 0.35;
+      ojoI.position.x = 0.6;
 
       // Pupila ojo derecho
-      var ojonD = new THREE.Mesh(cuboGeom, matn);
+      var ojonD = new THREE.Mesh(cuboGeom, matb);
       // Esclerótica ojo derecho
-      var ojobD = new THREE.Mesh(cuboGeom, matb);
+      var ojobD = new THREE.Mesh(cuboGeom, matn);
       ojobD.position.x = -0.25;
 
       // Ojo derecho (pupila y esclerótica)
       var ojoD = new THREE.Object3D();
       ojoD.add(ojonD);
       ojoD.add(ojobD);
-      ojoD.position.x = -0.35;
+      ojoD.position.x = -0.6;
 
       // Ojos completos (izquierdo y derecho)
       var ojos = new THREE.Object3D();
       ojos.add(ojoD);
       ojos.add(ojoI);
-      ojos.position.z = 2.25;
-      ojos.position.y = 0.25;
+      ojos.position.z = 2.8;
+      ojos.position.y = -0.35;
 
       // Cuerpo sin patas
       var cuerpo = new THREE.Object3D();
       cuerpo.add(central);
-      cuerpo.add(cuello);
+      cuerpo.add(cabeza);
       cuerpo.add(cola);
       cuerpo.add(hocico);
       cuerpo.add(orejas);
       cuerpo.add(ojos);
 
-      cuerpo.position.y = 1.5;
+      cuerpo.position.y = 1.25;
 
       // Pata delantera izquierda
-      var pataGeom = new THREE.BoxGeometry(0.5, 1.75, 0.5);
+      var pataGeom = new THREE.BoxGeometry(0.5, 1.25, 0.5);
       var auxpataDI = new THREE.Mesh(pataGeom, mat);
-      auxpataDI.position.x = 0.5;
+      auxpataDI.position.x = 0.4;
       auxpataDI.position.y = -0.625;
       this.pataDI = new THREE.Object3D();
       this.pataDI.add(auxpataDI);
-      this.pataDI.position.z = 0.75;
+      this.pataDI.position.z = 1;
       this.pataDI.position.y = 0.625;
       
 
       // Pata delantera derecha
       var auxpataDD = new THREE.Mesh(pataGeom, mat);
-      auxpataDD.position.x = -0.5;
+      auxpataDD.position.x = -0.4;
       auxpataDD.position.y = -0.625;
       this.pataDD = new THREE.Object3D();
       this.pataDD.add(auxpataDD);
-      this.pataDD.position.z = 0.75;
+      this.pataDD.position.z = 1;
       this.pataDD.position.y = 0.625;
 
       // Pata trasera izquierda
       var auxpataTI = new THREE.Mesh(pataGeom, mat);
-      auxpataTI.position.x = 0.48;
+      auxpataTI.position.x = 0.4;
       auxpataTI.position.y = -0.625;
       this.pataTI = new THREE.Object3D();
       this.pataTI.add(auxpataTI);
-      this.pataTI.position.z = -1.5;
+      this.pataTI.position.z = -1;
       this.pataTI.position.y = 0.625;
 
       // Pata trasera derecha
       var auxpataTD = new THREE.Mesh(pataGeom, mat);
-      auxpataTD.position.x = -0.48;
+      auxpataTD.position.x = -0.4;
       auxpataTD.position.y = -0.625;
       this.pataTD = new THREE.Object3D();
       this.pataTD.add(auxpataTD);
       this.pataTD.position.y = 0.625;
-      this.pataTD.position.z = -1.5;
+      this.pataTD.position.z = -1;
 
       // Cuerpo completo
       var completo = new THREE.Object3D();
@@ -321,4 +338,4 @@ class Lobo extends THREE.Object3D {
   }
 }
 
-export { Lobo };
+export { Zorro };
