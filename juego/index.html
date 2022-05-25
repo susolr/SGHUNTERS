@@ -17,7 +17,41 @@
     </style>
 </head>
 <body>
+<div id="comienzo">
+<form name="cazadores" id="cazadores_form">
+    <!-- Lista de selección -->
+    Selecciona la opción de cazadores:
+    <select name="cazadores" id="cazadores_select">
+      <!-- Opciones de la lista -->
+      <option value=1 selected> Lobo </option>
+      <option value=2> Zorro </option> <!-- Opción por defecto -->
+      <option value=3> Ocelote </option>
+    </select>
+</form>
 
+<form name="presa" id="presa_form">
+    <!-- Lista de selección -->
+    Selecciona la opción de presa:
+    <select name="presa" id="presa_select">
+      <!-- Opciones de la lista -->
+      <option value=1 selected> Liebre </option>
+      <option value=2> Alpaca </option> <!-- Opción por defecto -->
+      <option value=3> Pollo </option>
+    </select>
+</form>
+
+<form name="turno" id="turno_form">
+    <!-- Lista de selección -->
+    Turno:
+    <select name="turno" id="turno_select">
+      <!-- Opciones de la lista -->
+      <option value=1 selected> Cazadores </option>
+      <option value=2> Presa </option> <!-- Opción por defecto -->
+    </select>
+</form>
+
+<button type="button" id="boton_empezar">Jugar</button>
+</div>
 <!-- Div which will show statistical information -->
 <div id="Stats-output">
 </div>

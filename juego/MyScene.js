@@ -33,7 +33,7 @@ class MyScene extends THREE.Scene {
     
     this.initStats();
     
-    this.aplicationMode = MyScene.TURNO_CAZADORES;
+    this.aplicationMode = this.turno();
     this.action = MyScene.ELEGIR_PIEZA;
     this.state = MyScene.JUGANDO;
     this.piezaSeleccionada = null;
@@ -64,7 +64,7 @@ class MyScene extends THREE.Scene {
     this.add(this.tablero);
 
     //Creacion del conejo
-    this.conejo = new Pollo(this.renderer);
+    this.conejo = this.crearPresa();
     this.add(this.conejo);
     this.conejo.model.rotateY(-Math.PI/2);
     this.conejo.model.position.x = 20;
@@ -74,7 +74,7 @@ class MyScene extends THREE.Scene {
 
     //Creacion de los lobos
     //Lobo 1
-    this.lobo1 = new Zorro(this.renderer);
+    this.lobo1 = this.crearCazadores();
     this.add(this.lobo1);
     this.lobo1.model.rotateY(Math.PI/2);
     this.lobo1.model.position.x = -10;
@@ -85,7 +85,7 @@ class MyScene extends THREE.Scene {
     this.tablero.casillasIndexadas[1].ocuparCasilla();
 
     //Lobo 2
-    this.lobo2 = new Ocelote(this.renderer);
+    this.lobo2 = this.crearCazadores();
     this.add(this.lobo2);
     this.lobo2.model.rotateY(Math.PI/2);
     this.lobo2.model.position.x = -20;
@@ -94,7 +94,7 @@ class MyScene extends THREE.Scene {
     this.tablero.casillasIndexadas[0].ocuparCasilla();
 
     //Lobo 3
-    this.lobo3 = new Lobo(this.renderer);
+    this.lobo3 = this.crearCazadores();
     this.add(this.lobo3);
     this.lobo3.model.rotateY(Math.PI/2);
     this.lobo3.model.position.x = -10;
@@ -114,6 +114,72 @@ class MyScene extends THREE.Scene {
       this.activarLuzPresas();
     }
     
+  }
+
+  turno(){
+    var vturno = $("#turno_select").val();
+    var turnoelegido;
+    switch (vturno){
+      case '1':
+        turnoelegido = MyScene.TURNO_CAZADORES;
+        console.log("Comienzan los cazadores");
+        break;
+      case '2':
+        turnoelegido = MyScene.TURNO_PRESA;
+        console.log("Comienza la presa");
+        break;
+      default:
+        console.log("La has liado" + vturno);
+    }
+
+    return turnoelegido;
+  }
+
+  crearPresa(){
+    var presa = $("#presa_select").val();
+    var presaCreada;
+
+    switch (presa) {
+      case '1':
+        presaCreada = new Conejo(this.renderer);
+        console.log("Creando conejo");
+        break;
+      case '2':
+        presaCreada = new Alpaca(this.renderer);
+        console.log("Creando alpaca");
+        break;
+      case '3':
+        presaCreada = new Pollo(this.renderer);
+        console.log("Creando pollo");
+        break;
+      default:
+        console.log("Liada: " + presa);
+    }
+    return presaCreada;
+  }
+
+    crearCazadores(){
+      var cazador = $("#cazadores_select").val();
+      var cazadorCreado;
+  
+      switch (cazador) {
+        case '1':
+          cazadorCreado = new Lobo(this.renderer);
+          console.log("Creando lobo");
+          break;
+        case '2':
+          cazadorCreado = new Zorro(this.renderer);
+          console.log("Creando zorro");
+          break;
+        case '3':
+          cazadorCreado = new Ocelote(this.renderer);
+          console.log("Creando ocelote");
+          break;
+        default:
+          console.log("Liada: " + cazador);
+      }
+
+    return cazadorCreado;
   }
 
   activarLuzCazadores(){
@@ -156,7 +222,7 @@ class MyScene extends THREE.Scene {
           ocupadas++;
         }
       }
-      this.state = MyScene.GANAN_CAZADORES;
+      //this.state = MyScene.GANAN_CAZADORES;
       if (ocupadas == totales){
         //this.setMessage("Ganan los lobos");
         
@@ -714,18 +780,35 @@ else {
   MyScene.GANA_PRESA = 2
   
 
+
+/*$(document).ready(function(){
+  $('#boton_contador').on('click', function(){
+    var contador = $("#contador").val();
+    console.log("Contador: " + contador);
+  });
+  
+})*/
+
 /// La función   main
 $(function () {
   
   // Se instancia la escena pasándole el  div  que se ha creado en el html para visualizar
-  var scene = new MyScene("#WebGL-output");
-  //$("#WebGL-output").hide();
+  //if(boton pulsado) creo la escena
+  //else sigo esperando
+  $('#boton_empezar').on('click', function () {
+    $("#comienzo").hide();
+    var scene = new MyScene("#WebGL-output");
+    //$("#WebGL-output").hide();
 
-  // Se añaden los listener de la aplicación. En este caso, el que va a comprobar cuándo se modifica el tamaño de la ventana de la aplicación.
-  window.addEventListener ("resize", () => scene.onWindowResize());
-  window.addEventListener ("mousedown", (event) => scene.onMouseDown(event), true);
-  window.addEventListener ("keydown", (event) => scene.onKeyDown(event), true);
+    // Se añaden los listener de la aplicación. En este caso, el que va a comprobar cuándo se modifica el tamaño de la ventana de la aplicación.
+    window.addEventListener("resize", () => scene.onWindowResize());
+    window.addEventListener("mousedown", (event) => scene.onMouseDown(event), true);
+    window.addEventListener("keydown", (event) => scene.onKeyDown(event), true);
+
+    // Que no se nos olvide, la primera visualización.
+    scene.update();
+  }
+  );
   
-  // Que no se nos olvide, la primera visualización.
-  scene.update();
+
 });
