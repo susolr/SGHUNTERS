@@ -280,7 +280,7 @@ class Lobo extends THREE.Object3D {
   }
   
   update () {
-    var delta = this.clock.getDelta() ;
+    var delta = this.clock.getDelta();
     this.fpControls.update(delta) ;
     var v = 2*delta;
     TWEEN.update();

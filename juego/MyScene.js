@@ -12,6 +12,8 @@ import { Conejo } from './conejo.js'
 import { Alpaca } from './alpaca.js'
 import { Pollo } from './Pollo.js'
 import { Lobo } from './Lobo.js'
+import { Ocelote } from './Ocelote.js'
+import { Zorro } from './Zorro.js'
 
 
 /// La clase fachada del modelo
@@ -31,9 +33,11 @@ class MyScene extends THREE.Scene {
     
     this.initStats();
     
-    this.aplicationMode = MyScene.TURNO_CAZADORES;
+    this.aplicationMode = MyScene.TURNO_PRESA;
     this.action = MyScene.ELEGIR_PIEZA;
     this.piezaSeleccionada = null;
+    this.positionPresa = new THREE.Vector3 (35, 15, 0);
+    this.positionCazadores = new THREE.Vector3 (-35, 15, 0);
     this.createCamera ();
     this.createCameraAerea();
     this.primeraPersona = false;
@@ -43,6 +47,10 @@ class MyScene extends THREE.Scene {
     this.createLights ();
     
     this.cAerea = false;
+    this.cFija = false;
+
+    this.rotarCamara = false;
+    this.clock = new THREE.Clock();
     
     
     // Un suelo 
@@ -55,7 +63,7 @@ class MyScene extends THREE.Scene {
     this.add(this.tablero);
 
     //Creacion del conejo
-    this.conejo = new Conejo(this.renderer);
+    this.conejo = new Pollo(this.renderer);
     this.add(this.conejo);
     this.conejo.model.rotateY(-Math.PI/2);
     this.conejo.model.position.x = 20;
@@ -65,7 +73,7 @@ class MyScene extends THREE.Scene {
 
     //Creacion de los lobos
     //Lobo 1
-    this.lobo1 = new Lobo(this.renderer);
+    this.lobo1 = new Zorro(this.renderer);
     this.add(this.lobo1);
     this.lobo1.model.rotateY(Math.PI/2);
     this.lobo1.model.position.x = -10;
@@ -76,7 +84,7 @@ class MyScene extends THREE.Scene {
     this.tablero.casillasIndexadas[1].ocuparCasilla();
 
     //Lobo 2
-    this.lobo2 = new Lobo(this.renderer);
+    this.lobo2 = new Ocelote(this.renderer);
     this.add(this.lobo2);
     this.lobo2.model.rotateY(Math.PI/2);
     this.lobo2.model.position.x = -20;
@@ -98,8 +106,13 @@ class MyScene extends THREE.Scene {
     this.pickeablePresa = [this.conejo];
 
     this.pickeableCasillas = [];
-
-    this.activarLuzCazadores();
+    if(this.aplicationMode == MyScene.TURNO_CAZADORES){
+      this.activarLuzCazadores();
+    }
+    else {
+      this.activarLuzPresas();
+    }
+    
   }
 
   activarLuzCazadores(){
@@ -161,6 +174,8 @@ class MyScene extends THREE.Scene {
       //console.log(casilla);
       var casillas = this.tablero.casillasIndexadas[casilla].getCasillasAccesiblesCazadores();
       this.pickeableCasillas = this.tablero.marcarCasillas(casillas);
+      this.desactivarLuzCazadores();
+      this.piezaSeleccionada.activarLuz();
       this.action = MyScene.ELEGIR_CASILLA;
     } 
 
@@ -187,23 +202,28 @@ class MyScene extends THREE.Scene {
       this.activarLuzPresas();
       this.action = MyScene.ELEGIR_PIEZA;
       this.piezaSeleccionada = null;
-      this.camaraActual = this.camera;
-      this.cAerea = false;
-      this.primeraPersona = false;
+      this.girarCamara();
+      //this.camaraActual = this.camera;
+      //this.cAerea = false;
+      //this.primeraPersona = false;
     } else {
       pickedObjects = this.raycaster.intersectObjects (this.pickeableCazadores, true);
       if (pickedObjects.length > 0){
         this.tablero.desmarcarCasillas();
         var pieza = pickedObjects[0].object.userData;
         if (pieza !== this.piezaSeleccionada){
+          this.piezaSeleccionada.desactivarLuz();
           this.piezaSeleccionada = pieza;
+          this.piezaSeleccionada.activarLuz();
           var casilla = this.piezaSeleccionada.casillaActual;
           //console.log(casilla);
           var casillas = this.tablero.casillasIndexadas[casilla].getCasillasAccesiblesCazadores();
           this.pickeableCasillas = this.tablero.marcarCasillas(casillas);
         } else {
           this.action = MyScene.ELEGIR_PIEZA;
+          this.piezaSeleccionada.desactivarLuz();
           this.piezaSeleccionada = null;
+          this.activarLuzCazadores();
         }
       }
     }
@@ -246,9 +266,10 @@ class MyScene extends THREE.Scene {
       this.activarLuzCazadores();
       this.action = MyScene.ELEGIR_PIEZA;
       this.piezaSeleccionada = null;
-      this.camaraActual = this.camera;
-      this.cAerea = false;
-      this.primeraPersona = false;
+      this.girarCamara();
+      //this.camaraActual = this.camera;
+      //this.cAerea = false;
+      //this.primeraPersona = false;
     } else {
       pickedObjects = this.raycaster.intersectObjects (this.pickeablePresa, true);
       if (pickedObjects.length > 0){
@@ -313,19 +334,8 @@ class MyScene extends THREE.Scene {
   onKeyDown(event){
     if (!event.ctrlKey) {
       var x = event.which || event.key;
-      if (x == 67){
-        if(this.piezaSeleccionada != null){
-          if(!this.primeraPersona){
-            this.camaraActual = this.piezaSeleccionada.camera;
-            this.primeraPersona = true;
-            this.cAerea = false;
-          }
-          else {
-            this.primeraPersona = false;
-            this.camaraActual = this.camera;
-          }
-        }
-        else {
+      switch (x){
+        case 67:
           if(!this.cAerea){
             this.camaraActual = this.camaraAerea;
             this.cAerea = true;
@@ -333,8 +343,20 @@ class MyScene extends THREE.Scene {
           else {
             this.camaraActual = this.camera;
             this.cAerea = false;
-          }    
-        }
+          }  
+          break;
+        case 86:
+          if(!this.cFija){
+            this.camaraActual = this.getCamaraFija();
+            this.cFija = true;
+            this.cAerea = false;
+            this.primeraPersona = false;
+          }
+          else {
+            this.camaraActual = this.camera;
+            this.cFija = false;
+          } 
+          break;
       }
     }
   }
@@ -407,7 +429,12 @@ else {
     //   Los planos de recorte cercano y lejano
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     // También se indica dónde se coloca
-    this.camera.position.set (20, 10, 20);
+    if (this.aplicationMode == MyScene.TURNO_CAZADORES){
+      this.camera.position.set(0, 15, 25);
+    }
+    else{
+      this.camera.position.set(0, 15, -25);
+    }
     // Y hacia dónde mira
     var look = new THREE.Vector3 (0,0,0);
     this.camera.lookAt(look);
@@ -421,6 +448,26 @@ else {
     this.cameraControl.panSpeed = 0.5;
     // Debe orbitar con respecto al punto de mira de la cámara
     this.cameraControl.target = look;
+
+
+    this.camaraFijaCazadores = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.camaraFijaCazadores.position.set(this.positionCazadores.x, this.positionCazadores.y, this.positionCazadores.z);
+    this.camaraFijaCazadores.lookAt(look);
+    this.add(this.camaraFijaCazadores);
+
+    this.camaraFijaPresa = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.camaraFijaPresa.position.set(this.positionPresa.x, this.positionPresa.y, this.positionPresa.z);
+    this.camaraFijaPresa.lookAt(look);
+    this.add(this.camaraFijaPresa);
+  }
+
+  getCamaraFija(){
+    if(this.aplicationMode == MyScene.TURNO_CAZADORES){
+      return this.camaraFijaCazadores;
+    }
+    else {
+      return this.camaraFijaPresa;
+    }
   }
 
   createCameraAerea() {
@@ -430,7 +477,7 @@ else {
     //   Los planos de recorte cercano y lejano
     this.camaraAerea = new THREE.OrthographicCamera(-40, 40, 20, -20, 0.1, 1000);
     // También se indica dónde se coloca
-    this.camaraAerea.position.set (0, 5, 0);
+    this.camaraAerea.position.set (0, 10, 0);
     // Y hacia dónde mira
     var look = new THREE.Vector3 (0,0,0);
     this.camaraAerea.lookAt(look);
@@ -444,6 +491,21 @@ else {
     this.camaraAereaControl.panSpeed = 0.5;
     // Debe orbitar con respecto al punto de mira de la cámara
     this.camaraAereaControl.target = look;
+  }
+
+  girarCamara(){
+    this.rotarCamara = true;
+    if (this.cFija){
+      this.camaraActual = this.getCamaraFija();
+    }
+    if (this.aplicationMode == MyScene.TURNO_CAZADORES){
+      this.camera.position.set(0, 15, 25);
+    }
+    else{
+      this.camera.position.set(0, 15, -25);
+    }
+    
+    //this.camaraActual.rotateZ(Math.PI);
   }
   
   createGround () {
@@ -576,6 +638,36 @@ else {
     // Se actualiza la posición de la cámara según su controlador
     this.cameraControl.update();
     this.camaraAereaControl.update();
+    var delta = this.clock.getDelta();
+
+    if(this.rotarCamara == true){
+      
+      var v = 3*delta;
+      if (this.aplicationMode == MyScene.TURNO_CAZADORES){
+        if (this.camaraAerea.rotation.z >= -Math.PI && this.camaraAerea.rotation.z < 0){
+          console.log("Rotando camara turno cazador: " + this.camaraAerea.rotation.z);
+          this.camaraAerea.rotateZ(v);
+        }
+        else {
+          this.rotarCamara = false;
+          this.camaraAerea.rotation.z = 0;
+          console.log("Parar rotacion camara cazador: " + this.camaraAerea.rotation.z);
+        }
+        
+      }
+      else {
+        if (this.camaraAerea.rotation.z <= Math.PI && this.camaraAerea.rotation.z >= 0){
+          console.log("Rotando camara turno presa: " + this.camaraAerea.rotation.z);
+          this.camaraAerea.rotateZ(v);
+        }
+        else {
+          this.rotarCamara = false;
+          this.camaraAerea.rotation.z = -Math.PI;
+          //this.camera.position.set();
+          console.log("Parar rotacion camara presa: " + this.camaraAerea.rotation.z);
+        }
+      }
+    }
     
     // Se actualiza el resto del modelo
     this.conejo.update();
