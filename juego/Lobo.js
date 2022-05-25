@@ -5,19 +5,17 @@ import { FirstPersonControls } from '../libs/FirstPersonControls.js'
 import { OrbitControls } from '../libs/OrbitControls.js'
  
 class Lobo extends THREE.Object3D {
-  constructor(renderer) {
+  constructor() {
     super();
     
     // Se crea la parte de la interfaz que corresponde a la caja
     // Se crea primero porque otros métodos usan las variables que se definen para la interfaz
     //this.createGUI(gui,titleGui);
-    this.createCamera(renderer);
     this.model = this.createLobo();
-    this.model.add(this.camera);
     this.model.position.y = 1.35;
     this.add(this.model);
     
-    
+    this.clock = new THREE.Clock();
 
     this.mov_d = 0;
     this.mov_i = 0;
@@ -35,19 +33,6 @@ class Lobo extends THREE.Object3D {
     light.position.set(0, 6, 0);
     light.target = this.model;
     return light;
-  }
-
-  createCamera(renderer){
-    this.clock = new THREE.Clock();
-    this.camera = new THREE.PerspectiveCamera ( 75 , window.innerWidth/window.innerHeight, 0.1 , 1000) ;
-    this.camera.position.set(2.25,3,0);
-    this.camera.lookAt( 0 , 0 , 0 ) ;
-    // Se crea e l c o n t r o l de v u e l o
-    this.fpControls = new FirstPersonControls ( this.camera , renderer.domElement ) ;
-    //this.fpControls = new OrbitControls(this.camera, renderer.domElement);
-    this.fpControls.movementSpeed = 25 ;
-    this.fpControls.rollSpeed = Math.PI/48 ;
-    this.fpControls.autoForward = false ;
   }
 
   activarLuz(){

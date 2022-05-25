@@ -154,15 +154,15 @@ class MyScene extends THREE.Scene {
 
     switch (presa) {
       case '1':
-        presaCreada = new Conejo(this.renderer);
+        presaCreada = new Conejo();
         console.log("Creando conejo");
         break;
       case '2':
-        presaCreada = new Alpaca(this.renderer);
+        presaCreada = new Alpaca();
         console.log("Creando alpaca");
         break;
       case '3':
-        presaCreada = new Pollo(this.renderer);
+        presaCreada = new Pollo();
         console.log("Creando pollo");
         break;
       default:
@@ -177,15 +177,15 @@ class MyScene extends THREE.Scene {
   
       switch (cazador) {
         case '1':
-          cazadorCreado = new Lobo(this.renderer);
+          cazadorCreado = new Lobo();
           console.log("Creando lobo");
           break;
         case '2':
-          cazadorCreado = new Zorro(this.renderer);
+          cazadorCreado = new Zorro();
           console.log("Creando zorro");
           break;
         case '3':
-          cazadorCreado = new Ocelote(this.renderer);
+          cazadorCreado = new Ocelote();
           console.log("Creando ocelote");
           break;
         default:

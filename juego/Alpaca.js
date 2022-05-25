@@ -5,17 +5,16 @@ import { FirstPersonControls } from '../libs/FirstPersonControls.js'
 import { OrbitControls } from '../libs/OrbitControls.js'
  
 class Alpaca extends THREE.Object3D {
-  constructor(renderer) {
+  constructor() {
     super();
     
     // Se crea la parte de la interfaz que corresponde a la caja
     // Se crea primero porque otros métodos usan las variables que se definen para la interfaz
     //this.createGUI(gui,titleGui);
-    this.createCamera(renderer);
     this.model = this.createAlpaca();
-    this.model.add(this.camera);
     this.model.position.y = 1.5; //2 si quitamos escalado
     this.add(this.model);
+    this.clock = new THREE.Clock();
 
     this.mov_d = 0;
     this.mov_i = 0;
@@ -33,19 +32,6 @@ class Alpaca extends THREE.Object3D {
     light.position.set(0, 10, 0);
     light.target = this.model;
     return light;
-  }
-
-  createCamera(renderer){
-    this.clock = new THREE.Clock();
-    this.camera = new THREE.PerspectiveCamera ( 75 , window.innerWidth/window.innerHeight, 0.1 , 1000) ;
-    this.camera.position.set(2.25,3,0);
-    this.camera.lookAt( 0 , 0 , 0 ) ;
-    // Se crea el control de vuelo
-    this.fpControls = new FirstPersonControls ( this.camera , renderer.domElement ) ;
-    //this.fpControls = new OrbitControls(this.camera, renderer.domElement);
-    this.fpControls.movementSpeed = 25 ;
-    this.fpControls.rollSpeed = Math.PI/48 ;
-    this.fpControls.autoForward = false ;
   }
 
   activarLuz(){
