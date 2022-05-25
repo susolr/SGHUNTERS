@@ -44,6 +44,19 @@ class MyScene extends THREE.Scene {
     this.primeraPersona = false;
     this.camaraActual = this.camera;
 
+    //Carga de la textura para el fondo
+    var path = "../imgs/skybox/";
+    var format = ".jpg";
+
+    var urls = [
+      path + "right" + format, path + "left" + format,
+      path + "top" + format, path + "bottom" + format,
+      path + "front" + format, path + "back" + format
+    ];
+
+    var cubeMap = new THREE.CubeTextureLoader().load(urls);
+    this.background = cubeMap;
+
     this.raycaster = new THREE.Raycaster ();
     this.createLights ();
     
@@ -55,7 +68,7 @@ class MyScene extends THREE.Scene {
     
     
     // Un suelo 
-    this.createGround ();
+    //this.createGround ();
 
     this.axis = new THREE.AxesHelper(5);
     this.add(this.axis);
