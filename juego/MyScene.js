@@ -33,8 +33,9 @@ class MyScene extends THREE.Scene {
     
     this.initStats();
     
-    this.aplicationMode = MyScene.TURNO_PRESA;
+    this.aplicationMode = MyScene.TURNO_CAZADORES;
     this.action = MyScene.ELEGIR_PIEZA;
+    this.state = MyScene.JUGANDO;
     this.piezaSeleccionada = null;
     this.positionPresa = new THREE.Vector3 (35, 15, 0);
     this.positionCazadores = new THREE.Vector3 (-35, 15, 0);
@@ -141,10 +142,10 @@ class MyScene extends THREE.Scene {
   comprobarEstado(){
     //if (this.conejo.model.position.x <= this.lobo1.model.position.x && this.conejo.model.position.x <= this.lobo2.model.position.x && this.conejo.model.position.x <= this.lobo3.model.position.x){
     if (this.conejo.casillaActual == 0){  
-      this.setMessage("Gana el conejo");
-      MyScene.FINAL_DEL_JUEGO = 2;
+      //this.setMessage("Gana el conejo");
+      
+      this.state = MyScene.GANA_PRESA;
     }
-
     else {
       var list = this.tablero.casillasIndexadas[this.conejo.casillaActual].getCasillasAccesiblesPresa();
       var totales = list.length;
@@ -155,12 +156,26 @@ class MyScene extends THREE.Scene {
           ocupadas++;
         }
       }
+      this.state = MyScene.GANAN_CAZADORES;
       if (ocupadas == totales){
-        this.setMessage("Ganan los lobos");
-        MyScene.FINAL_DEL_JUEGO = 1;
+        //this.setMessage("Ganan los lobos");
+        
+        this.state = MyScene.GANAN_CAZADORES;
       }
 
     }
+
+    if(this.state != MyScene.JUGANDO){
+      if(this.state == MyScene.GANAN_CAZADORES){
+        $("#gananCazadores").fadeIn(3000);
+      }
+      else {
+        $("#ganaPresa").fadeIn(3000);
+      }
+      $("#WebGL-output").hide();
+      $("#restartButton").fadeIn(3000);
+    }
+
 
   }
 
@@ -694,7 +709,9 @@ else {
   MyScene.ELEGIR_CASILLA = 1;
 
   //Estados
-  MyScene.FINAL_DEL_JUEGO = 0;
+  MyScene.JUGANDO = 0;
+  MyScene.GANAN_CAZADORES = 1;
+  MyScene.GANA_PRESA = 2
   
 
 /// La función   main
@@ -702,6 +719,7 @@ $(function () {
   
   // Se instancia la escena pasándole el  div  que se ha creado en el html para visualizar
   var scene = new MyScene("#WebGL-output");
+  //$("#WebGL-output").hide();
 
   // Se añaden los listener de la aplicación. En este caso, el que va a comprobar cuándo se modifica el tamaño de la ventana de la aplicación.
   window.addEventListener ("resize", () => scene.onWindowResize());
