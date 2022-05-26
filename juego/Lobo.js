@@ -1,8 +1,6 @@
 import * as THREE from '../libs/three.module.js'
 import { CSG } from '../libs/CSG-v2.js'
 import * as TWEEN from '../libs/tween.esm.js'
-import { FirstPersonControls } from '../libs/FirstPersonControls.js'
-import { OrbitControls } from '../libs/OrbitControls.js'
  
 class Lobo extends THREE.Object3D {
   constructor() {
@@ -266,7 +264,6 @@ class Lobo extends THREE.Object3D {
   
   update () {
     var delta = this.clock.getDelta();
-    this.fpControls.update(delta) ;
     var v = 2*delta;
     TWEEN.update();
     if (this.animacionControl){

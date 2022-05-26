@@ -1,21 +1,117 @@
-.buttonRestart {
-    background-color: #00D8FF;
-    border: none;
-    color: #005D6F;
-    padding: 15px 32px;
+body{
+    font-family: cursive;
+    font-size: 20px;
+    background-color: antiquewhite;
+}
+
+#comienzo{
+    margin-left: 25%;
+    margin-top: 4%;
+    width: 50%;
     text-align: center;
-    text-decoration: none;
-    display: none;
-    font-size: 16px;
-    margin: 4px 2px;
+}
+
+#figuras{
+    font-size: 36px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding-bottom: 5%;
+}
+
+#cazadores_form{
+    background-color: aquamarine;
+    padding-bottom: 2%;
+    margin-right: 10%;
+    font-size: 36px;
+    width: 45%;
+    border-color:rgb(0, 28, 19);
+    color: rgb(0, 28, 19);
+    border-style: dashed;
+    border-radius: 5%;
+}
+
+#cazadores_select{
+    font-size: 24px;
+    font-family: cursive;
+    margin-bottom: 2%;
+}
+
+#presa_form{
+    background-color: aquamarine;
+    padding-bottom: 2%;
+    font-size: 36px;
+    width: 45%;
+    border-color:rgb(0, 28, 19);
+    color: rgb(0, 28, 19);
+    border-style: dashed;
+    border-radius: 5%;
+}
+
+#presa_select{
+    font-size: 24px;
+    font-family: cursive;
+    margin-bottom: 2%;
+}
+
+#turno_form{
+    background-color: rgb(245, 153, 255);
+    padding-bottom: 2%;
+    margin-left: 25%;
+    font-size: 36px;
+    width: 50%;
+    color: rgb(67, 0, 85);
+    border-color:rgb(67, 0, 85);
+    border-style: dashed;
+    border-radius: 5%;
+}
+
+#turno_select{
+    font-size: 24px;
+    font-family: cursive;
+    margin-bottom: 2%;
+}
+
+#crotar{
+    margin-top: 4%;
+}
+
+#boton_empezar {
+    font-family: cursive;
+    margin-top: 2%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+    font-size: 36px;
+    background-color: #6fe9ff;
+    color: #002b35;
     cursor: pointer;
-    position: absolute;
-    left: 42%;
-    top: 70%;
+    border-style:outset;
+    border-radius: 5px;
+    border-color: #002b35;
+}
+
+#boton_empezar:hover{
+    background-color: #005a68;
+    color: #FFFFFF;
+}
+
+.buttonRestart {
+    font-family: cursive;
+    margin-left: 35%;
+    margin-top: 3%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    width: 30%;
+    font-size: 36px;
+    background-color: #6fe9ff;
+    color: #002b35;
+    cursor: pointer;
+    border-style:outset;
+    border-radius: 5px;
+    border-color: #002b35;
     display: none;
-    border-style: solid;
-    border-radius: 4px;
-    border-color: #005D6F;
 }
 
 .buttonRestart:hover{
@@ -24,12 +120,32 @@
 }
 
 .finalMessage{
+    padding-top: 2%;
+    padding-bottom: 2%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    margin-left: 30%;
     color: black;
-    width: 100%;
-    font-size: 2em;
-    position: absolute; 
+    font-size: 40px;
+    width: 40%;
     text-align: center;
     top: 50%; 
     display: none;
+}
+
+#ganaPresa{
+    color: rgb(0, 85, 56);
+    background-color: aquamarine;
+    border-color:rgb(0, 85, 56);
+    border-style: dashed;
+    border-radius: 5%;
+}
+
+#gananCazadores{
+    color: rgb(67, 0, 85);
+    background-color: rgb(245, 153, 255);
+    border-color:rgb(67, 0, 85);
+    border-style: dashed;
+    border-radius: 5%;
 }
 

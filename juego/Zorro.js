@@ -1,8 +1,6 @@
 import * as THREE from '../libs/three.module.js'
 import { CSG } from '../libs/CSG-v2.js'
 import * as TWEEN from '../libs/tween.esm.js'
-import { FirstPersonControls } from '../libs/FirstPersonControls.js'
-import { OrbitControls } from '../libs/OrbitControls.js'
  
 class Zorro extends THREE.Object3D {
   constructor() {
@@ -16,8 +14,6 @@ class Zorro extends THREE.Object3D {
     this.add(this.model);
     this.clock = new THREE.Clock();
     
-    
-
     this.mov_d = 0;
     this.mov_i = 0;
     this.animacionControl = false;
@@ -78,13 +74,9 @@ class Zorro extends THREE.Object3D {
       colaT.position.z = -3.25;
       colaT.position.y = 0;
 
-
-
       var cola = new THREE.Object3D();
       cola.add(colaD);
       cola.add(colaT);
-
-
 
       // Hocico parte superior
       var hocicoSGeom = new THREE.BoxGeometry(1, 0.25, 1);
@@ -102,7 +94,7 @@ class Zorro extends THREE.Object3D {
       var cuboGeom = new THREE.BoxGeometry(0.25, 0.25, 0.25);
       var narizGeom = new THREE.BoxGeometry(0.5, 0.25, 0.25);
       var nariz = new THREE.Mesh(narizGeom, matn);
-      nariz.userData= this;
+      nariz.userData = this;
       nariz.position.z = 0.4375;
       nariz.position.y = -0.38;
 
@@ -149,8 +141,10 @@ class Zorro extends THREE.Object3D {
 
       // Pupila ojo derecho
       var ojonD = new THREE.Mesh(cuboGeom, matb);
+      ojonD.userData = this;
       // Esclerótica ojo derecho
       var ojobD = new THREE.Mesh(cuboGeom, matn);
+      ojobD.userData = this;
       ojobD.position.x = -0.25;
 
       // Ojo derecho (pupila y esclerótica)
@@ -180,6 +174,7 @@ class Zorro extends THREE.Object3D {
       // Pata delantera izquierda
       var pataGeom = new THREE.BoxGeometry(0.5, 1.25, 0.5);
       var auxpataDI = new THREE.Mesh(pataGeom, mat);
+      auxpataDI.userData = this;
       auxpataDI.position.x = 0.4;
       auxpataDI.position.y = -0.625;
       this.pataDI = new THREE.Object3D();
@@ -190,6 +185,7 @@ class Zorro extends THREE.Object3D {
 
       // Pata delantera derecha
       var auxpataDD = new THREE.Mesh(pataGeom, mat);
+      auxpataDD.userData = this;
       auxpataDD.position.x = -0.4;
       auxpataDD.position.y = -0.625;
       this.pataDD = new THREE.Object3D();
@@ -199,6 +195,7 @@ class Zorro extends THREE.Object3D {
 
       // Pata trasera izquierda
       var auxpataTI = new THREE.Mesh(pataGeom, mat);
+      auxpataTI.userData = this;
       auxpataTI.position.x = 0.4;
       auxpataTI.position.y = -0.625;
       this.pataTI = new THREE.Object3D();
@@ -208,6 +205,7 @@ class Zorro extends THREE.Object3D {
 
       // Pata trasera derecha
       var auxpataTD = new THREE.Mesh(pataGeom, mat);
+      auxpataTD.userData = this;
       auxpataTD.position.x = -0.4;
       auxpataTD.position.y = -0.625;
       this.pataTD = new THREE.Object3D();
@@ -278,7 +276,6 @@ class Zorro extends THREE.Object3D {
   
   update () {
     var delta = this.clock.getDelta() ;
-    this.fpControls.update(delta) ;
     var v = 2*delta;
     TWEEN.update();
     if (this.animacionControl){

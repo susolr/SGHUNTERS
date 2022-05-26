@@ -16,39 +16,44 @@
         }
     </style>
 </head>
+
 <body>
 <div id="comienzo">
-<form name="cazadores" id="cazadores_form">
-    <!-- Lista de selección -->
-    Selecciona la opción de cazadores:
-    <select name="cazadores" id="cazadores_select">
-      <!-- Opciones de la lista -->
-      <option value=1 selected> Lobo </option>
-      <option value=2> Zorro </option> <!-- Opción por defecto -->
-      <option value=3> Ocelote </option>
-    </select>
-</form>
+  <div id ="figuras">
+    <form name="cazadores" id="cazadores_form">
+        <!-- Lista de selección -->
+        <p>Selecciona la opción de cazadores:</p>
+        <select name="cazadores" id="cazadores_select">
+          <!-- Opciones de la lista -->
+          <option value=1 selected> Lobo </option>
+          <option value=2> Zorro </option> <!-- Opción por defecto -->
+          <option value=3> Ocelote </option>
+        </select>
+    </form>
 
-<form name="presa" id="presa_form">
-    <!-- Lista de selección -->
-    Selecciona la opción de presa:
-    <select name="presa" id="presa_select">
-      <!-- Opciones de la lista -->
-      <option value=1 selected> Liebre </option>
-      <option value=2> Alpaca </option> <!-- Opción por defecto -->
-      <option value=3> Pollo </option>
-    </select>
-</form>
+    <form name="presa" id="presa_form">
+        <!-- Lista de selección -->
+      <p>Selecciona la opción de presa:</p>
+        <select name="presa" id="presa_select">
+          <!-- Opciones de la lista -->
+          <option value=1 selected> Liebre </option>
+          <option value=2> Alpaca </option> <!-- Opción por defecto -->
+          <option value=3> Pollo </option>
+        </select>
+    </form>
+  </div>
 
 <form name="turno" id="turno_form">
     <!-- Lista de selección -->
-    Turno:
+  <p>Turno:</p>
     <select name="turno" id="turno_select">
       <!-- Opciones de la lista -->
       <option value=1 selected> Cazadores </option>
       <option value=2> Presa </option> <!-- Opción por defecto -->
     </select>
 </form>
+
+<label><input type="checkbox" id="crotar" value="checkrotar" checked> Rotar cámara tras cada turno</label><br>
 
 <button type="button" id="boton_empezar">Jugar</button>
 </div>
@@ -61,10 +66,11 @@
 
 <div class="finalMessage" id="ganaPresa"> GANA LA PRESA</div>
 <div class="finalMessage" id="gananCazadores"> GANAN LOS CAZADORES</div>
-<button type="button" onclick="window.location.reload()" class="buttonRestart" id="restartButton">Prueba otra vez maki</button>
+<button type="button" onclick="window.location.reload()" class="buttonRestart" id="restartButton">Reiniciar</button>
 
 <!-- Div which will hold the Output -->
 <div id="WebGL-output">
 </div>
 </body>
 </html>
+

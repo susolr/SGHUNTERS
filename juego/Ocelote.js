@@ -1,8 +1,6 @@
 import * as THREE from '../libs/three.module.js'
 import { CSG } from '../libs/CSG-v2.js'
 import * as TWEEN from '../libs/tween.esm.js'
-import { FirstPersonControls } from '../libs/FirstPersonControls.js'
-import { OrbitControls } from '../libs/OrbitControls.js'
  
 class Ocelote extends THREE.Object3D {
   constructor() {
@@ -16,8 +14,6 @@ class Ocelote extends THREE.Object3D {
     this.add(this.model);
     this.clock = new THREE.Clock();
     
-    
-
     this.mov_d = 0;
     this.mov_i = 0;
     this.animacionControl = false;
@@ -75,13 +71,12 @@ class Ocelote extends THREE.Object3D {
       colaD.position.z = -2.5;
       colaD.position.y = 0;
 
-      var colaTGeom = new THREE.BoxGeometry(0.25, 0.25, 2);
+      var colaTGeom = new THREE.BoxGeometry(0.24, 0.24, 2);
       var colaT = new THREE.Mesh(colaTGeom, mat);
       colaT.userData = this;
       colaT.rotateX(Math.PI/8);
       colaT.position.z = -4;
       colaT.position.y = 0.125;
-
 
 
       var cola = new THREE.Object3D();
@@ -104,7 +99,7 @@ class Ocelote extends THREE.Object3D {
       // Nariz
       var cuboGeom = new THREE.BoxGeometry(0.25, 0.25, 0.25);
       var nariz = new THREE.Mesh(cuboGeom, matm);
-      nariz.userData= this;
+      nariz.userData = this;
       nariz.position.z = 0.125;
       nariz.position.y = -0.38;
 
@@ -131,7 +126,7 @@ class Ocelote extends THREE.Object3D {
       var orejas = new THREE.Object3D();
       orejas.add(orejaI);
       orejas.add(orejaD);
-      orejas.position.z = 2.25;
+      orejas.position.z = 2.26;
       orejas.position.y = 1;
 
       // Pupila ojo izquierdo
@@ -182,6 +177,7 @@ class Ocelote extends THREE.Object3D {
       // Pata delantera izquierda
       var pataGeomD = new THREE.BoxGeometry(0.5, 2.75, 0.5);
       var auxpataDI = new THREE.Mesh(pataGeomD, mat);
+      auxpataDI.userData = this;
       auxpataDI.position.x = 0.3;
       auxpataDI.position.y = -1.25;
       this.pataDI = new THREE.Object3D();
@@ -189,9 +185,9 @@ class Ocelote extends THREE.Object3D {
       this.pataDI.position.z = 1.25;
       this.pataDI.position.y = 2.05;
       
-
       // Pata delantera derecha
       var auxpataDD = new THREE.Mesh(pataGeomD, mat);
+      auxpataDD.userData = this;
       auxpataDD.position.x = -0.3;
       auxpataDD.position.y = -1.25;
       this.pataDD = new THREE.Object3D();
@@ -202,6 +198,7 @@ class Ocelote extends THREE.Object3D {
       // Pata trasera izquierda
       var pataGeomT = new THREE.BoxGeometry(0.5, 1.25, 0.5);
       var auxpataTI = new THREE.Mesh(pataGeomT, mat);
+      auxpataTI.userData = this;
       auxpataTI.position.x = 0.3;
       auxpataTI.position.y = -0.625;
       this.pataTI = new THREE.Object3D();
@@ -211,6 +208,7 @@ class Ocelote extends THREE.Object3D {
 
       // Pata trasera derecha
       var auxpataTD = new THREE.Mesh(pataGeomT, mat);
+      auxpataTD.userData = this;
       auxpataTD.position.x = -0.3;
       auxpataTD.position.y = -0.625;
       this.pataTD = new THREE.Object3D();
@@ -281,7 +279,6 @@ class Ocelote extends THREE.Object3D {
   
   update () {
     var delta = this.clock.getDelta() ;
-    this.fpControls.update(delta) ;
     var v = 2*delta;
     TWEEN.update();
     if (this.animacionControl){
