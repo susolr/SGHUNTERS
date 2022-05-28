@@ -77,48 +77,43 @@ class MyScene extends THREE.Scene {
     this.tablero = new Tablero();
     this.add(this.tablero);
 
-    //Creacion del conejo
-    this.conejo = this.crearPresa();
-    this.add(this.conejo);
-    this.conejo.model.rotateY(-Math.PI/2);
-    this.conejo.model.position.x = 20;
-    this.conejo.casillaActual = 10;
-    //this.conejo.light.position.set(20, 5, 0);
+    //Creacion de la presa
+    this.presa = this.crearPresa();
+    this.add(this.presa);
+    this.presa.model.rotateY(-Math.PI/2);
+    this.presa.model.position.x = 20;
+    this.presa.casillaActual = 10;
     this.tablero.casillasIndexadas[10].ocuparCasilla();
 
-    //Creacion de los lobos
-    //Lobo 1
-    this.lobo1 = this.crearCazadores();
-    this.add(this.lobo1);
-    this.lobo1.model.rotateY(Math.PI/2);
-    this.lobo1.model.position.x = -10;
-    this.lobo1.model.position.z = -10;
-    this.lobo1.casillaActual = 1;
-    
-    //this.lobo1.light.position.set(-10, 5, -10);
+    //Creacion de los cazadores
+    //Cazador 1
+    this.cazador1 = this.crearCazadores();
+    this.add(this.cazador1);
+    this.cazador1.model.rotateY(Math.PI/2);
+    this.cazador1.model.position.x = -10;
+    this.cazador1.model.position.z = -10;
+    this.cazador1.casillaActual = 1;
     this.tablero.casillasIndexadas[1].ocuparCasilla();
 
-    //Lobo 2
-    this.lobo2 = this.crearCazadores();
-    this.add(this.lobo2);
-    this.lobo2.model.rotateY(Math.PI/2);
-    this.lobo2.model.position.x = -20;
-    this.lobo2.casillaActual = 0;
-    //this.lobo2.light.position.set(-20, 5, 0);
+    //Cazador 2
+    this.cazador2 = this.crearCazadores();
+    this.add(this.cazador2);
+    this.cazador2.model.rotateY(Math.PI/2);
+    this.cazador2.model.position.x = -20;
+    this.cazador2.casillaActual = 0;
     this.tablero.casillasIndexadas[0].ocuparCasilla();
 
-    //Lobo 3
-    this.lobo3 = this.crearCazadores();
-    this.add(this.lobo3);
-    this.lobo3.model.rotateY(Math.PI/2);
-    this.lobo3.model.position.x = -10;
-    this.lobo3.model.position.z = 10;
-    this.lobo3.casillaActual = 3;
-    //this.lobo3.light.position.set(-10, 5, 10);
+    //Cazador 3
+    this.cazador3 = this.crearCazadores();
+    this.add(this.cazador3);
+    this.cazador3.model.rotateY(Math.PI/2);
+    this.cazador3.model.position.x = -10;
+    this.cazador3.model.position.z = 10;
+    this.cazador3.casillaActual = 3;
     this.tablero.casillasIndexadas[3].ocuparCasilla();
 
-    this.pickeableCazadores = [this.lobo1, this.lobo2, this.lobo3];
-    this.pickeablePresa = [this.conejo];
+    this.pickeableCazadores = [this.cazador1, this.cazador2, this.cazador3];
+    this.pickeablePresa = [this.presa];
 
     this.pickeableCasillas = [];
     if(this.aplicationMode == MyScene.TURNO_CAZADORES){
@@ -136,38 +131,33 @@ class MyScene extends THREE.Scene {
     switch (vturno){
       case '1':
         turnoelegido = MyScene.TURNO_CAZADORES;
-        console.log("Comienzan los cazadores");
         break;
       case '2':
         turnoelegido = MyScene.TURNO_PRESA;
-        console.log("Comienza la presa");
         break;
       default:
-        console.log("La has liado" + vturno);
+        console.log("Error. No existe truno: " + vturno);
     }
 
     return turnoelegido;
   }
 
   crearPresa(){
-    var presa = $("#presa_select").val();
+    var presaC = $("#presa_select").val();
     var presaCreada;
 
-    switch (presa) {
+    switch (presaC) {
       case '1':
         presaCreada = new Conejo();
-        console.log("Creando conejo");
         break;
       case '2':
         presaCreada = new Alpaca();
-        console.log("Creando alpaca");
         break;
       case '3':
         presaCreada = new Pollo();
-        console.log("Creando pollo");
         break;
       default:
-        console.log("Liada: " + presa);
+        console.log("Error. No existe presa: " + presaC);
     }
     return presaCreada;
   }
@@ -179,18 +169,15 @@ class MyScene extends THREE.Scene {
       switch (cazador) {
         case '1':
           cazadorCreado = new Lobo();
-          console.log("Creando lobo");
           break;
         case '2':
           cazadorCreado = new Zorro();
-          console.log("Creando zorro");
           break;
         case '3':
           cazadorCreado = new Ocelote();
-          console.log("Creando ocelote");
           break;
         default:
-          console.log("Liada: " + cazador);
+          console.log("Error. No existe cazador: " + cazador);
       }
 
     return cazadorCreado;
@@ -198,26 +185,26 @@ class MyScene extends THREE.Scene {
 
   activarLuzCazadores(){
     setTimeout(() => {
-      this.lobo1.activarLuz();
-      this.lobo2.activarLuz();
-      this.lobo3.activarLuz();
+      this.cazador1.activarLuz();
+      this.cazador2.activarLuz();
+      this.cazador3.activarLuz();
     }, this.timeAnimation);
   }
 
   desactivarLuzCazadores(){
-    this.lobo1.desactivarLuz();
-    this.lobo2.desactivarLuz();
-    this.lobo3.desactivarLuz();
+    this.cazador1.desactivarLuz();
+    this.cazador2.desactivarLuz();
+    this.cazador3.desactivarLuz();
   }
 
   activarLuzPresas(){
     setTimeout(() => {
-      this.conejo.activarLuz();
+      this.presa.activarLuz();
     }, this.timeAnimation);
   }
 
   desactivarLuzPresas(){
-    this.conejo.desactivarLuz();
+    this.presa.desactivarLuz();
   }
 
   calcularAngulo(xi, zi, xf, zf) {
@@ -265,26 +252,26 @@ class MyScene extends THREE.Scene {
   }
 
   comprobarEstado(){
-    //if (this.conejo.model.position.x <= this.lobo1.model.position.x && this.conejo.model.position.x <= this.lobo2.model.position.x && this.conejo.model.position.x <= this.lobo3.model.position.x){
-    if (this.conejo.casillaActual == 0){  
-      //this.setMessage("Gana el conejo");
-      
+    var posPresaX = this.tablero.casillasIndexadas[this.presa.casillaActual].position.x;
+    var posCazador1X = this.tablero.casillasIndexadas[this.cazador1.casillaActual].position.x;
+    var posCazador2X = this.tablero.casillasIndexadas[this.cazador2.casillaActual].position.x;
+    var posCazador3X = this.tablero.casillasIndexadas[this.cazador3.casillaActual].position.x;
+
+    if ((posPresaX <= posCazador1X) && (posPresaX <= posCazador2X) && (posPresaX <= posCazador3X)){  
+      //this.setMessage("Gana la presa");
       this.state = MyScene.GANA_PRESA;
     }
     else {
-      var list = this.tablero.casillasIndexadas[this.conejo.casillaActual].getCasillasAccesiblesPresa();
+      var list = this.tablero.casillasIndexadas[this.presa.casillaActual].getCasillasAccesiblesPresa();
       var totales = list.length;
       var ocupadas = 0;
-      //console.log(list);
       for (let i in list){
         if (this.tablero.casillasIndexadas[list[i]].ocupada){
           ocupadas++;
         }
       }
-      //this.state = MyScene.GANAN_CAZADORES;
       if (ocupadas == totales){
-        //this.setMessage("Ganan los lobos");
-        
+        //this.setMessage("Ganan los cazadores");
         this.state = MyScene.GANAN_CAZADORES;
       }
 
@@ -292,14 +279,16 @@ class MyScene extends THREE.Scene {
 
     if(this.state != MyScene.JUGANDO){
       
-      if(this.state == MyScene.GANAN_CAZADORES){
-        $("#gananCazadores").fadeIn(3000);
-      }
-      else {
-        $("#ganaPresa").fadeIn(3000);
-      }
-      $("#WebGL-output").hide();
-      $("#restartButton").fadeIn(3000);
+      setTimeout(() => {
+        if(this.state == MyScene.GANAN_CAZADORES){
+          $("#gananCazadores").fadeIn(3000);
+        }
+        else {
+          $("#ganaPresa").fadeIn(3000);
+        }
+        $("#WebGL-output").hide();
+        $("#restartButton").fadeIn(3000);
+      }, this.timeAnimation);
     }
 
 
@@ -312,7 +301,6 @@ class MyScene extends THREE.Scene {
     if (pickedObjects.length > 0) {
       this.piezaSeleccionada = pickedObjects[0].object.userData;
       var casilla = this.piezaSeleccionada.casillaActual;
-      //console.log(casilla);
       var casillas = this.tablero.casillasIndexadas[casilla].getCasillasAccesiblesCazadores();
       this.pickeableCasillas = this.tablero.marcarCasillas(casillas);
       this.desactivarLuzCazadores();
@@ -329,7 +317,6 @@ class MyScene extends THREE.Scene {
     var pickedObjects = this.raycaster.intersectObjects (this.pickeableCasillas, true);
     if (pickedObjects.length > 0) {
       var casillaSeleccionada = pickedObjects[0].object.userData;
-      //console.log(casillaSeleccionada.indice);
       this.pickeableCasillas = [];
       this.tablero.desmarcarCasillas();
       //movimiento
@@ -353,9 +340,6 @@ class MyScene extends THREE.Scene {
       if ($("#crotar").prop("checked")){
         this.girarCamara();
       }
-      
-      //this.camaraActual = this.camera;
-      //this.cAerea = false;
     } else {
       pickedObjects = this.raycaster.intersectObjects (this.pickeableCazadores, true);
       if (pickedObjects.length > 0){
@@ -366,7 +350,6 @@ class MyScene extends THREE.Scene {
           this.piezaSeleccionada = pieza;
           this.piezaSeleccionada.activarLuz();
           var casilla = this.piezaSeleccionada.casillaActual;
-          //console.log(casilla);
           var casillas = this.tablero.casillasIndexadas[casilla].getCasillasAccesiblesCazadores();
           this.pickeableCasillas = this.tablero.marcarCasillas(casillas);
         } else {
@@ -384,10 +367,8 @@ class MyScene extends THREE.Scene {
     this.raycaster.setFromCamera (mouse, this.getCamera());
     var pickedObjects = this.raycaster.intersectObjects (this.pickeablePresa, true);
     if (pickedObjects.length > 0) {
-      //this.setMessage("Pieza Seleccionada");
       this.piezaSeleccionada = pickedObjects[0].object.userData;
       var casilla = this.piezaSeleccionada.casillaActual;
-      //console.log(casilla);
       var casillas = this.tablero.casillasIndexadas[casilla].getCasillasAccesiblesPresa();
       this.pickeableCasillas = this.tablero.marcarCasillas(casillas);
       this.action = MyScene.ELEGIR_CASILLA;
@@ -402,7 +383,6 @@ class MyScene extends THREE.Scene {
     var pickedObjects = this.raycaster.intersectObjects (this.pickeableCasillas, true);
     if (pickedObjects.length > 0) {
       var casillaSeleccionada = pickedObjects[0].object.userData;
-      //console.log(casillaSeleccionada.indice);
       this.pickeableCasillas = [];
       this.tablero.desmarcarCasillas();
       //movimiento
@@ -426,8 +406,6 @@ class MyScene extends THREE.Scene {
       if ($("#crotar").prop("checked")){
         this.girarCamara();
       }
-      //this.camaraActual = this.camera;
-      //this.cAerea = false;
     } else {
       pickedObjects = this.raycaster.intersectObjects (this.pickeablePresa, true);
       if (pickedObjects.length > 0){
@@ -450,7 +428,7 @@ class MyScene extends THREE.Scene {
           break;
 
         default:
-          this.setMessage("Cagaste");
+          this.setMessage("Error al seleccionar cazador");
       }
     }
   }
@@ -467,7 +445,7 @@ class MyScene extends THREE.Scene {
           break;
 
         default:
-          this.setMessage("Cagaste");
+          this.setMessage("Error al seleccionar presa");
       }
     }
   }
@@ -485,7 +463,7 @@ class MyScene extends THREE.Scene {
           break;
 
         default:
-          this.setMessage("Cagaste");
+          this.setMessage("Error de turno");
       }
     }
   }
@@ -521,17 +499,6 @@ class MyScene extends THREE.Scene {
     }
   }
 
-/* Trozo de codigo porque si 
-var vector = this.getPointOnGround(event);
-this.setMessage(event);
-if (vector === null){
-  this.setMessage("Vector nulo");
-}
-else {
-  this.setMessage(vector.x + "\t" + vector.y);
-} 
-*/
-
   /// It returns the position of the mouse in normalized coordinates ([-1,1],[-1,1])
   /**
    * @param event - Mouse information
@@ -542,28 +509,6 @@ else {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = 1 - 2 * (event.clientY / window.innerHeight);
     return mouse;
-  }
-  
-  /// It returns the point on the ground where the mouse has clicked
-  /**
-   * @param event - The mouse information
-   * @return The Vector2 with the ground point clicked, or null
-   */
-  getPointOnGround (event) {
-    var mouse = this.getMouse (event);
-    this.raycaster.setFromCamera (mouse, this.getCamera());
-    var surfaces = [this.lobo1, this.lobo2, this.lobo3];
-    var pickedObjects = this.raycaster.intersectObjects (surfaces, true);
-    if (pickedObjects.length > 0) {
-      //pickedObjects[0].object.userData.controlAnimacion();
-      var casilla = pickedObjects[0].object.userData.casillaActual;
-      console.log(casilla);
-      var casillas = this.tablero.casillasIndexadas[casilla].getCasillasAccesiblesCazadores();
-      this.tablero.marcarCasillas(casillas);
-      //this.lobo1.controlAnimacion();
-      return new THREE.Vector2 (pickedObjects[0].point.x, pickedObjects[0].point.z);
-    } else
-      return null;
   }
 
   initStats() {
@@ -810,14 +755,11 @@ else {
       if (this.aplicationMode == MyScene.TURNO_CAZADORES){
         setTimeout(() => {
           if (this.camaraAerea.rotation.z >= -Math.PI && this.camaraAerea.rotation.z < 0){
-          
-            //console.log("Rotando camara turno cazador: " + this.camaraAerea.rotation.z);
             this.camaraAerea.rotateZ(v);
           }
           else {
             this.rotarCamara = false;
             this.camaraAerea.rotation.z = 0;
-            //console.log("Parar rotacion camara cazador: " + this.camaraAerea.rotation.z);
           }
         }, this.timeAnimation/2);
         
@@ -825,24 +767,21 @@ else {
       else {
         setTimeout(() => {
           if (this.camaraAerea.rotation.z <= Math.PI && this.camaraAerea.rotation.z >= 0){
-            //console.log("Rotando camara turno presa: " + this.camaraAerea.rotation.z);
             this.camaraAerea.rotateZ(v);
           }
           else {
             this.rotarCamara = false;
             this.camaraAerea.rotation.z = -Math.PI;
-            //this.camera.position.set();
-            //console.log("Parar rotacion camara presa: " + this.camaraAerea.rotation.z);
           }
         }, this.timeAnimation/2);
       }
     }
     
     // Se actualiza el resto del modelo
-    this.conejo.update();
-    this.lobo1.update();
-    this.lobo2.update();
-    this.lobo3.update();
+    this.presa.update();
+    this.cazador1.update();
+    this.cazador2.update();
+    this.cazador3.update();
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
 
@@ -866,23 +805,11 @@ else {
   MyScene.JUGANDO = 0;
   MyScene.GANAN_CAZADORES = 1;
   MyScene.GANA_PRESA = 2
-  
 
-
-/*$(document).ready(function(){
-  $('#boton_contador').on('click', function(){
-    var contador = $("#contador").val();
-    console.log("Contador: " + contador);
-  });
-  
-})*/
-
-/// La función   main
+/// La función main
 $(function () {
   
   // Se instancia la escena pasándole el  div  que se ha creado en el html para visualizar
-  //if(boton pulsado) creo la escena
-  //else sigo esperando
   $('#boton_empezar').on('click', function () {
     $("#comienzo").hide();
     var scene = new MyScene("#WebGL-output");
