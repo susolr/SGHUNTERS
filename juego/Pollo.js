@@ -9,7 +9,7 @@ class Pollo extends THREE.Object3D {
     // Se crea la parte de la interfaz que corresponde a la caja
     // Se crea primero porque otros métodos usan las variables que se definen para la interfaz
     //this.createGUI(gui,titleGui);
-    this.model = this.createLobo();
+    this.model = this.createPollo();
     this.model.position.y = 1.1;
     this.add(this.model);
     this.clock = new THREE.Clock();
@@ -22,9 +22,9 @@ class Pollo extends THREE.Object3D {
     this.light = this.createLight();
     this.light.visible=false;
     this.model.add(this.light);
-    
   }
 
+  // Método que crea la luz de la figura
   createLight(){
     var light = new THREE.SpotLight(0xfcfcfc, 3, 6, Math.PI/4);
     light.position.set(0, 6, 0);
@@ -32,17 +32,20 @@ class Pollo extends THREE.Object3D {
     return light;
   }
 
+  // Método que activa la luz de la figura
   activarLuz(){
     //this.add(this.light);
     this.light.visible = true;
   }
 
+  // Método que desactiva la luz de la figura
   desactivarLuz(){
     //this.remove(this.light);
     this.light.visible = false;
   }
 
-  createLobo(){
+   // Método que crea al pollo
+  createPollo(){
       var texture = new THREE.TextureLoader().load('../imgs/plumas.jpg');
       var mat = new THREE.MeshPhongMaterial ({map: texture});
       //var mat = new THREE.MeshPhongMaterial({color: 0xe6e6e6}); // Gris
@@ -164,31 +167,27 @@ class Pollo extends THREE.Object3D {
       completo.position.y = 0.625;
 
       return completo;
-
   }
 
+  // Método que activa o desactiva la animación (siempre opuesto a lo que actualmente se encuentra)
   controlAnimacion () {
     this.animacionControl = !this.animacionControl;
   }
 
+  // Método que establece la rotación de las patas a 0
   resetPatas(){
     this.pataD.rotation.x = 0;
     this.pataI.rotation.x = 0;
   }
 
+   // Método que crea la animación
   createAnimation(spline){
-    
     this.spline = spline;
     this.animacion = new THREE.Object3D();
     var pos = this.spline.getPointAt(0);
     this.animacion.position.copy(pos);
-    //var tangente = this.spline.getTangentAt(0);
-    //pos.add(tangente);
-    //this.animacion.lookAt(pos);
     this.animacion.add(this.model);
-    //this.animacion.add(this.light);
     this.add(this.animacion);
-
 
     this.origin = {p : 0};
     this.destiny = {p : 1};
@@ -199,9 +198,6 @@ class Pollo extends THREE.Object3D {
         .onUpdate(function() { 
             var pos = that.spline.getPointAt(that.origin.p);
             that.animacion.position.copy(pos);
-            //var tangente = that.spline.getTangentAt(that.origin.p);
-            //pos.add(tangente);
-            //that.animacion.lookAt(pos);
         })
         .onStart( that.controlAnimacion())
         .onComplete(function(){
@@ -213,10 +209,10 @@ class Pollo extends THREE.Object3D {
   }
   
   update () {
-    
     var delta = this.clock.getDelta() ;
     var v = 2*delta;
     TWEEN.update();
+
     if (this.animacionControl){
       if(this.mov_d == 0){
         if(this.pataD.rotation.x < Math.PI/6 ){
@@ -226,6 +222,7 @@ class Pollo extends THREE.Object3D {
           this.mov_d = 1;
         }
       }
+
       else{
         if(this.pataD.rotation.x > -Math.PI/6 ){
           this.pataD.rotation.x += -v;
@@ -243,6 +240,7 @@ class Pollo extends THREE.Object3D {
           this.mov_i = 0;
         }
       }
+
       else{
         if(this.pataI.rotation.x > -Math.PI/6 ){
           this.pataI.rotation.x += -v;
@@ -252,8 +250,6 @@ class Pollo extends THREE.Object3D {
         }
       }
     }
-    
-    
   }
 }
 

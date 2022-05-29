@@ -9,7 +9,7 @@ class Zorro extends THREE.Object3D {
     // Se crea la parte de la interfaz que corresponde a la caja
     // Se crea primero porque otros métodos usan las variables que se definen para la interfaz
     //this.createGUI(gui,titleGui);
-    this.model = this.createLobo();
+    this.model = this.createZorro();
     this.model.position.y = 1.35;
     this.add(this.model);
     this.clock = new THREE.Clock();
@@ -22,9 +22,9 @@ class Zorro extends THREE.Object3D {
     this.light = this.createLight();
     this.light.visible=false;
     this.model.add(this.light);
-    
   }
 
+  // Método que crea la luz de la figura
   createLight(){
     var light = new THREE.SpotLight(0xfcfcfc, 3, 6, Math.PI/4);
     light.position.set(0, 6, 0);
@@ -32,24 +32,27 @@ class Zorro extends THREE.Object3D {
     return light;
   }
 
+  // Método que activa la luz de la figura
   activarLuz(){
     //this.add(this.light);
     this.light.visible = true;
   }
 
+  // Método que desactiva la luz de la figura
   desactivarLuz(){
     //this.remove(this.light);
     this.light.visible = false;
   }
 
-  createLobo(){
+  // Método que crea al zorro
+  createZorro(){
       var texture = new THREE.TextureLoader().load('../imgs/pelajezorro.jpg');
       var mat = new THREE.MeshPhongMaterial ({map: texture});
       //var mat = new THREE.MeshPhongMaterial({color: 0xe6e6e6}); // Gris
       var matn = new THREE.MeshPhongMaterial({color: 0x000000}); // Negro
       var matb = new THREE.MeshPhongMaterial({color: 0xFFFFFF}); // Blanco
 
-      // Parte central (cabeza y lomo)
+      // Parte central (lomo)
       var centralGeom = new THREE.BoxGeometry(1.5, 1.5, 2.75);
       var central = new THREE.Mesh(centralGeom, mat);
       central.userData = this;
@@ -61,19 +64,21 @@ class Zorro extends THREE.Object3D {
       cabeza.position.z = 2.125;
       cabeza.position.y = -0.25;
 
-      // Cola
+      // Cola delantera
       var colaGeom = new THREE.BoxGeometry(1, 1.25, 1.5);
       var colaD = new THREE.Mesh(colaGeom, mat);
       colaD.userData = this;
       colaD.position.z = -2.125;
       colaD.position.y = 0;
 
+      // Cola trasera
       var colaTGeom = new THREE.BoxGeometry(1, 1.25, 0.75);
       var colaT = new THREE.Mesh(colaTGeom, matb);
       colaT.userData = this;
       colaT.position.z = -3.25;
       colaT.position.y = 0;
 
+      // Cola completa (parte delantera y trasera)
       var cola = new THREE.Object3D();
       cola.add(colaD);
       cola.add(colaT);
@@ -142,6 +147,7 @@ class Zorro extends THREE.Object3D {
       // Pupila ojo derecho
       var ojonD = new THREE.Mesh(cuboGeom, matb);
       ojonD.userData = this;
+
       // Esclerótica ojo derecho
       var ojobD = new THREE.Mesh(cuboGeom, matn);
       ojobD.userData = this;
@@ -181,7 +187,6 @@ class Zorro extends THREE.Object3D {
       this.pataDI.add(auxpataDI);
       this.pataDI.position.z = 1;
       this.pataDI.position.y = 0.625;
-      
 
       // Pata delantera derecha
       var auxpataDD = new THREE.Mesh(pataGeom, mat);
@@ -221,16 +226,18 @@ class Zorro extends THREE.Object3D {
       completo.add(this.pataTI);
       completo.add(this.pataTD);
 
-      // Subimos el lobo la mitad de la altura de las patas para que esté en la base
+      // Subimos el zorro la mitad de la altura de las patas para que esté en la base
       completo.position.y = 0.875;
       return completo;
-
   }
 
+
+  // Método que activa o desactiva la animación (siempre opuesto a lo que actualmente se encuentra)
   controlAnimacion () {
     this.animacionControl = !this.animacionControl;
   }
 
+  // Método que establece la rotación a 0
   resetPatas(){
     this.pataDD.rotation.x = 0;
     this.pataTD.rotation.x = 0;
@@ -238,19 +245,14 @@ class Zorro extends THREE.Object3D {
     this.pataTI.rotation.x = 0;
   }
 
+   // Método que crea la animación
   createAnimation(spline){
-    
     this.spline = spline;
     this.animacion = new THREE.Object3D();
     var pos = this.spline.getPointAt(0);
     this.animacion.position.copy(pos);
-    //var tangente = this.spline.getTangentAt(0);
-    //pos.add(tangente);
-    //this.animacion.lookAt(pos);
     this.animacion.add(this.model);
-    //this.animacion.add(this.light);
     this.add(this.animacion);
-
 
     this.origin = {p : 0};
     this.destiny = {p : 1};
@@ -261,9 +263,6 @@ class Zorro extends THREE.Object3D {
         .onUpdate(function() { 
             var pos = that.spline.getPointAt(that.origin.p);
             that.animacion.position.copy(pos);
-            //var tangente = that.spline.getTangentAt(that.origin.p);
-            //pos.add(tangente);
-            //that.animacion.lookAt(pos);
         })
         .onStart( that.controlAnimacion())
         .onComplete(function(){
@@ -278,6 +277,7 @@ class Zorro extends THREE.Object3D {
     var delta = this.clock.getDelta() ;
     var v = 2*delta;
     TWEEN.update();
+
     if (this.animacionControl){
       if(this.mov_d == 0){
         if(this.pataDD.rotation.x < Math.PI/6 ){
@@ -288,6 +288,7 @@ class Zorro extends THREE.Object3D {
           this.mov_d = 1;
         }
       }
+
       else{
         if(this.pataDD.rotation.x > -Math.PI/6 ){
           this.pataDD.rotation.x += -v;
@@ -307,6 +308,7 @@ class Zorro extends THREE.Object3D {
           this.mov_i = 0;
         }
       }
+
       else{
         if(this.pataDI.rotation.x > -Math.PI/6 ){
           this.pataDI.rotation.x += -v;
@@ -316,8 +318,7 @@ class Zorro extends THREE.Object3D {
           this.mov_i = 1;
         }
       }
-    }
-    
+    } 
   }
 }
 

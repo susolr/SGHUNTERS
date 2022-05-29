@@ -15,7 +15,6 @@ class Conejo extends THREE.Object3D {
     this.add(this.model);
     this.animacionControl = false;
     
-
     this.mov_d = 0;
     this.mov_t = 0;
 
@@ -25,6 +24,7 @@ class Conejo extends THREE.Object3D {
     this.light.visible = false;
   }
 
+  // Método que crea la luz de la figura
   createLight(){
     var light = new THREE.SpotLight(0xfcfcfc, 3, 6, Math.PI/4);
     light.position.set(0, 6, 0);
@@ -32,16 +32,19 @@ class Conejo extends THREE.Object3D {
     return light;
   }
 
+  // Método que activa la luz de la figura
   activarLuz(){
     //this.add(this.light);
     this.light.visible = true;
   }
 
+  // Método que desactiva la luz de la figura
   desactivarLuz(){
     //this.remove(this.light);
     this.light.visible = false;
   }
 
+  // Método que crea al conejo
   createConejo(){
       var texture = new THREE.TextureLoader().load('../imgs/pelajeconejo.jpg');
       var mat = new THREE.MeshPhongMaterial ({map: texture});
@@ -206,24 +209,25 @@ class Conejo extends THREE.Object3D {
 
   }
 
+  // Método que activa o desactiva la animación (siempre opuesto a lo que actualmente se encuentra)
+  controlAnimacion () {
+    this.animacionControl = !this.animacionControl;
+  }
+
+  // Método que establece la rotación de las patas a 0
   resetPatas(){
     this.patasD.rotation.x = 0;
     this.patasT.rotation.x = 0;
   }
 
+  // Método que crea la animación
   createAnimation(spline){
-    
     this.spline = spline;
     this.animacion = new THREE.Object3D();
     var pos = this.spline.getPointAt(0);
     this.animacion.position.copy(pos);
-    //var tangente = this.spline.getTangentAt(0);
-    //pos.add(tangente);
-    //this.animacion.lookAt(pos);
     this.animacion.add(this.model);
-    //this.animacion.add(this.light);
     this.add(this.animacion);
-
 
     this.origin = {p : 0};
     this.destiny = {p : 1};
@@ -234,9 +238,6 @@ class Conejo extends THREE.Object3D {
         .onUpdate(function() { 
             var pos = that.spline.getPointAt(that.origin.p);
             that.animacion.position.copy(pos);
-            //var tangente = that.spline.getTangentAt(that.origin.p);
-            //pos.add(tangente);
-            //that.animacion.lookAt(pos);
         })
         .onStart( that.controlAnimacion())
         .onComplete(function(){
@@ -246,15 +247,12 @@ class Conejo extends THREE.Object3D {
 
       this.animation.start();
   }
-
-  controlAnimacion () {
-    this.animacionControl = !this.animacionControl;
-  }
   
   update () {
     var delta = this.clock.getDelta() ;
     var v = 2*delta;
     TWEEN.update();
+
     if(this.animacionControl){
       if(this.mov_d == 0){
         if(this.patasD.rotation.x < Math.PI/6 ){
@@ -264,6 +262,7 @@ class Conejo extends THREE.Object3D {
           this.mov_d = 1;
         }
       }
+
       else{
         if(this.patasD.rotation.x > -Math.PI/6 ){
           this.patasD.rotation.x -= v;
@@ -281,6 +280,7 @@ class Conejo extends THREE.Object3D {
           this.mov_t = 0;
         }
       }
+
       else{
         if(this.patasT.rotation.x > -Math.PI/6 ){
           this.patasT.rotation.x -= v;
@@ -290,7 +290,6 @@ class Conejo extends THREE.Object3D {
         }
       }
     }
-
   }
 }
 

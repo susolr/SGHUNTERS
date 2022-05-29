@@ -22,9 +22,9 @@ class Ocelote extends THREE.Object3D {
     this.light = this.createLight();
     this.light.visible=false;
     this.model.add(this.light);
-    
   }
 
+  // Método que crea la luz de la figura
   createLight(){
     var light = new THREE.SpotLight(0xfcfcfc, 3, 6, Math.PI/4);
     light.position.set(0, 6, 0);
@@ -32,26 +32,28 @@ class Ocelote extends THREE.Object3D {
     return light;
   }
 
+  // Método que activa la luz de la figura
   activarLuz(){
     //this.add(this.light);
     this.light.visible = true;
   }
 
+  // Método que desactiva la luz de la figura
   desactivarLuz(){
     //this.remove(this.light);
     this.light.visible = false;
   }
 
+  // Método que crea al ocelote
   createOcelote(){
       var texture = new THREE.TextureLoader().load('../imgs/pelajeocelote.jpg');
       var mat = new THREE.MeshPhongMaterial ({map: texture});
       //var mat = new THREE.MeshPhongMaterial({color: 0xe6e6e6}); // Gris
-      var matn = new THREE.MeshPhongMaterial({color: 0x000000}); // Negro
       var matb = new THREE.MeshPhongMaterial({color: 0xFFFFFF}); // Blanco
       var matv = new THREE.MeshPhongMaterial({color: 0x008f39}); // Verde
       var matm = new THREE.MeshPhongMaterial({color: 0x73400d}); // Verde
 
-      // Parte central (cabeza y lomo)
+      // Parte central (lomo)
       var centralGeom = new THREE.BoxGeometry(1, 1.5, 4);
       var central = new THREE.Mesh(centralGeom, mat);
       central.userData = this;
@@ -63,7 +65,7 @@ class Ocelote extends THREE.Object3D {
       cabeza.position.z = 2.625;
       cabeza.position.y = 0.5;
 
-      // Cola
+      // Cola delantera
       var colaGeom = new THREE.BoxGeometry(0.25, 0.25, 1.5);
       var colaD = new THREE.Mesh(colaGeom, mat);
       colaD.userData = this;
@@ -71,6 +73,7 @@ class Ocelote extends THREE.Object3D {
       colaD.position.z = -2.5;
       colaD.position.y = 0;
 
+      // Cola trasera
       var colaTGeom = new THREE.BoxGeometry(0.24, 0.24, 2);
       var colaT = new THREE.Mesh(colaTGeom, mat);
       colaT.userData = this;
@@ -78,11 +81,10 @@ class Ocelote extends THREE.Object3D {
       colaT.position.z = -4;
       colaT.position.y = 0.125;
 
-
+      // Cola completa (parte delantera y trasera)
       var cola = new THREE.Object3D();
       cola.add(colaD);
       cola.add(colaT);
-
 
       // Hocico parte superior
       var hocicoSGeom = new THREE.BoxGeometry(0.75, 0.25, 0.25);
@@ -130,8 +132,8 @@ class Ocelote extends THREE.Object3D {
       orejas.position.y = 1;
 
       // Pupila ojo izquierdo
-      var ojonI = new THREE.Mesh(cuboGeom, matv);
-      ojonI.userData = this;
+      var ojovI = new THREE.Mesh(cuboGeom, matv);
+      ojovI.userData = this;
       
       // Esclerótica ojo izquierdo
       var ojobI = new THREE.Mesh(cuboGeom, matb);
@@ -140,19 +142,19 @@ class Ocelote extends THREE.Object3D {
 
       // Ojo izquierdo (pupila y esclerótica)
       var ojoI = new THREE.Object3D();
-      ojoI.add(ojonI);
+      ojoI.add(ojovI);
       ojoI.add(ojobI);
       ojoI.position.x = 0.23;
 
       // Pupila ojo derecho
-      var ojonD = new THREE.Mesh(cuboGeom, matv);
+      var ojovD = new THREE.Mesh(cuboGeom, matv);
       // Esclerótica ojo derecho
       var ojobD = new THREE.Mesh(cuboGeom, matb);
       ojobD.position.x = -0.25;
 
       // Ojo derecho (pupila y esclerótica)
       var ojoD = new THREE.Object3D();
-      ojoD.add(ojonD);
+      ojoD.add(ojovD);
       ojoD.add(ojobD);
       ojoD.position.x = -0.23;
 
@@ -224,16 +226,18 @@ class Ocelote extends THREE.Object3D {
       completo.add(this.pataTI);
       completo.add(this.pataTD);
 
-      // Subimos el lobo la mitad de la altura de las patas para que esté en la base
+      // Subimos el ocelote la mitad de la altura de las patas para que esté en la base
       completo.position.y = 0.875;
       return completo;
 
   }
 
+  // Método que activa o desactiva la animación (siempre opuesto a lo que actualmente se encuentra)
   controlAnimacion () {
     this.animacionControl = !this.animacionControl;
   }
 
+  // Método que establece la rotación de las patas a 0
   resetPatas(){
     this.pataDD.rotation.x = 0;
     this.pataTD.rotation.x = 0;
@@ -241,19 +245,14 @@ class Ocelote extends THREE.Object3D {
     this.pataTI.rotation.x = 0;
   }
 
+  // Método que crea la animación
   createAnimation(spline){
-    
     this.spline = spline;
     this.animacion = new THREE.Object3D();
     var pos = this.spline.getPointAt(0);
     this.animacion.position.copy(pos);
-    //var tangente = this.spline.getTangentAt(0);
-    //pos.add(tangente);
-    //this.animacion.lookAt(pos);
     this.animacion.add(this.model);
-    //this.animacion.add(this.light);
     this.add(this.animacion);
-
 
     this.origin = {p : 0};
     this.destiny = {p : 1};
@@ -264,9 +263,6 @@ class Ocelote extends THREE.Object3D {
         .onUpdate(function() { 
             var pos = that.spline.getPointAt(that.origin.p);
             that.animacion.position.copy(pos);
-            //var tangente = that.spline.getTangentAt(that.origin.p);
-            //pos.add(tangente);
-            //that.animacion.lookAt(pos);
         })
         .onStart( that.controlAnimacion())
         .onComplete(function(){
@@ -281,6 +277,7 @@ class Ocelote extends THREE.Object3D {
     var delta = this.clock.getDelta() ;
     var v = 2*delta;
     TWEEN.update();
+
     if (this.animacionControl){
       if(this.mov_d == 0){
         if(this.pataDD.rotation.x < Math.PI/6 ){
@@ -291,6 +288,7 @@ class Ocelote extends THREE.Object3D {
           this.mov_d = 1;
         }
       }
+
       else{
         if(this.pataDD.rotation.x > -Math.PI/6 ){
           this.pataDD.rotation.x += -v;
@@ -310,6 +308,7 @@ class Ocelote extends THREE.Object3D {
           this.mov_i = 0;
         }
       }
+
       else{
         if(this.pataDI.rotation.x > -Math.PI/6 ){
           this.pataDI.rotation.x += -v;
@@ -320,7 +319,6 @@ class Ocelote extends THREE.Object3D {
         }
       }
     }
-    
   }
 }
 

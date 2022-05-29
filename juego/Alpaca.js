@@ -9,6 +9,7 @@ class Alpaca extends THREE.Object3D {
     // Se crea la parte de la interfaz que corresponde a la caja
     // Se crea primero porque otros métodos usan las variables que se definen para la interfaz
     //this.createGUI(gui,titleGui);
+
     this.model = this.createAlpaca();
     this.model.position.y = 1.5; //2 si quitamos escalado
     this.add(this.model);
@@ -22,9 +23,9 @@ class Alpaca extends THREE.Object3D {
     this.light = this.createLight();
     this.light.visible=false;
     this.model.add(this.light);
-    
   }
 
+  // Método que crea la luz de la figura
   createLight(){
     var light = new THREE.SpotLight(0xfcfcfc, 2, 10, Math.PI/4);
     light.position.set(0, 10, 0);
@@ -32,16 +33,19 @@ class Alpaca extends THREE.Object3D {
     return light;
   }
 
+  // Método que activa la luz de la figura
   activarLuz(){
     //this.add(this.light);
     this.light.visible = true;
   }
 
+  // Método que desactiva la luz de la figura
   desactivarLuz(){
     //this.remove(this.light);
     this.light.visible = false;
   }
 
+  // Método que crea a la alpaca
   createAlpaca(){
       var texture = new THREE.TextureLoader().load('../imgs/pelajealpaca.jpg');
       var mat = new THREE.MeshPhongMaterial ({map: texture});
@@ -217,7 +221,6 @@ class Alpaca extends THREE.Object3D {
       this.pataTD.position.z = -1.25;
       this.pataTD.position.y = 1;
       
-
       var completo = new THREE.Object3D();
       completo.add(cuerpocompleto);
       completo.add(this.pataDI);
@@ -229,30 +232,27 @@ class Alpaca extends THREE.Object3D {
       return completo;
   }
 
+  // Método que activa o desactiva la animación (siempre opuesto a lo que actualmente se encuentra)
   controlAnimacion () {
     this.animacionControl = !this.animacionControl;
   }
 
-  resetPatas(){
+  // Método que establece la rotación de las patas a 0
+  resetPatas(){ 
     this.pataDD.rotation.x = 0;
     this.pataTD.rotation.x = 0;
     this.pataDI.rotation.x = 0;
     this.pataTI.rotation.x = 0;
   }
 
+  // Método que crea la animación
   createAnimation(spline){
-    
     this.spline = spline;
     this.animacion = new THREE.Object3D();
     var pos = this.spline.getPointAt(0);
     this.animacion.position.copy(pos);
-    //var tangente = this.spline.getTangentAt(0);
-    //pos.add(tangente);
-    //this.animacion.lookAt(pos);
     this.animacion.add(this.model);
-    //this.animacion.add(this.light);
     this.add(this.animacion);
-
 
     this.origin = {p : 0};
     this.destiny = {p : 1};
@@ -263,9 +263,6 @@ class Alpaca extends THREE.Object3D {
         .onUpdate(function() { 
             var pos = that.spline.getPointAt(that.origin.p);
             that.animacion.position.copy(pos);
-            //var tangente = that.spline.getTangentAt(that.origin.p);
-            //pos.add(tangente);
-            //that.animacion.lookAt(pos);
         })
         .onStart( that.controlAnimacion())
         .onComplete(function(){
@@ -276,12 +273,11 @@ class Alpaca extends THREE.Object3D {
       this.animation.start();
   }
   
-  
-
   update () {
     var delta = this.clock.getDelta() ;
     var v = 2*delta;
     TWEEN.update();
+
     if (this.animacionControl){
       if(this.mov_d == 0){
         if(this.pataDD.rotation.x < Math.PI/6 ){
@@ -292,6 +288,7 @@ class Alpaca extends THREE.Object3D {
           this.mov_d = 1;
         }
       }
+
       else{
         if(this.pataDD.rotation.x > -Math.PI/6 ){
           this.pataDD.rotation.x += -v;
@@ -311,6 +308,7 @@ class Alpaca extends THREE.Object3D {
           this.mov_i = 0;
         }
       }
+
       else{
         if(this.pataDI.rotation.x > -Math.PI/6 ){
           this.pataDI.rotation.x += -v;
@@ -321,7 +319,6 @@ class Alpaca extends THREE.Object3D {
         }
       }
     }
-    
   }
 }
 
