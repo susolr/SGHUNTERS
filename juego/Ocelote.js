@@ -21,30 +21,6 @@ class Ocelote extends Cazador {
     this.model.add(this.light);
   }
 
-<<<<<<< HEAD
-=======
-  // Método que crea la luz de la figura
-  createLight(){
-    var light = new THREE.SpotLight(0xfcfcfc, 3, 6, Math.PI/4);
-    light.position.set(0, 6, 0);
-    light.target = this.model;
-    return light;
-  }
-
-  // Método que activa la luz de la figura
-  activarLuz(){
-    //this.add(this.light);
-    this.light.visible = true;
-  }
-
-  // Método que desactiva la luz de la figura
-  desactivarLuz(){
-    //this.remove(this.light);
-    this.light.visible = false;
-  }
-
-  // Método que crea al ocelote
->>>>>>> bc420b25408494f84e1da7ea8817581d4fc646a4
   createOcelote(){
       var texture = new THREE.TextureLoader().load('../imgs/pelajeocelote.jpg');
       var mat = new THREE.MeshPhongMaterial ({map: texture});
@@ -232,52 +208,12 @@ class Ocelote extends Cazador {
 
   }
 
-<<<<<<< HEAD
-=======
-  // Método que activa o desactiva la animación (siempre opuesto a lo que actualmente se encuentra)
-  controlAnimacion () {
-    this.animacionControl = !this.animacionControl;
-  }
-
-  // Método que establece la rotación de las patas a 0
->>>>>>> bc420b25408494f84e1da7ea8817581d4fc646a4
   resetPatas(){
     this.pataDD.rotation.x = 0;
     this.pataTD.rotation.x = 0;
     this.pataDI.rotation.x = 0;
     this.pataTI.rotation.x = 0;
   }
-<<<<<<< HEAD
-=======
-
-  // Método que crea la animación
-  createAnimation(spline){
-    this.spline = spline;
-    this.animacion = new THREE.Object3D();
-    var pos = this.spline.getPointAt(0);
-    this.animacion.position.copy(pos);
-    this.animacion.add(this.model);
-    this.add(this.animacion);
-
-    this.origin = {p : 0};
-    this.destiny = {p : 1};
-    var that = this;
-    this.animation = new TWEEN.Tween(this.origin)
-        .to(this.destiny,2000)
-        .easing(TWEEN.Easing.Linear.None)
-        .onUpdate(function() { 
-            var pos = that.spline.getPointAt(that.origin.p);
-            that.animacion.position.copy(pos);
-        })
-        .onStart( that.controlAnimacion())
-        .onComplete(function(){
-            that.controlAnimacion(); 
-            that.resetPatas();
-          });
-
-      this.animation.start();
-  }
->>>>>>> bc420b25408494f84e1da7ea8817581d4fc646a4
   
   update () {
     var delta = this.clock.getDelta() ;

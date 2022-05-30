@@ -6,14 +6,7 @@ class Zorro extends Cazador {
   constructor() {
     super();
     
-<<<<<<< HEAD
     this.model = this.createLobo();
-=======
-    // Se crea la parte de la interfaz que corresponde a la caja
-    // Se crea primero porque otros métodos usan las variables que se definen para la interfaz
-    //this.createGUI(gui,titleGui);
-    this.model = this.createZorro();
->>>>>>> bc420b25408494f84e1da7ea8817581d4fc646a4
     this.model.position.y = 1.35;
     this.add(this.model);
     this.clock = new THREE.Clock();

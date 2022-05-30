@@ -21,30 +21,6 @@ class Conejo extends Presa {
     this.light.visible = false;
   }
 
-<<<<<<< HEAD
-=======
-  // Método que crea la luz de la figura
-  createLight(){
-    var light = new THREE.SpotLight(0xfcfcfc, 3, 6, Math.PI/4);
-    light.position.set(0, 6, 0);
-    light.target = this.model;
-    return light;
-  }
-
-  // Método que activa la luz de la figura
-  activarLuz(){
-    //this.add(this.light);
-    this.light.visible = true;
-  }
-
-  // Método que desactiva la luz de la figura
-  desactivarLuz(){
-    //this.remove(this.light);
-    this.light.visible = false;
-  }
-
-  // Método que crea al conejo
->>>>>>> bc420b25408494f84e1da7ea8817581d4fc646a4
   createConejo(){
       var texture = new THREE.TextureLoader().load('../imgs/pelajeconejo.jpg');
       var mat = new THREE.MeshPhongMaterial ({map: texture});
@@ -219,37 +195,6 @@ class Conejo extends Presa {
     this.patasD.rotation.x = 0;
     this.patasT.rotation.x = 0;
   }
-<<<<<<< HEAD
-=======
-
-  // Método que crea la animación
-  createAnimation(spline){
-    this.spline = spline;
-    this.animacion = new THREE.Object3D();
-    var pos = this.spline.getPointAt(0);
-    this.animacion.position.copy(pos);
-    this.animacion.add(this.model);
-    this.add(this.animacion);
-
-    this.origin = {p : 0};
-    this.destiny = {p : 1};
-    var that = this;
-    this.animation = new TWEEN.Tween(this.origin)
-        .to(this.destiny,2000)
-        .easing(TWEEN.Easing.Linear.None)
-        .onUpdate(function() { 
-            var pos = that.spline.getPointAt(that.origin.p);
-            that.animacion.position.copy(pos);
-        })
-        .onStart( that.controlAnimacion())
-        .onComplete(function(){
-            that.controlAnimacion(); 
-            that.resetPatas();
-          });
-
-      this.animation.start();
-  }
->>>>>>> bc420b25408494f84e1da7ea8817581d4fc646a4
   
   update () {
     var delta = this.clock.getDelta() ;
