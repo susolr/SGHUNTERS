@@ -547,6 +547,7 @@ class MyScene extends THREE.Scene {
             this.ground.visible = true;
             this.camaraActual = this.camaraAerea;
             this.cAerea = true;
+            this.cFija = false;
           }
 
           else { // Desactivar cámara aérea
