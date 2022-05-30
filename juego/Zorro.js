@@ -1,14 +1,11 @@
 import * as THREE from '../libs/three.module.js'
-import { CSG } from '../libs/CSG-v2.js'
 import * as TWEEN from '../libs/tween.esm.js'
+import { Cazador } from './Cazador.js'
  
-class Zorro extends THREE.Object3D {
+class Zorro extends Cazador {
   constructor() {
     super();
     
-    // Se crea la parte de la interfaz que corresponde a la caja
-    // Se crea primero porque otros métodos usan las variables que se definen para la interfaz
-    //this.createGUI(gui,titleGui);
     this.model = this.createLobo();
     this.model.position.y = 1.35;
     this.add(this.model);

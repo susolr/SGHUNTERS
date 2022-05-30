@@ -1,14 +1,11 @@
 import * as THREE from '../libs/three.module.js'
-import { CSG } from '../libs/CSG-v2.js'
 import * as TWEEN from '../libs/tween.esm.js'
+import { Presa } from './Presa.js'
  
-class Conejo extends THREE.Object3D {
+class Conejo extends Presa {
   constructor() {
     super();
-    
-    // Se crea la parte de la interfaz que corresponde a la caja
-    // Se crea primero porque otros métodos usan las variables que se definen para la interfaz
-    //this.createGUI(gui,titleGui);
+
     this.model = this.createConejo();
     this.model.position.y = 1.5;
     this.clock = new THREE.Clock();
@@ -22,23 +19,6 @@ class Conejo extends THREE.Object3D {
     this.casillaActual;
     this.light = this.createLight();
     this.model.add(this.light);
-    this.light.visible = false;
-  }
-
-  createLight(){
-    var light = new THREE.SpotLight(0xfcfcfc, 3, 6, Math.PI/4);
-    light.position.set(0, 6, 0);
-    light.target = this.model;
-    return light;
-  }
-
-  activarLuz(){
-    //this.add(this.light);
-    this.light.visible = true;
-  }
-
-  desactivarLuz(){
-    //this.remove(this.light);
     this.light.visible = false;
   }
 
@@ -209,46 +189,6 @@ class Conejo extends THREE.Object3D {
   resetPatas(){
     this.patasD.rotation.x = 0;
     this.patasT.rotation.x = 0;
-  }
-
-  createAnimation(spline){
-    
-    this.spline = spline;
-    this.animacion = new THREE.Object3D();
-    var pos = this.spline.getPointAt(0);
-    this.animacion.position.copy(pos);
-    //var tangente = this.spline.getTangentAt(0);
-    //pos.add(tangente);
-    //this.animacion.lookAt(pos);
-    this.animacion.add(this.model);
-    //this.animacion.add(this.light);
-    this.add(this.animacion);
-
-
-    this.origin = {p : 0};
-    this.destiny = {p : 1};
-    var that = this;
-    this.animation = new TWEEN.Tween(this.origin)
-        .to(this.destiny,2000)
-        .easing(TWEEN.Easing.Linear.None)
-        .onUpdate(function() { 
-            var pos = that.spline.getPointAt(that.origin.p);
-            that.animacion.position.copy(pos);
-            //var tangente = that.spline.getTangentAt(that.origin.p);
-            //pos.add(tangente);
-            //that.animacion.lookAt(pos);
-        })
-        .onStart( that.controlAnimacion())
-        .onComplete(function(){
-            that.controlAnimacion(); 
-            that.resetPatas();
-          });
-
-      this.animation.start();
-  }
-
-  controlAnimacion () {
-    this.animacionControl = !this.animacionControl;
   }
   
   update () {
