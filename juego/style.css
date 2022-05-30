@@ -11,6 +11,17 @@ body{
     text-align: center;
 }
 
+h1{
+    font-size: 50px;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+    background-color: #023e8a;
+    border-color: white;
+    border-style: ridge;
+    border-width: 5px;
+    color: white;
+}
+
 #figuras{
     font-size: 36px;
     display: flex;
@@ -21,9 +32,9 @@ body{
 
 #cazadores_form{
     background-color: aquamarine;
-    padding-bottom: 2%;
+    padding-bottom: 1%;
     margin-right: 10%;
-    font-size: 36px;
+    font-size: 30px;
     width: 45%;
     border-color:rgb(0, 28, 19);
     color: rgb(0, 28, 19);
@@ -39,8 +50,8 @@ body{
 
 #presa_form{
     background-color: aquamarine;
-    padding-bottom: 2%;
-    font-size: 36px;
+    padding-bottom: 1%;
+    font-size: 30px;
     width: 45%;
     border-color:rgb(0, 28, 19);
     color: rgb(0, 28, 19);
@@ -56,9 +67,9 @@ body{
 
 #turno_form{
     background-color: rgb(245, 153, 255);
-    padding-bottom: 2%;
+    padding-bottom: 1%;
     margin-left: 25%;
-    font-size: 36px;
+    font-size: 30px;
     width: 50%;
     color: rgb(67, 0, 85);
     border-color:rgb(67, 0, 85);
@@ -83,7 +94,7 @@ body{
     padding-bottom: 1%;
     padding-left: 2.5%;
     padding-right: 2.5%;
-    font-size: 36px;
+    font-size: 30px;
     background-color: #6fe9ff;
     color: #002b35;
     cursor: pointer;
@@ -95,6 +106,23 @@ body{
 #boton_empezar:hover{
     background-color: #005a68;
     color: #FFFFFF;
+}
+
+#ayuda a{
+    text-decoration: none;
+    color: black;
+}
+
+#ayuda{
+    text-align: center;
+    width: 35px;
+    font-size: 24px;
+    margin-right: 2%;
+    background-color: white;
+    border-color: black;
+    border-radius: 50%;
+    border-style: solid;
+    float:right;
 }
 
 .buttonRestart {
@@ -149,3 +177,23 @@ body{
     border-radius: 5%;
 }
 
+#reglas{
+    text-align: center;
+    margin-left: 15%;
+    width: 70%;
+    font-size: 18px;
+}
+
+#reglas h3{
+    padding-top: 1%;
+    margin-bottom: 0.5%;
+}
+
+#reglas li{
+    list-style-type: none;
+}
+
+#volver{
+    padding-top: 3%;
+    font-size: 24px;
+}

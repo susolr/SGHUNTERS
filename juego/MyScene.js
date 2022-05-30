@@ -914,6 +914,7 @@ $(function () {
   // Se instancia la escena pasándole el  div  que se ha creado en el html para visualizar
   $('#boton_empezar').on('click', function () {
     $("#comienzo").hide();
+    $("#ayuda").hide();
     var scene = new MyScene("#WebGL-output");
     //$("#WebGL-output").hide();
 
