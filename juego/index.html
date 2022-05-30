@@ -19,25 +19,26 @@
 
 <body>
 <div id="comienzo">
+  <h1> ESCAPE THE HUNTERS</h1>
   <div id ="figuras">
     <form name="cazadores" id="cazadores_form">
         <!-- Lista de selección -->
-        <p>Selecciona la opción de cazadores:</p>
+        <p>Selecciona cazador:</p>
         <select name="cazadores" id="cazadores_select">
           <!-- Opciones de la lista -->
-          <option value=1 selected> Lobo </option>
-          <option value=2> Zorro </option> <!-- Opción por defecto -->
+          <option value=1 selected> Lobo </option> <!-- Opción por defecto -->
+          <option value=2> Zorro </option> 
           <option value=3> Ocelote </option>
         </select>
     </form>
 
     <form name="presa" id="presa_form">
         <!-- Lista de selección -->
-      <p>Selecciona la opción de presa:</p>
+      <p>Selecciona presa:</p>
         <select name="presa" id="presa_select">
           <!-- Opciones de la lista -->
-          <option value=1 selected> Liebre </option>
-          <option value=2> Alpaca </option> <!-- Opción por defecto -->
+          <option value=1 selected> Liebre </option> <!-- Opción por defecto -->
+          <option value=2> Alpaca </option> 
           <option value=3> Pollo </option>
         </select>
     </form>
@@ -45,11 +46,11 @@
 
 <form name="turno" id="turno_form">
     <!-- Lista de selección -->
-  <p>Turno:</p>
+  <p>Selecciona turno:</p>
     <select name="turno" id="turno_select">
       <!-- Opciones de la lista -->
-      <option value=1 selected> Cazadores </option>
-      <option value=2> Presa </option> <!-- Opción por defecto -->
+      <option value=1 selected> Cazadores </option> <!-- Opción por defecto -->
+      <option value=2> Presa </option> 
     </select>
 </form>
 
@@ -57,6 +58,9 @@
 
 <button type="button" id="boton_empezar">Jugar</button>
 </div>
+
+<div id="ayuda"><a href="./reglas.html">?</a></div>
+
 <!-- Div which will show statistical information -->
 <div id="Stats-output">
 </div>

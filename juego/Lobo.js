@@ -9,7 +9,6 @@ class Lobo extends Cazador {
     this.model = this.createLobo();
     this.model.position.y = 1.35;
     this.add(this.model);
-    
     this.clock = new THREE.Clock();
 
     this.mov_d = 0;
@@ -20,9 +19,32 @@ class Lobo extends Cazador {
     this.light = this.createLight();
     this.light.visible=false;
     this.model.add(this.light);
-    
   }
 
+<<<<<<< HEAD
+=======
+  // Método que crea la luz de la figura
+  createLight(){
+    var light = new THREE.SpotLight(0xfcfcfc, 3, 6, Math.PI/4);
+    light.position.set(0, 6, 0);
+    light.target = this.model;
+    return light;
+  }
+
+  // Método que activa la luz de la figura
+  activarLuz(){
+    //this.add(this.light);
+    this.light.visible = true;
+  }
+
+  // Método que desactiva la luz de la figura
+  desactivarLuz(){
+    //this.remove(this.light);
+    this.light.visible = false;
+  }
+
+  // Método que crea al lobo
+>>>>>>> bc420b25408494f84e1da7ea8817581d4fc646a4
   createLobo(){
       var texture = new THREE.TextureLoader().load('../imgs/pelaje2.jpg');
       var mat = new THREE.MeshPhongMaterial ({map: texture});
@@ -150,7 +172,6 @@ class Lobo extends Cazador {
       this.pataDI.position.z = 0.75;
       this.pataDI.position.y = 0.625;
       
-
       // Pata delantera derecha
       var auxpataDD = new THREE.Mesh(pataGeom, mat);
       auxpataDD.userData = this;
@@ -195,17 +216,63 @@ class Lobo extends Cazador {
 
   }
 
+<<<<<<< HEAD
+=======
+  // Método que activa o desactiva la animación (siempre opuesto a lo que actualmente se encuentra)
+  controlAnimacion () {
+    this.animacionControl = !this.animacionControl;
+  }
+
+  // Método que establece la rotación de las patas a 0
+>>>>>>> bc420b25408494f84e1da7ea8817581d4fc646a4
   resetPatas(){
     this.pataDD.rotation.x = 0;
     this.pataTD.rotation.x = 0;
     this.pataDI.rotation.x = 0;
     this.pataTI.rotation.x = 0;
   }
+<<<<<<< HEAD
+=======
+
+  // Método que crea la animación
+  createAnimation(spline){
+    this.spline = spline;
+    this.animacion = new THREE.Object3D();
+    var pos = this.spline.getPointAt(0);
+    this.animacion.position.copy(pos);
+    this.animacion.add(this.model);
+    //this.animacion.add(this.light);
+    this.add(this.animacion);
+
+
+    this.origin = {p : 0};
+    this.destiny = {p : 1};
+    var that = this;
+    this.animation = new TWEEN.Tween(this.origin)
+        .to(this.destiny,2000)
+        .easing(TWEEN.Easing.Linear.None)
+        .onUpdate(function() { 
+            var pos = that.spline.getPointAt(that.origin.p);
+            that.animacion.position.copy(pos);
+            //var tangente = that.spline.getTangentAt(that.origin.p);
+            //pos.add(tangente);
+            //that.animacion.lookAt(pos);
+        })
+        .onStart( that.controlAnimacion())
+        .onComplete(function(){
+            that.controlAnimacion(); 
+            that.resetPatas();
+          });
+
+      this.animation.start();
+  }
+>>>>>>> bc420b25408494f84e1da7ea8817581d4fc646a4
   
   update () {
     var delta = this.clock.getDelta();
     var v = 2*delta;
     TWEEN.update();
+
     if (this.animacionControl){
       if(this.mov_d == 0){
         if(this.pataDD.rotation.x < Math.PI/6 ){
@@ -216,6 +283,7 @@ class Lobo extends Cazador {
           this.mov_d = 1;
         }
       }
+
       else{
         if(this.pataDD.rotation.x > -Math.PI/6 ){
           this.pataDD.rotation.x += -v;
@@ -235,6 +303,7 @@ class Lobo extends Cazador {
           this.mov_i = 0;
         }
       }
+
       else{
         if(this.pataDI.rotation.x > -Math.PI/6 ){
           this.pataDI.rotation.x += -v;
@@ -245,7 +314,6 @@ class Lobo extends Cazador {
         }
       }
     }
-    
   }
 }
 
