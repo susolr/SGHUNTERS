@@ -8,7 +8,7 @@ class Presa extends THREE.Object3D {
   }
 
   createLight(){
-    var light = new THREE.SpotLight(0xfcfcfc, 2, 10, Math.PI/4);
+    var light = new THREE.SpotLight(0xfcfcfc, 5, 10, Math.PI/4);
     light.position.set(0, 10, 0);
     light.target = this.model;
     return light;
