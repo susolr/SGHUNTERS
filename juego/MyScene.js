@@ -119,6 +119,8 @@ class MyScene extends THREE.Scene {
     else {
       this.activarLuzPresas();
     }
+
+    this.timeAnimation = 2000;
   }
 
 
@@ -519,7 +521,6 @@ class MyScene extends THREE.Scene {
 
   // Método que se activa al pulsar con el ratón, y llama a los métodos correspondientes de selección según el turno
   onMouseDown(event) {
-    this.timeAnimation = 2000;
 
     if (!event.ctrlKey) {
       switch (this.aplicationMode) {
