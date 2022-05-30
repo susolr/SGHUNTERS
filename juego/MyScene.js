@@ -369,6 +369,7 @@ class MyScene extends THREE.Scene {
                                    this.tablero.casillasIndexadas[casillaSeleccionada.indice].position.x,
                                    this.tablero.casillasIndexadas[casillaSeleccionada.indice].position.z);
       this.piezaSeleccionada.model.rotateY(angulo);
+      
 
       this.tablero.casillasIndexadas[this.piezaSeleccionada.casillaActual].liberarCasilla();
       this.piezaSeleccionada.casillaActual = casillaSeleccionada.indice;

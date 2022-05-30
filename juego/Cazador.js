@@ -15,12 +15,10 @@ class Cazador extends THREE.Object3D {
   }
 
   activarLuz(){
-    //this.add(this.light);
     this.light.visible = true;
   }
 
   desactivarLuz(){
-    //this.remove(this.light);
     this.light.visible = false;
   }
 
@@ -34,11 +32,7 @@ class Cazador extends THREE.Object3D {
     this.animacion = new THREE.Object3D();
     var pos = this.spline.getPointAt(0);
     this.animacion.position.copy(pos);
-    //var tangente = this.spline.getTangentAt(0);
-    //pos.add(tangente);
-    //this.animacion.lookAt(pos);
     this.animacion.add(this.model);
-    //this.animacion.add(this.light);
     this.add(this.animacion);
 
 
@@ -51,14 +45,12 @@ class Cazador extends THREE.Object3D {
         .onUpdate(function() { 
             var pos = that.spline.getPointAt(that.origin.p);
             that.animacion.position.copy(pos);
-            //var tangente = that.spline.getTangentAt(that.origin.p);
-            //pos.add(tangente);
-            //that.animacion.lookAt(pos);
         })
         .onStart( that.controlAnimacion())
         .onComplete(function(){
             that.controlAnimacion(); 
             that.resetPatas();
+            that.model.rotation.y = Math.PI/2;
           });
 
       this.animation.start();
