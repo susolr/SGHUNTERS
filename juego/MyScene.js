@@ -562,6 +562,7 @@ class MyScene extends THREE.Scene {
 
         case 86: // Se pulsa "v" para cambiar vista del jugador que tiene el turno
           if (!this.cFija) { // Activar cámara fija
+            this.ground.visible = false;
             this.camaraActual = this.getCamaraFija();
             this.cFija = true;
             this.cAerea = false;
